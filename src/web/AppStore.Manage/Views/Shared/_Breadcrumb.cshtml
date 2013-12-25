@@ -1,0 +1,32 @@
+﻿@using AppStore.Manage.Models
+@model AppStore.Manage.Models.BreadcrumbSet
+@{
+    var last = Model == null ? new BreadcrumbLink() : Model.PrevList.Last();
+    var current = Model == null ? new BreadcrumbLink() : Model.Current;
+}
+<h3 class="page-title">@last.Text <small>@current.Text</small>
+</h3>
+<ul class="page-breadcrumb breadcrumb">
+    <li>
+        <i class="icon-home"></i>
+        <a href="/">首页</a>
+        <i class="icon-angle-right"></i>
+    </li>
+    @{
+        foreach (BreadcrumbLink link in Model.PrevList)
+        {
+        <li>
+            <a href="@link.Url">@link.Text</a>
+            <i class="icon-angle-right"></i>
+        </li>
+        }
+    }
+    <li>@current.Text</li>
+    <li class="pull-right">
+        <div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range">
+            <i class="icon-calendar"></i>
+            <span></span>
+            <i class="icon-angle-down"></i>
+        </div>
+    </li>
+</ul>

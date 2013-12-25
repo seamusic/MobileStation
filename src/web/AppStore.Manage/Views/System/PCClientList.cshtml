@@ -1,0 +1,47 @@
+﻿@model Webdiyer.WebControls.Mvc.PagedList<AppStore.Models.PCClient>
+@using Webdiyer.WebControls.Mvc
+@{
+    ViewBag.Title = "PC客户端管理";
+}
+@section style
+{
+}
+@section featured {
+}
+@section importscript{
+    @{Html.RegisterMvcPagerScriptResource();}
+}
+
+<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+<!-- BEGIN PAGE HEADER-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title">系统管理 <small>PC客户端管理</small>
+        </h3>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="icon-home"></i>
+                <a href="/">系统管理</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="#">PC客户端管理</a></li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet-body">
+            <div class="table-toolbar">
+                <div class="btn-group">
+                    <a id="sample_editable_1_new" class="btn green" href="@Url.Action("PCClientEdit")">添加PC客户端 <i class="icon-plus"></i>
+                    </a>
+                </div>
+            </div>
+            <div id="dataArea">
+                @Html.Partial("_PCClientList", Model)
+            </div>
+        </div>
+    </div>
+</div>

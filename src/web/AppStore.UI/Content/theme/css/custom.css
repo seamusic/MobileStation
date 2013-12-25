@@ -1,0 +1,10 @@
+﻿body { width: 760px !important; }
+.container { width: 760px !important; }
+.navbar-nav { padding-right: 15px; }
+.recommend { padding-left: 10px; }
+.detail-left { padding: 5px; }
+.detail-right { border-width: 1px; border-color: #C0C0C0; padding: 5px; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; }
+.dataList { padding-left: 5px; padding-right: 40px; }
+#pager { position: fixed; right: 10px; top: 100px; width: 50px; }
+.slide { min-height: 200px; }
+.tab-content { border-width: 1px; border-color: #C0C0C0; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; }

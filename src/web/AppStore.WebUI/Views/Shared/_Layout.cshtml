@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap core CSS -->
+    <link href="~/Content/theme/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/theme/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/theme/css/non-responsive.css" rel="stylesheet" />
+    <!-- END THEME STYLES -->
+    @RenderSection("style", required: false)
+    <!-- Custom styles for this template -->
+    <link href="~/Content/theme/css/custom.css" rel="stylesheet" />
+    <!-- END THEME STYLES -->
+    <script src="~/Scripts/json2.js"></script>
+    <script src="~/Scripts/jquery-1.8.2.js"></script>
+    <script src="~/Scripts/bootstrap/bootstrap.js"></script>
+    <script src="~/Scripts/base64.js"></script>
+    <script src="~/Scripts/app.js"></script>
+    @RenderSection("featured", required: false)
+</head>
+<body>
+    @RenderBody()
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+    <script type="text/javascript">
+        var CB_CustomFunctionWithParams = function (json, number) {
+            alert(json[0].ApplicationName);
+        };
+    </script>
+    @RenderSection("importscript", required: false)
+    <!-- /container -->
+</body>
+</html>

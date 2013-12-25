@@ -1,0 +1,307 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7BFCC908-25AE-469F-AFD1-4499E739DBF8}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AppStore.UI</RootNamespace>
+    <AssemblyName>AppStore.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\plugins\bxslider\images\bx_loader.gif" />
+    <Content Include="Content\plugins\bxslider\images\left-hover.png" />
+    <Content Include="Content\plugins\bxslider\images\left.png" />
+    <Content Include="Content\plugins\bxslider\images\right-hover.png" />
+    <Content Include="Content\plugins\bxslider\images\right.png" />
+    <Content Include="Content\plugins\bxslider\jquery.bxslider.css" />
+    <Content Include="Content\plugins\bxslider\jquery.bxslider.js" />
+    <Content Include="Content\plugins\bxslider\jquery.bxslider.min.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\theme\css\bootstrap-theme.css" />
+    <Content Include="Content\theme\css\bootstrap-theme.min.css" />
+    <Content Include="Content\theme\css\bootstrap.css" />
+    <Content Include="Content\theme\css\bootstrap.min.css" />
+    <Content Include="Content\theme\css\custom.css" />
+    <Content Include="Content\theme\css\non-responsive.css" />
+    <Content Include="Content\theme\css\prices.css" />
+    <Content Include="Content\theme\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="default.html" />
+    <Content Include="detail.html" />
+    <Content Include="Images\arrow-testimonials.png" />
+    <Content Include="Images\bg\1.jpg" />
+    <Content Include="Images\black-opacity.png" />
+    <Content Include="Images\clients\client_1.png" />
+    <Content Include="Images\clients\client_1_gray.png" />
+    <Content Include="Images\clients\client_2.png" />
+    <Content Include="Images\clients\client_2_gray.png" />
+    <Content Include="Images\clients\client_3.png" />
+    <Content Include="Images\clients\client_3_gray.png" />
+    <Content Include="Images\clients\client_4.png" />
+    <Content Include="Images\clients\client_4_gray.png" />
+    <Content Include="Images\clients\client_5.png" />
+    <Content Include="Images\clients\client_5_gray.png" />
+    <Content Include="Images\clients\client_6.png" />
+    <Content Include="Images\clients\client_6_gray.png" />
+    <Content Include="Images\clients\client_7.png" />
+    <Content Include="Images\clients\client_7_gray.png" />
+    <Content Include="Images\clients\client_8.png" />
+    <Content Include="Images\clients\client_8_gray.png" />
+    <Content Include="Images\corners.png" />
+    <Content Include="Images\icon-color-close.png" />
+    <Content Include="Images\icon-color.png" />
+    <Content Include="Images\icons\close-hover.png" />
+    <Content Include="Images\icons\close.png" />
+    <Content Include="Images\icons\left-hover.png" />
+    <Content Include="Images\icons\left.png" />
+    <Content Include="Images\icons\right-hover.png" />
+    <Content Include="Images\icons\right.png" />
+    <Content Include="Images\icons\social\amazon.png" />
+    <Content Include="Images\icons\social\behance.png" />
+    <Content Include="Images\icons\social\blogger.png" />
+    <Content Include="Images\icons\social\deviantart.png" />
+    <Content Include="Images\icons\social\dribbble.png" />
+    <Content Include="Images\icons\social\dropbox.png" />
+    <Content Include="Images\icons\social\evernote.png" />
+    <Content Include="Images\icons\social\facebook.png" />
+    <Content Include="Images\icons\social\forrst.png" />
+    <Content Include="Images\icons\social\github.png" />
+    <Content Include="Images\icons\social\googleplus.png" />
+    <Content Include="Images\icons\social\jolicloud.png" />
+    <Content Include="Images\icons\social\last-fm.png" />
+    <Content Include="Images\icons\social\linkedin.png" />
+    <Content Include="Images\icons\social\picasa.png" />
+    <Content Include="Images\icons\social\pintrest.png" />
+    <Content Include="Images\icons\social\rss.png" />
+    <Content Include="Images\icons\social\skype.png" />
+    <Content Include="Images\icons\social\spotify.png" />
+    <Content Include="Images\icons\social\stumbleupon.png" />
+    <Content Include="Images\icons\social\tumblr.png" />
+    <Content Include="Images\icons\social\twitter.png" />
+    <Content Include="Images\icons\social\vimeo.png" />
+    <Content Include="Images\icons\social\wordpress.png" />
+    <Content Include="Images\icons\social\xing.png" />
+    <Content Include="Images\icons\social\yahoo.png" />
+    <Content Include="Images\icons\social\youtube.png" />
+    <Content Include="Images\logo_blue.png" />
+    <Content Include="Images\logo_blue_small.png" />
+    <Content Include="Images\logo_green.png" />
+    <Content Include="Images\logo_orange.png" />
+    <Content Include="Images\logo_red.png" />
+    <Content Include="Images\nopicture.jpg" />
+    <Content Include="Images\people\img1-large.jpg" />
+    <Content Include="Images\people\img1-small.jpg" />
+    <Content Include="Images\people\img2-large.jpg" />
+    <Content Include="Images\people\img2-small.jpg" />
+    <Content Include="Images\people\img3-large.jpg" />
+    <Content Include="Images\people\img3-small.jpg" />
+    <Content Include="Images\people\img4-large.jpg" />
+    <Content Include="Images\people\img4-small.jpg" />
+    <Content Include="Images\people\img5-large.jpg" />
+    <Content Include="Images\people\img5-small.jpg" />
+    <Content Include="Images\photos\img1.jpg" />
+    <Content Include="Images\photos\img10.jpg" />
+    <Content Include="Images\photos\img11.jpg" />
+    <Content Include="Images\photos\img12.jpg" />
+    <Content Include="Images\photos\img2.jpg" />
+    <Content Include="Images\photos\img3.jpg" />
+    <Content Include="Images\photos\img4.jpg" />
+    <Content Include="Images\photos\img5.jpg" />
+    <Content Include="Images\photos\img6.jpg" />
+    <Content Include="Images\photos\img7.jpg" />
+    <Content Include="Images\photos\img8.jpg" />
+    <Content Include="Images\photos\img9.jpg" />
+    <Content Include="Images\pics\1747554rjjtn24cc3.png" />
+    <Content Include="Images\pics\img1-large.jpg" />
+    <Content Include="Images\pics\img1-medium.jpg" />
+    <Content Include="Images\pics\img2-large.jpg" />
+    <Content Include="Images\pics\img2-medium.jpg" />
+    <Content Include="Images\pics\nexusae0_android_make_it_google.png" />
+    <Content Include="Images\posts\img1.jpg" />
+    <Content Include="Images\posts\img2.jpg" />
+    <Content Include="Images\posts\img3.jpg" />
+    <Content Include="Images\sliders\bxslider\left-blue-hover.png" />
+    <Content Include="Images\sliders\bxslider\left-green-hover.png" />
+    <Content Include="Images\sliders\bxslider\left-orange-hover.png" />
+    <Content Include="Images\sliders\bxslider\left-red-hover.png" />
+    <Content Include="Images\sliders\bxslider\right-blue-hover.png" />
+    <Content Include="Images\sliders\bxslider\right-green-hover.png" />
+    <Content Include="Images\sliders\bxslider\right-orange-hover.png" />
+    <Content Include="Images\sliders\bxslider\right-red-hover.png" />
+    <Content Include="Images\sliders\carousel\corners-blue.png" />
+    <Content Include="Images\sliders\carousel\corners-green.png" />
+    <Content Include="Images\sliders\carousel\corners-orange.png" />
+    <Content Include="Images\sliders\carousel\corners-red.png" />
+    <Content Include="Images\sliders\revolution\arrow_left.png" />
+    <Content Include="Images\sliders\revolution\arrow_left_bk.png" />
+    <Content Include="Images\sliders\revolution\arrow_left_blue.png" />
+    <Content Include="Images\sliders\revolution\arrow_right.png" />
+    <Content Include="Images\sliders\revolution\arrow_right_bk.png" />
+    <Content Include="Images\sliders\revolution\arrow_right_blue.png" />
+    <Content Include="Images\sliders\revolution\bg1.jpg" />
+    <Content Include="Images\sliders\revolution\bg2.jpg" />
+    <Content Include="Images\sliders\revolution\bg3.jpg" />
+    <Content Include="Images\sliders\revolution\bg4.jpg" />
+    <Content Include="Images\sliders\revolution\bg5.jpg" />
+    <Content Include="Images\sliders\revolution\bg6.jpg" />
+    <Content Include="Images\sliders\revolution\bg7.jpg" />
+    <Content Include="Images\sliders\revolution\bg8.jpg" />
+    <Content Include="Images\sliders\revolution\bg9.jpg" />
+    <Content Include="Images\sliders\revolution\hint1-blue.png" />
+    <Content Include="Images\sliders\revolution\hint1-green.png" />
+    <Content Include="Images\sliders\revolution\hint1-orange.png" />
+    <Content Include="Images\sliders\revolution\hint1-red.png" />
+    <Content Include="Images\sliders\revolution\hint2-blue.png" />
+    <Content Include="Images\sliders\revolution\hint2-green.png" />
+    <Content Include="Images\sliders\revolution\hint2-orange.png" />
+    <Content Include="Images\sliders\revolution\hint2-red.png" />
+    <Content Include="Images\sliders\revolution\ipad.png" />
+    <Content Include="Images\sliders\revolution\ipadmini.png" />
+    <Content Include="Images\sliders\revolution\iphone.png" />
+    <Content Include="Images\sliders\revolution\iphone_large.png" />
+    <Content Include="Images\sliders\revolution\iphone_left.png" />
+    <Content Include="Images\sliders\revolution\iphone_right.png" />
+    <Content Include="Images\sliders\revolution\lady.png" />
+    <Content Include="Images\sliders\revolution\mac.png" />
+    <Content Include="Images\sliders\revolution\macbook.png" />
+    <Content Include="Images\sliders\revolution\man-winner.png" />
+    <Content Include="Images\sliders\revolution\thumbs\thumb1.jpg" />
+    <Content Include="Images\sliders\revolution\thumbs\thumb2.jpg" />
+    <Content Include="Images\sliders\revolution\thumbs\thumb3.jpg" />
+    <Content Include="Images\sliders\revolution\thumbs\thumb4.jpg" />
+    <Content Include="Images\sliders\revolution\thumbs\thumb5.jpg" />
+    <Content Include="Images\sliders\revolution\thumbs\thumb6.jpg" />
+    <Content Include="Images\sliders\revolution\thumbs\thumb7.jpg" />
+    <Content Include="Images\sliders\revolution\woman.png" />
+    <Content Include="Images\steps\one.png" />
+    <Content Include="Images\steps\three.png" />
+    <Content Include="Images\steps\two.png" />
+    <Content Include="Images\steps\two_bk.png" />
+    <Content Include="Images\syncfusion-icons-white.png" />
+    <Content Include="Images\syncfusion-icons.png" />
+    <Content Include="Images\up.png" />
+    <Content Include="Images\works\img1.jpg" />
+    <Content Include="Images\works\img2.jpg" />
+    <Content Include="Images\works\img3.jpg" />
+    <Content Include="Images\works\img4.jpg" />
+    <Content Include="Images\works\img5.jpg" />
+    <Content Include="Images\works\img6.jpg" />
+    <Content Include="Scripts\app.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.js" />
+    <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.2.js" />
+    <Content Include="Scripts\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\jquery-ui-1.8.24.js" />
+    <Content Include="Scripts\jquery-ui-1.8.24.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-2.2.0.debug.js" />
+    <Content Include="Scripts\knockout-2.2.0.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\portfolio.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Content\theme\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\theme\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\theme\fonts\glyphicons-halflings-regular.woff" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:11741/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,125 @@
+﻿@using AppStore.Common
+@using AppStore.Models
+@using AppStore.WebUI.Models
+@model AppStore.Models.Application
+
+@{
+    ViewBag.Title = Model.ApplicationName;
+    IList<Picture> pictures = ViewBag.Pictures == null ? new List<Picture>() : ViewBag.Pictures as IList<Picture>;
+    var setting = ServerSettingProxy.Instance.LoadConfig();
+    foreach (Picture picture in pictures)
+    {
+        var pic = string.IsNullOrEmpty(picture.Path) ? "/Images/nopicture.jpg" : Path.Combine(setting.DownloadPath, picture.Path).Replace('\\', '/');
+        picture.Path = pic;
+    }
+}
+@section style
+{
+    <link href="~/Content/theme/css/prices.css" rel="stylesheet" />
+    <style type="text/css">
+        body { padding-top: 10px; }
+    </style>
+}
+@section importscript
+{
+    <script src="~/Scripts/portfolio.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var dataString = '@ViewBag.DataJson';
+            var dataJson = $.parseJSON(Base64.decode(dataString));
+            Portfolio.init();
+
+            $("#install").click(function (event) {
+                event.preventDefault();
+                var json = [dataJson];
+                window.external.CB_InstallAPK(JSON.stringify(json));
+            });
+        });
+    </script>
+}
+<div class="container">
+    <!-- BEGIN BREADCRUMBS -->
+    @Html.Partial("_Breadcrumbs", new BreadcrumbSet()
+{
+    PrevList = new List<BreadcrumbLink>() { },
+    Current = new BreadcrumbLink()
+        {
+            Text = Model.ApplicationName
+        }
+})
+    <!-- END BREADCRUMBS -->
+</div>
+
+<div class="container">
+    <!-- BEGIN ABOUT INFO -->
+    <div class="row">
+        <!-- BEGIN CAROUSEL -->
+        <div class="col-sm-3 detail-left">
+            <div class="" style="margin: 5px auto;">
+                <a href="#" class="">
+                    <img src="@Model.Icon" class="col-sm-12 img-rounded img-responsive" />
+                </a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="pricing-table">
+                <ul>
+                    <li><i class="glyphicon glyphicon-chevron-right"></i>版本：@Model.Version</li>
+                    <li><i class="glyphicon glyphicon-chevron-right"></i>大小：@Model.Size</li>
+                    <li><i class="glyphicon glyphicon-chevron-right"></i>时间：@UIDisplay.ShowTime(Model.UpdateTime, 2)</li>
+                    <li><i class="glyphicon glyphicon-chevron-right"></i>系统要求：适用 @Model.OSVersion 及以上固件版本</li>
+                </ul>
+                <div class="rate">
+                    <div class="price">
+                    </div>
+                    <a href="#" class="btn btn-primary btn-group-justified" id="install">安装</a>
+                </div>
+            </div>
+        </div>
+        <!-- END CAROUSEL -->
+        <!-- BEGIN INFO BLOCK -->
+        <div class="col-sm-9  detail-right tab-style-1 mix-inner">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#screenshot" data-toggle="tab">截图</a></li>
+                <li><a href="#content" data-toggle="tab">内容简介</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div class="tab-pane active" id="screenshot">
+                    <div class="front-carousel">
+                        <div id="myCarousel" class="carousel slide">
+                            <!-- Carousel items -->
+                            <div class="carousel-inner">
+                                @for (int i = 0; i < pictures.Count; i++)
+                                {
+                                    Picture picture = pictures[i];
+                                    var divClass = i == 0 ? "active " : "";
+                                    <div class="item @divClass text-center">
+                                        <img src="@picture.Path" />
+                                        <div class="carousel-caption">
+                                            <p>@Model.ApplicationName</p>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <!-- Carousel nav -->
+                            <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+                                <i class="icon-angle-left"></i>
+                            </a>
+                            <a class="carousel-control right" href="#myCarousel" data-slide="next">
+                                <i class="icon-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="content">
+                    @Html.Raw(Model.Description)
+                </div>
+                <div class="tab-pane" id="other">...</div>
+            </div>
+            <!-- END LISTS -->
+            <div class="clearfix"></div>
+        </div>
+        <!-- END INFO BLOCK -->
+    </div>
+    <!-- END ABOUT INFO -->
+</div>

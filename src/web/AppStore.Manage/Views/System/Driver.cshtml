@@ -1,0 +1,155 @@
+﻿@using AppStore.Manage.Models
+@model AppStore.Models.Driver
+
+@{
+    ViewBag.Title = "编辑驱动信息";
+}
+@section importscript{
+    <script src="~/Content/Plugins/plupload/moxie.js"></script>
+    <script src="~/Content/Plugins/plupload/plupload.dev.js"></script>
+    <script>
+
+        var initUpload = function () {
+            var uploadApk = null;
+            var initApkUpload = function () {
+                uploadApk = new plupload.Uploader({
+                    runtimes: 'gears,flash,silverlight,browserplus',
+                    browse_button: 'pickApkFiles', // you can pass in id...
+                    container: document.getElementById('apkContainer'), // ... or DOM Element itself
+                    url: '@Url.Action("UploadDriver")',
+                    flash_swf_url: '/Content/Plugins/plupload/Moxie.swf',
+                    silverlight_xap_url: '/Content/Plugins/plupload/Moxie.xap',
+                    headers: { "path": '@Model.DriverID' },
+                    multi_selection: false,
+                    max_file_size: '20mb',
+                    filters: [{ title: "驱动文件", extensions: "zip,rar,exe" }],
+                });
+                uploadApk.bind('Init', function (up, params) {
+                    $('#apkFilelist').html("");
+                });
+
+                uploadApk.init();
+
+                uploadApk.bind('FilesAdded', function (up, files) {
+                    plupload.each(files, function (file) {
+                        document.getElementById('apkFilelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                    });
+                    up.refresh();
+                });
+                uploadApk.bind('FileUploaded', function (up, file, response) {
+                    if (response && response.status === 200) {
+                        var data = $.parseJSON(response.response);
+                        if (data) {
+                            $("#DownloadUrl").val(data[0].SitePath);
+                        }
+                    } else {
+                        layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
+                    }
+                });
+                uploadApk.bind('UploadProgress', function (up, file) {
+                    document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+                });
+                uploadApk.bind('Error', function (up, err) {
+                    layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
+                });
+            };
+
+            return {
+                init: function () {
+                    initApkUpload();
+                    $('#uploadApkFiles').click(function (e) {
+                        uploadApk.start();
+                        e.preventDefault();
+                    });
+                }
+            };
+        }();
+
+        $(document).ready(function () {
+            initUpload.init();
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        @Html.Partial("_Breadcrumb", new BreadcrumbSet()
+        {
+            PrevList = new List<BreadcrumbLink>() { new BreadcrumbLink()
+                {
+                    Text = "驱动列表", Url = Url.Action("MobileList")
+                } },
+            Current = new BreadcrumbLink()
+                {
+                    Text = "编辑驱动信息"
+                }
+        })
+        <div class="tab-pane" id="tab_7">
+            <div class="portlet box light-grey ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-reorder"></i>编辑驱动信息
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <form action="#" id="form1" class="form-horizontal" method="POST">
+                        @Html.HiddenFor(o => o.DriverID)
+                            @Html.HiddenFor(o => o.UpdateTime)
+                        <div class="form-body">
+                            <div class="alert alert-danger display-hide">
+                                <button class="close" data-dismiss="alert"></button>
+                                校验不通过，请检查。
+                            </div>
+                            <div class="alert alert-success display-hide">
+                                <button class="close" data-dismiss="alert"></button>
+                                校验通过。
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">驱动名称<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.DriverName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">版本<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.Version, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">上传<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    <div id="apkContainer">
+                                        <a id="pickApkFiles" href="javascript:;" class="btn btn-default">选择文件</a>
+                                        <a id="uploadApkFiles" href="javascript:;" class="btn btn-default">上传文件</a>
+                                    </div>
+                                    <br />
+                                    <div id="apkFilelist">你的浏览器不支持FLASH，Silverlight 或 HTML5。</div>
+                                    @Html.HiddenFor(m=>m.DownloadUrl)
+                                    @UIDisplay.FormatDownload(2,Model.DownloadUrl)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">说明<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions fluid">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">提交</button>
+                                <button id="cancel" type="button" class="btn default">清空</button>
+                                <a type="button" class="btn default" href="@Url.Action("DriverList")">返回</a>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

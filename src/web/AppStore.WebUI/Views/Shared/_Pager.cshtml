@@ -1,0 +1,54 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model Webdiyer.WebControls.Mvc.IPagedList
+@{
+    var query = Request.Url.Query;
+    query = query.Replace("index=" + Model.CurrentPageIndex, "");
+    if (query == "")
+    {
+        query += "?";
+    }
+    query = query.Trim('&');
+    var pageCount = Model.TotalItemCount / Model.PageSize + 1;
+    var preUrl = query + "&index=" + (Model.CurrentPageIndex - 1);
+    var nextUrl = query + "&index=" + (Model.CurrentPageIndex + 1);
+    if (Model.CurrentPageIndex == 1)
+    {
+        preUrl = "";
+    }
+    if (pageCount == Model.CurrentPageIndex)
+    {
+        nextUrl = "";
+    }
+}
+<script type="text/javascript">
+    function stopClick(e) {
+        if (event.preventDefault) event.preventDefault();
+        window.event.returnValue = false;
+        window.event.cancelBubble = true;
+        return false;
+    }
+</script>
+@if (preUrl == "")
+{
+    <img src="~/Images/pgup_d.png" />
+}
+else
+{
+    <a href="@preUrl" class="">
+        <img src="~/Images/pgup.png" />
+    </a>
+}
+<br />
+<br />
+<span>@Model.CurrentPageIndex / @pageCount</span><br />
+<br />
+@if (nextUrl == "")
+{
+    <img src="~/Images/pgdn_d.png" />
+}
+else
+{
+    <a href="@nextUrl" class="">
+        <img src="~/Images/pgdn.png" />
+    </a>
+}

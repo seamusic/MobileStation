@@ -1,0 +1,79 @@
+﻿@using AppStore.Manage.Models
+@using AppStore.Models
+@model IList<AppStore.Models.Category>
+@{
+    ViewBag.Title = "应用分类";
+}
+@section style
+{
+}
+@section featured {
+}
+@section importscript{
+    <script type="text/javascript">
+    </script>
+}
+
+<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+<!-- BEGIN PAGE HEADER-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        @Html.Partial("_Breadcrumb", new BreadcrumbSet()
+{
+    PrevList = new List<BreadcrumbLink>() { new BreadcrumbLink()
+        {
+            Text = "应用", Url = Url.Action("Index")
+        } },
+    Current = new BreadcrumbLink()
+        {
+            Text = "应用分类"
+        }
+})
+        <!-- END PAGE TITLE & BREADCRUMB-->
+        <div class="portlet-body">
+            <div class="table-toolbar">
+                <div class="btn-group">
+                    <a id="addCategory" class="btn green" href="@Url.Action("CategoryEdit")">添加新的分类 <i class="icon-plus"></i>
+                    </a>
+                </div>
+                <div class="btn-group pull-right">
+                </div>
+            </div>
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+                        <th class="table-checkbox">
+                            <input type="checkbox" class="group-checkable"/></th>
+                        <th>类别</th>
+                        <th>分类名称</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        if (Model != null && Model.Count > 0)
+                        {
+                            foreach (Category category in Model)
+                            {
+                        <tr class="odd gradeX">
+                            <td>
+                                <input type="checkbox" class="checkboxes" value="1" /></td>
+                            <td>@UIDisplay.AppType(category.AppTypeID)</td>
+                            <td>@category.CategoryName</td>
+                            <td>@Html.ActionLink("编辑", "CategoryEdit",new { category.CategoryID }) 删除</td>
+                        </tr>
+                            }
+                        }
+                        else
+                        {
+                        <tr class="odd gradeX">
+                            <td colspan="4">暂无数据</td>
+                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

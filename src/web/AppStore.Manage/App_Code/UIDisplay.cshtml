@@ -1,0 +1,78 @@
+﻿@using AppStore.Common
+@{
+    Layout = null;
+}
+@helper ShowTime(DateTime? time, int format)
+{
+    if (time == null)
+    {
+        return;
+    }
+
+    if (time == DateTime.MinValue)
+    {
+        //Html.Raw("");
+        return;
+    }
+
+    if (time == DateTime.MaxValue)
+    {
+    <span>无限期</span>
+        return;
+    }
+
+    var timeString = ((DateTime)time).ToString("yyyy-MM-dd HH:mm:ss");
+    switch (format)
+    {
+        case 1:
+            break;
+        case 2:
+            timeString = ((DateTime)time).ToString("yyyy-MM-dd");
+            break;
+        case 3:
+            timeString = ((DateTime)time).ToString("HH:mm:ss");
+            break;
+    }
+    <span>@timeString</span>
+}
+
+@helper AppType(int type)
+{
+    switch (type)
+    {
+        case 1:
+    <span>应用</span>
+            break;
+        case 2:
+    <span>游戏</span>
+            break;
+        case 3:
+    <span>装机必备</span>
+            break;
+    }
+}
+
+@helper AppScore(decimal? score)
+{
+    <select id="Score" name="Score" class="form-control">
+        @for (int i = 2; i < 11; i++)
+        {
+            var value = i / 2.0;
+            var selected = "";
+            if (score != null)
+            {
+                selected = Math.Abs(value - (double)score) < 0.5 ? "selected" : "";
+            }
+            if (string.IsNullOrEmpty(selected) && i == 10)
+            {
+                selected = "selected";
+            }
+            <option value="@value" selected="@selected">@value</option>
+        }
+    </select>
+}
+@helper FormatDownload(int type,string downloadUrl)
+{
+    var setting = ServerSettingProxy.Instance.LoadConfig();
+    <a href="@downloadUrl">下载</a>
+}

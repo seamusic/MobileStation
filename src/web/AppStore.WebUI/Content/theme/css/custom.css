@@ -1,0 +1,60 @@
+﻿body { background-position: -10px; background-image: url('../../../Images/window_bg.png'); background-repeat: no-repeat; background-attachment: fixed; }
+/* Pricing */
+.pricing-table { background-color: #eff6f7; }
+    .pricing-table:hover { }
+.pricing-table2:hover { }
+.pricing-table ul li i { color: #0da3e2; }
+.pricing-table.selected { background-color: #0da3e2; }
+.pricing-table2.selected { background-color: #0da3e2; }
+.pricing-table2 ul li i { color: #0da3e2; }
+.pricing-table2 .rate { background-color: #0da3e2; }
+.pricing:hover,
+.pricing-active { border-color: #0da3e2; }
+    .pricing:hover h4 { color: #0da3e2; }
+.pricing-head h3 { background: #0da3e2; border-bottom: solid 1px #0da3e2; }
+.pricing-head-active h4 { color: #0da3e2; }
+.pricing-content li i { color: #0da3e2; }
+.price-active h4 { color: #0da3e2; }
+
+/*Carousel*/
+.front-carousel .carousel-control { margin: 0; border: none; height: 35px; font-size: 24px; font-weight: normal; top: 40%; width: 35px; background: #222; opacity: 0.5; }
+    .front-carousel .carousel-control:hover { opacity: 0.6; }
+    .front-carousel .carousel-control i { font-size: 27px; }
+    .front-carousel .carousel-control.right i { position: relative; left: 1px; }
+
+.front-carousel .carousel-caption { padding: 10px 15px 0; background: rgba(0,0,0,0.5); left: 0; right: 0; bottom: 0; text-align: left; }
+
+.front-carousel .carousel-control.left { left: 0; }
+.front-carousel .carousel-control.right { right: 0; }
+
+/***
+BXSlider
+***/
+
+.bxslider-container { }
+
+.bxslider,
+.bxslider1 { display: none; }
+
+.buttons-page .btn { margin-bottom: 5px !important; }
+
+[class^="icon-"], [class*=" icon-"] { display: inline-block; font-size: 14px; line-height: 14px; margin-top: 1px; }
+
+.container { width: 760px !important; }
+.navbar-nav { padding-right: 15px; }
+.recommend { padding-left: 10px; }
+.recommend img { margin-bottom: 5px;}
+    .recommend .item { margin-bottom: 10px; }
+.detail-left { padding: 5px; }
+.detail-right { padding: 5px; }
+.detail-right li.active a{ }
+.dataList { padding-left: 5px; padding-right: 40px; }
+#pager { position: fixed; right: 30px; top: 130px; width: 50px; }
+.item { padding-bottom: 10px; }
+.app-pic { width: 74px; height: 74px; }
+.recommend-pic { width: 100px; height: 100px; }
+
+.icotj { display: block; height: 46px; position: absolute; right: -5px; top: -4px; z-index: 2; overflow: visible; }
+.recommend-slide { border: 3px solid #ececec; margin: 0 10px; padding: 10px; position: absolute;background-color: #04aeda; }
+.tab-content{padding: 5px; border: 1px solid;min-height: 350px;border-color: #ececec;border-top-width: 0;}
+.navbar-nav >li>a{ padding: 5px;}

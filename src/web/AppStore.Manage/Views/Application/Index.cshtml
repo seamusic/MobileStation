@@ -1,0 +1,86 @@
+﻿@using AppStore.Models
+@using Webdiyer.WebControls.Mvc
+@model Webdiyer.WebControls.Mvc.PagedList<AppStore.Models.Application>
+@{
+    ViewBag.Title = "应用列表";
+}
+@section style
+{
+}
+@section featured {
+}
+@section importscript{
+    @{Html.RegisterMvcPagerScriptResource();}
+}
+
+<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+<!-- BEGIN PAGE HEADER-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title">应用管理 <small>应用列表</small>
+        </h3>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="icon-home"></i>
+                <a href="/">应用管理</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="#">应用列表</a></li>
+            <li class="pull-right">
+                <div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range">
+                    <i class="icon-calendar"></i>
+                    <span></span>
+                    <i class="icon-angle-down"></i>
+                </div>
+            </li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet-body">
+            <div class="table-toolbar">
+                <div class="btn-group">
+                    <a id="sample_editable_1_new" class="btn green" href="@Url.Action("ApplicationEdit")">添加新的应用 <i class="icon-plus"></i>
+                    </a>
+                </div>
+            </div>
+            @using (Html.BeginForm("Index", "Application", new { index = "" }, FormMethod.Get, new { id = "searchForm", @class = "form-inline" }))
+            {
+                <div class="form-group">
+                    <div class="radio-list">
+                        <label class="radio-inline">
+                            <input type="radio" name="AppTypeID" value="0" checked>
+                            全部
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="AppTypeID" value="1">
+                            应用
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="AppTypeID" value="2">
+                            游戏
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="AppTypeID" value="3">
+                            装机必备
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="ApplicationName">应用名称</label>
+                    <div class="input-icon">
+                        <i class="icon-envelope"></i>
+                        <input type="text" class="form-control" id="ApplicationName" placeholder="应用名称">
+                    </div>
+                </div>
+                <input type="submit" value="搜索(S)" class="btn btn-default" accesskey="S" />
+            }
+            <div id="dataArea">
+                @Html.Partial("_ApplicationList", Model)
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+﻿@using AppStore.Models
+@model Webdiyer.WebControls.Mvc.PagedList<AppStore.Models.Application>
+
+@{
+    ViewBag.Title = "";
+    Layout = null;
+}
+<script type="text/javascript">
+    (function () {
+        var recommendString = '@ViewBag.RecommendData';
+        var recommendJson = $.parseJSON(Base64.decode(recommendString));
+        $(".recommend-install").click(function (event) {
+            event.preventDefault();
+            var json = $.grep(recommendJson, function (n, i) {
+                return n.ApplicationID === id;
+            });
+            window.external.CB_InstallAPK(JSON.stringify(json));
+        });
+    })();
+</script>
+
+@if (Model != null)
+{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        Application application = Model[i];
+    <div class="item text-center">
+        <a href="javascript:void(0);" class="">
+            <img src="@application.PictureUrl" class="img-rounded recommend-pic" /></a>
+        <br/>
+        <strong>@application.ApplicationName</strong>
+        <br/>
+        <a href="javascript:void(0);" class="btn recommend-install btn-default btn-sm" style="width: 66.66%">安装</a>
+    </div>
+        if (i < Model.Count - 1)
+        {
+    <div class="space20 clearfix"></div>
+        }
+    }
+}

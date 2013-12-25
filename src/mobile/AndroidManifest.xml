@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mobilestation"
+    android:versionCode="1"
+    android:versionName="2.0" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="17" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <!-- @style/AppTheme -->
+    <!-- @android:style/Theme.NoDisplay -->
+    <application
+        android:allowBackup="true"
+        android:allowClearUserData="false"
+        android:icon="@drawable/ic_launcher"
+        android:killAfterRestore="false"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.mobilestation.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            </intent-filter>
+        </activity>
+
+        <receiver android:name=".receiver.BootReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_TICK" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
+
+                <data android:scheme="package" />
+                <!-- 注意！！ 这句必须要加，否则接收不到BroadCast -->
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.Alarmreceiver" >
+            <intent-filter>
+                <action android:name="mobilestation.alarm.action" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".receiver.TimeBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.TIME_TICK" />
+            </intent-filter>
+        </receiver>
+
+        <service android:name=".service.ReportService" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_TICK" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>

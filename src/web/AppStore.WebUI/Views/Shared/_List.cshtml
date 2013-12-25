@@ -1,0 +1,108 @@
+﻿@using AppStore.Models
+@using AppStore.WebUI.Models
+@model Webdiyer.WebControls.Mvc.PagedList<AppStore.Models.Application>
+@{
+    ViewBag.Title = "手机助手";
+    var controller = ViewContext.RouteData.Values["controller"];
+}
+@section style
+{
+}
+@section importscript
+{
+    <script type="text/javascript">
+        var dataJson = null;
+        jQuery(document).ready(function () {
+            var dataString = '@ViewBag.DataJson';
+            dataJson = $.parseJSON(Base64.decode(dataString));
+
+            $(".install").click(function (event) {
+                event.preventDefault();
+                var $this = $(this);
+                var id = $this.data("value");
+                var name = $this.data("name");
+
+                var json = $.grep(dataJson, function (n, i) {
+                    return n.ApplicationID === id;
+                });
+                var str = JSON.stringify(json);
+                window.external.CB_InstallAPK(str);
+            });
+
+            $("#installAll").click(function (event) {
+                event.preventDefault();
+                var str = JSON.stringify(dataJson);
+                window.external.CB_InstallAPK(str);
+            });
+
+            $(function () {
+                var userAgent = window.navigator.userAgent.toLowerCase();
+                var version = $.browser.version;
+            });
+        });
+
+    </script>
+}
+<!-- Fixed navbar -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <ul class="nav navbar-nav navbar-right">
+            <li><span href="javascrip:;" class="btn" id="installAll">
+                <img src="~/Images/onekey.png" class="small" width="120px;" /></span></li>
+        </ul>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4 recommend">
+            <div id="recommend" class="recommend-slide col-sm-10">
+                <div class="recommend-inner">
+                    <em class="icotj">
+                        <img width="47" height="46" align="absmiddle" src="~/Images/013_small.gif"></em>
+                    @Html.Action("Recommend", "Home", new RouteValueDictionary()
+                {
+                    {"controller",controller},
+                    { "type", Request.QueryString["type"] }, 
+                    { "category", Request.QueryString["category"] }, 
+                    { "index", Request.QueryString["index"] }
+                })
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7 dataList text-center">
+            <div class="row">
+                <div id="dataList" class="data-item">
+                    @{
+                        int i = 0;
+                        foreach (Application application in Model)
+                        {
+                            i++;
+                        <div class="item col-sm-4 text-center">
+                            <a href="@Url.Action("Detail", "Home", new { id = application.ApplicationID })">
+                                <img src="@application.Icon" class="app-pic img-rounded" /></a><br />
+                            <a class="item-title" href="@Url.Action("Detail", "Home", new { id = application.ApplicationID })">
+                                @application.ApplicationName
+                            </a>
+                            <br />
+                            <a href="#" data-value="@application.ApplicationID" data-name="@application.ApplicationName" 
+                                   class="install btn btn-default btn-xs" style="width: 66.66%;">安装</a>
+                        </div>
+                            if (i % 3 == 0)
+                            {
+                        <div class="clearfix visible-xs"></div>
+                            }
+                        }
+                    }
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-1">
+        </div>
+    </div>
+    <div id="pager" class="text-center">
+        @Html.Partial("_Pager", Model)
+    </div>
+</div>

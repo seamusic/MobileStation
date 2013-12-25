@@ -1,0 +1,53 @@
+﻿@using AppStore.Models
+@using Webdiyer.WebControls.Mvc
+@model Webdiyer.WebControls.Mvc.PagedList<AppStore.Models.Application>
+
+<table class="table table-striped table-bordered table-hover" id="dataList">
+    <thead>
+        <tr>
+            <th class="table-checkbox">
+                <input type="checkbox" class="group-checkable" /></th>
+            <th>类别</th>
+            <th>应用名称</th>
+            <th>版本</th>
+            <th>大小</th>
+            <th>更新时间</th>
+            <th>下载次数</th>
+            <th>属性</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            foreach (Application application in Model)
+            {
+            <tr class="odd gradeX">
+                <td>
+                    <input type="checkbox" class="checkboxes" value="@application.ApplicationID" />
+                </td>
+                <td>@UIDisplay.AppType(application.AppType)</td>
+                <td>@application.ApplicationName</td>
+                <td>@application.Version</td>
+                <td>@application.Size</td>
+                <td class="center">@UIDisplay.ShowTime(application.UpdateTime, 1)</td>
+                <td>@application.Total</td>
+                <td>推荐 必备</td>
+                <td>@Html.ActionLink("编辑", "ApplicationEdit", new RouteValueDictionary() { { "id", application.ApplicationID } }) 删除</td>
+            </tr>
+            }
+        }
+        else
+        {
+
+            <tr class="odd gradeX">
+                <td colspan="9">暂无数据</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <div style="float: left; width: 50%">共 @Model.TotalPageCount 页 @Model.TotalItemCount 条记录，当前为第 @Model.CurrentPageIndex 页</div>
+    @Ajax.Pager(Model, new PagerOptions { PageIndexParameterName = "index", ShowPageIndexBox = true, PageIndexBoxType = PageIndexBoxType.DropDownList, ShowGoButton = false },
+    new MvcAjaxOptions { UpdateTargetId = "dataArea", DataFormId = "searchForm" }, new { style = "float:right" })
+</div>

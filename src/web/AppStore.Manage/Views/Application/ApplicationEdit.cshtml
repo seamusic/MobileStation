@@ -1,0 +1,524 @@
+﻿@using AppStore.Common
+@using AppStore.Manage.Models
+@model AppStore.Models.Application
+@{
+    ViewBag.Title = "应用编辑";
+    var categoryList = (IList<AppStore.Models.Category>)ViewBag.CategoryList;
+    var categorySelectList = new SelectList(categoryList, "CategoryID", "CategoryName", Model.CategoryID);
+}
+
+@section style
+{
+    <link href="~/Content/Plugins/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" rel="stylesheet" />
+}
+@section featured {
+}
+@section importscript{
+    <script src="~/Scripts/base64.min.js"></script>
+    <script type="text/javascript" src="~/Content/Plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/Content/Plugins/jquery-validation/dist/additional-methods.min.js"></script>
+    <!-- Third party script for BrowserPlus runtime (Google Gears included in Gears runtime now) -->
+    <script type="text/javascript" src="http://bp.yahooapis.com/2.4.21/browserplus-min.js"></script>
+    <script src="~/Content/Plugins/plupload/moxie.js"></script>
+    <script src="~/Content/Plugins/plupload/plupload.dev.js"></script>
+    <script src="~/Content/Plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+    <script src="~/Content/Plugins/jquery-validation/localization/messages_zh.js"></script>
+    <!--kindleditor-->
+    <script src="~/Content/Plugins/kindeditor/kindeditor.js"></script>
+    <link rel="stylesheet" href="~/Content/Plugins/kindeditor/themes/default/default.css" />
+    <link rel="stylesheet" href="~/Content/Plugins/kindeditor/plugins/code/prettify.css" />
+    <script charset="utf-8" src="~/Content/Plugins/kindeditor/kindeditor.js"></script>
+    <script charset="utf-8" src="~/Content/Plugins/kindeditor/lang/zh_CN.js"></script>
+    <script charset="utf-8" src="~/Content/Plugins/kindeditor/plugins/code/prettify.js"></script>
+
+    <script type="text/javascript">
+        var FormValidation = function () {
+            var handleValidation1 = function () {
+                var form1 = $('#form1');
+                var error1 = $('.alert-danger', form1);
+                var success1 = $('.alert-success', form1);
+
+                form1.validate({
+                    errorElement: 'span', //default input error message container
+                    errorClass: 'help-block', // default input error message class
+                    focusInvalid: false, // do not focus the last invalid input
+                    ignore: "",
+                    rules: {
+                        ApplicationName: {
+                            minlength: 2,
+                            required: true
+                        },
+                        PictureUrl: {
+                            minlength: 2,
+                            required: true
+                        },
+                        OfficialWebsite: {
+                            minlength: 2,
+                            required: true
+                        },
+                    },
+
+                    invalidHandler: function (event, validator) { //display error alert on form submit              
+                        success1.hide();
+                        error1.show();
+                        App.scrollTo(error1, -200);
+                    },
+
+                    highlight: function (element) { // hightlight error inputs
+                        $(element)
+                            .closest('.form-group').addClass('has-error'); // set error class to the control group
+                    },
+
+                    unhighlight: function (element) { // revert the change done by hightlight
+                        $(element)
+                            .closest('.form-group').removeClass('has-error'); // set error class to the control group
+                    },
+
+                    success: function (label) {
+                        label
+                            .closest('.form-group').removeClass('has-error'); // set success class to the control group
+                    },
+
+                    submitHandler: function (form) {
+                        success1.show();
+                        error1.hide();
+                        $("#images").val(imagesArray.join(","));
+                        form.submit();
+                    }
+                });
+            };
+
+            return {
+                init: function () {
+                    handleValidation1();
+                }
+            };
+        }();
+
+        KindEditor.ready(function (K) {
+            var editor1 = K.create('#Description', {
+                cssPath: '/Content/Plugins/kindeditor/plugins/code/prettify.css',
+                uploadJson: '/Content/Plugins/kindeditor/asp.net/upload_json.ashx',
+                fileManagerJson: '/Content/Plugins/kindeditor/asp.net/file_manager_json.ashx',
+                allowFileManager: true,
+                afterCreate: function () {
+                    var self = this;
+                    K.ctrl(document, 13, function () {
+                        self.sync();
+                        K('form[name=example]')[0].submit();
+                    });
+                    K.ctrl(self.edit.doc, 13, function () {
+                        self.sync();
+                        K('form[name=example]')[0].submit();
+                    });
+                }
+            });
+            prettyPrint();
+        });
+
+        var initUpload = function () {
+            var uploadApk = null;
+            var initApkUpload = function () {
+                uploadApk = new plupload.Uploader({
+                    runtimes: 'gears,flash,silverlight,browserplus',
+                    browse_button: 'pickApkFiles', // you can pass in id...
+                    container: document.getElementById('apkContainer'), // ... or DOM Element itself
+                    url: '@Url.Action("UploadApk")',
+                    flash_swf_url: '/Content/Plugins/plupload/Moxie.swf',
+                    silverlight_xap_url: '/Content/Plugins/plupload/Moxie.xap',
+                    multi_selection: false,
+                    max_file_size: '50mb',
+                    filters: [{ title: "安卓文件", extensions: "apk" }],
+                });
+                uploadApk.bind('Init', function (up, params) {
+                    $('#apkFilelist').html("");
+                });
+
+                uploadApk.init();
+
+                uploadApk.bind('FilesAdded', function (up, files) {
+                    plupload.each(files, function (file) {
+                        document.getElementById('apkFilelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                    });
+                    up.refresh();
+                });
+                uploadApk.bind('FileUploaded', function (up, file, response) {
+                    if (response && response.status === 200) {
+                        var data = $.parseJSON(response.response);
+                        fillApkInfo(data);
+                        //重新初始化一下
+                        initPictureUpload();
+                        initIconUpload();
+                    } else {
+                        layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
+                    }
+                });
+                uploadApk.bind('UploadProgress', function (up, file) {
+                    document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+                });
+                uploadApk.bind('Error', function (up, err) {
+                    layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
+                });
+            };
+
+            var uploadPicture = null;
+            var imagesArray = [];
+            var initPictureUpload = function () {
+                var uploadedFiles = buildUploadedFiles();
+                $("#uploader").pluploadQueue({
+                    url: '@Url.Action("UploadPicture")',
+                    unique_names: true,
+                    flash_swf_url: '/Content/Plugins/plupload/Moxie.swf',
+                    silverlight_xap_url: '/Content/Plugins/plupload/Moxie.xap',
+                    max_file_size: '10mb',
+                    filters: [{ title: "图片文件", extensions: "jpg,gif,png,bmp" }],
+                    headers: { "path": "androids/" + $("#PackageName").val() },
+                    runtimes: 'gears,flash,silverlight,browserplus,html5',
+                    chunk_size: '1mb',
+                    multiple_queues: true,
+                    files: uploadedFiles,
+                    init: {
+                        FileUploaded: function (up, file, response) {
+                            if (response && response.status === 200) {
+                                var data = $.parseJSON(response.response);
+                                imagesArray.push(data[0].RelativePath);
+                            } else {
+                                layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
+                            }
+                        },
+                        Error: function (up, err) {
+                            layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
+                        }
+                    }
+                });
+                uploadPicture = $('#uploader').pluploadQueue();
+                uploadPicture.bind('UploadComplete', function (up, files) {
+                    $("#PictureUrl").val(imagesArray[0]);
+                    $("#images").val(imagesArray.join(","));
+                });
+            };
+            var uploadIcon = null;
+            var initIconUpload = function () {
+                uploadIcon = new plupload.Uploader({
+                    runtimes: 'gears,flash,silverlight,browserplus',
+                    browse_button: 'pickIconFiles', // you can pass in id...
+                    container: document.getElementById('iconContainer'), // ... or DOM Element itself
+                    url: '@Url.Action("UploadPicture")',
+                    headers: { "path": "androids/" + $("#PackageName").val() },
+                    flash_swf_url: '/Content/Plugins/plupload/Moxie.swf',
+                    silverlight_xap_url: '/Content/Plugins/plupload/Moxie.xap',
+                    multi_selection: false,
+                    max_file_size: '1mb',
+                    filters: [{ title: "图片文件", extensions: "png,jpg,bmp,jpeg" }],
+                });
+                uploadIcon.bind('Init', function (up, params) {
+                    $('#iconFilelist').html("");
+                });
+
+                uploadIcon.init();
+
+                uploadIcon.bind('FilesAdded', function (up, files) {
+                    plupload.each(files, function (file) {
+                        document.getElementById('iconFilelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                    });
+                    up.refresh();
+                });
+                uploadIcon.bind('FileUploaded', function (up, file, response) {
+                    if (response && response.status === 200) {
+                        var data = $.parseJSON(response.response);
+                        $("#Icon").val(data[0].RelativePath);
+                    } else {
+                        layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
+                    }
+                });
+                uploadIcon.bind('UploadProgress', function (up, file) {
+                    document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+                });
+                uploadIcon.bind('Error', function (up, err) {
+                    layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
+                });
+            };
+
+            var buildUploadedFiles = function() {
+                var dataString = '@ViewBag.PictureListData';
+                var dataJson = $.parseJSON(Base64.decode(dataString));
+                var files = [];
+                $.each(dataJson, function(key, val) {
+                    var x = addNewFile(val);
+                    files.push(x);
+                    imagesArray.push(val.Path);
+                });
+                return files;
+            };
+
+            return {
+                init: function () {
+                    initApkUpload();
+                    initIconUpload();
+                    initPictureUpload();
+                    $('#uploadApkFiles').click(function (e) {
+                        uploadApk.start();
+                        e.preventDefault();
+                    });
+                    $('#uploadIconFiles').click(function (e) {
+                        uploadIcon.start();
+                        e.preventDefault();
+                    });
+                }
+            };
+        }();
+
+        $(document).ready(function () {
+            $('#cancel').on('click', function (e) {
+                e.preventDefault();
+                $('form').get(0).reset();
+            });
+
+            $("input[name='AppType']").click(function () {
+                var $this = $(this);
+                //GetCategoryList
+                $.getJSON("@Url.Action("GetCategoryList")", { type: $this.val() }, function (data) {
+                    var items = [];
+                    $.each(data, function (key, val) {
+                        items.push("<option value='" + val.CategoryID + "'>" + val.CategoryName + "</option>");
+                    });
+                    $("#CategoryID").html(items.join(""));
+                });
+            });
+
+            initUpload.init();
+
+        });
+
+        function addNewFile(json) {
+            var pathSplit = json.Path.split('/');
+            var x = {
+                id: json.PictureID,
+                name: pathSplit[pathSplit.length - 1],
+                type: '',
+                size: json.Size,
+                origSize: json.Size,
+                loaded: 0,
+                percent: 100,
+                status: 5,
+                lastModifiedDate: (new Date()).toLocaleString(),
+                destroy: function () {
+
+                }
+            };
+            return x;
+        }
+
+        function fillApkInfo(data) {
+            if (data) {
+                var apkInfo = data.ApkInfo;
+                $("#ApplicationName").val(apkInfo.ApplicationLabel);
+                $("#Version").val(apkInfo.VersionName);
+                $("#PackageName").val(apkInfo.PackageName);
+                $("#Size").val(data.Length);
+                $("#RelativePath").val(data.RelativePath);
+                $("#ServerPath").val(data.ServerPath);
+                $("#DownloadUrl").val(data.RelativePath);
+                $("#ApkInfo").val(data.ApkInfo);
+                $("#OSVersion").val($.globalConfig.androidVersion[apkInfo.SdkVersion]);
+                $("#SDKVersion").val(apkInfo.SdkVersion);
+                $("#Icon").val(apkInfo.ApplicationIcons[0]);
+            }
+        }
+
+        function setProgress(percent) {
+            if (percent > 0) {
+                $("#progress_area").show();
+            }
+            $(".progress-bar-info").css("width", percent.toString() + "%");
+            if (percent == 100) {
+                $("#progress_area").hide();
+            }
+        }
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        @Html.Partial("_Breadcrumb", new BreadcrumbSet()
+   {
+       PrevList = new List<BreadcrumbLink>() { new BreadcrumbLink()
+                {
+                    Text = "应用分类", Url = Url.Action("CategoryList")
+                } },
+       Current = new BreadcrumbLink()
+       {
+           Text = "编辑应用分类"
+       }
+   })
+        <div class="tab-pane" id="tab_7">
+            <div class="portlet box light-grey ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-reorder"></i>编辑应用
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <form id="form1" class="form-horizontal" method="POST">
+                        @Html.HiddenFor(m => m.ApplicationID)
+                        @Html.HiddenFor(m => m.UpdateTime)
+                        @Html.HiddenFor(m => m.Checksum)
+                        @Html.HiddenFor(m => m.PackageName)
+                        @Html.HiddenFor(m => m.ApkInfo)
+                        @Html.HiddenFor(m => m.RelativePath)
+                        @Html.HiddenFor(m => m.ServerPath)
+                        @Html.HiddenFor(m => m.Total)
+                        @Html.HiddenFor(m => m.ApkInfo)
+                        @Html.HiddenFor(m => m.OSVersion)
+                        @Html.HiddenFor(m => m.SDKVersion)
+                        <div class="form-body">
+                            <div class="alert alert-danger display-hide">
+                                <button class="close" data-dismiss="alert"></button>
+                                校验不通过，请检查。
+                            </div>
+                            <div class="alert alert-success display-hide">
+                                <button class="close" data-dismiss="alert"></button>
+                                校验通过。
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">应用分类<span class="required">*</span></label>
+                                <div class="col-md-7">
+                                    <div class="radio-list">
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.AppType, 1)
+                                            应用
+                                        </label>
+                                        <label class="radio-inline">@Html.RadioButtonFor(m => m.AppType, 2)
+                                            游戏
+                                        </label>
+                                        <label class="radio-inline">@Html.RadioButtonFor(m => m.AppType, 3)
+                                            装机必备
+                                        </label>
+                                        <label class="radio-inline">
+                                            @Html.DropDownListFor(m => m.CategoryID, categorySelectList, new { @class = "form-control" })
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">应用名称<span class="required">*</span></label>
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(m => m.ApplicationName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group" id="progress_area" style="display: none;">
+                                <label class="control-label col-md-3">上传进度</label>
+                                <div class="col-md-7">
+                                    <div class="progress progress-striped">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" style="width: 20%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">上传文件<span class="required">*</span></label>
+                                <div class="col-md-7">
+                                    <div id="apkContainer">
+                                        <a id="pickApkFiles" href="javascript:;" class="btn btn-default">选择文件</a>
+                                        <a id="uploadApkFiles" href="javascript:;" class="btn btn-default">上传文件</a>
+                                    </div>
+                                    <br />
+                                    <div id="apkFilelist">你的浏览器不支持FLASH，Silverlight 或 HTML5。</div>
+                                    @Html.HiddenFor(m => m.DownloadUrl)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">上传图标<span class="required">*</span></label>
+                                <div class="col-md-7">
+                                    <div id="iconContainer">
+                                        <a id="pickIconFiles" href="javascript:;" class="btn btn-default">选择文件</a>
+                                        <a id="uploadIconFiles" href="javascript:;" class="btn btn-default">上传文件</a>
+                                    </div>
+                                    <br />
+                                    <div id="iconFilelist">你的浏览器不支持FLASH，Silverlight 或 HTML5。</div>
+                                    @Html.HiddenFor(m => m.Icon)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">上传图片<span class="required">*</span></label>
+                                <div class="col-md-7">
+                                    <div id="uploader">
+                                        <p>你的浏览器不支持FLASH，Silverlight 或 HTML5。</p>
+                                    </div>
+                                    @Html.HiddenFor(m => m.PictureUrl)
+                                    <input type="hidden" name="images" id="images" value="" />
+                                </div>
+                            </div>
+                            <div class="form-group hide">
+                                <label class="control-label col-md-3">开发商</label>
+                                <div class="col-md-7">
+                                    <input name="CategoryName" type="text" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="form-group hide">
+                                <label class="control-label col-md-3">官方网站</label>
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(m => m.OfficialWebsite, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">属性</label>
+                                <div class="col-md-7">
+                                    <div class="checkbox-list">
+                                        <label class="checkbox-inline">
+                                            @Html.CheckBoxFor(m => m.IsRecommend, new { @class = "form-control" })
+                                            是否推荐
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            @Html.CheckBoxFor(m => m.IsNecessary, new { @class = "form-control" })
+                                            是否必备
+                                        </label>
+                                        <label class="checkbox-inline">
+                                            @Html.CheckBoxFor(m => m.IsValid, new { @class = "form-control" })
+                                            是否有效
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group hide">
+                                <label class="control-label col-md-3">评分</label>
+                                <div class="col-md-7">
+                                    @UIDisplay.AppScore(Model.Score)
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">版本<span class="required">*</span></label>
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(m => m.Version, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">大小<span class="required">*</span></label>
+                                <div class="col-md-7">
+                                    @Html.TextBoxFor(m => m.Size, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">描述<span class="required">*</span></label>
+                                <div class="col-md-7">
+                                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions fluid">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">提交</button>
+                                <button id="cancel" type="button" class="btn default">清空</button>
+                                <a type="button" class="btn default" href="@Url.Action("Index")">返回</a>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

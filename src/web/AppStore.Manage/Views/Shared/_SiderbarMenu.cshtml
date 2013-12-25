@@ -1,0 +1,127 @@
+﻿@section importscript
+{
+}
+<ul class="page-sidebar-menu">
+    <li>
+        <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+        <div class="sidebar-toggler hidden-phone"></div>
+        <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+    </li>
+    <li>
+        <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+        <form class="sidebar-search" action="#" method="POST">
+            <div class="form-container">
+                <div class="input-box">
+                    <a href="javascript:;" class="remove"></a>
+                    <input type="text" placeholder="Search..." />
+                    <input type="button" class="submit" value=" " />
+                </div>
+            </div>
+        </form>
+        <!-- END RESPONSIVE QUICK SEARCH FORM -->
+    </li>
+    <li class="start">
+        <a href="/">
+            <i class="icon-home"></i>
+            <span class="title">概览</span>
+            <span class="selected"></span>
+        </a>
+    </li>
+    <li class="active">
+        <a href="javascript:;">
+            <i class="icon-gift"></i>
+            <span class="title">应用管理</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="@Url.Action("Index", "Application")">
+                    <span class="badge badge-roundless badge-important">new</span>应用列表</a>
+            </li>
+            <li>
+                <a href="@Url.Action("CategoryList", "Application")">应用分类</a>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="@Url.Action("Index", "Statistics")">
+            <i class="icon-bar-chart"></i>
+            <span class="title">统计分析</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="@Url.Action("Store", "Statistics")">装机店统计</a>
+            </li>
+            <li>
+                <a href="@Url.Action("MobileClient", "Statistics")">手机端统计</a>
+            </li>
+            <li>
+                <a href="@Url.Action("Apps", "Statistics")">应用统计</a>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="javascript:;">
+            <i class="icon-cogs"></i>
+            <span class="title">系统管理</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="@Url.Action("MobileList", "System")">手机管理</a>
+            </li>
+            <li>
+                <a href="@Url.Action("DriverList", "System")">驱动管理</a>
+            </li>
+            <li>
+                <a href="@Url.Action("PCClientList", "System")">PC客户端管理</a>
+            </li>
+            <li>
+                <a href="@Url.Action("MobileClientList", "System")">手机客户端管理</a>
+            </li>
+            <li>
+                <a href="@Url.Action("BrandList", "System")">品牌管理</a>
+            </li>
+        </ul>
+    </li>
+    <li class="last">
+        <a href="javascript:;">
+            <i class="icon-user"></i>
+            <span class="title">用户管理</span>
+            <span class="arrow "></span>
+        </a>
+        <ul class="sub-menu">
+            <li>
+                <a href="@Url.Action("UserEdit", "System")">用户管理</a>
+            </li>
+        </ul>
+    </li>
+    <li class="">
+        <a href="@Url.Action("LogOff", "Account")">
+            <i class="icon-bar-chart"></i>
+            <span class="title">退出</span>
+        </a>
+    </li>
+</ul>
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        currentMemu();
+    });
+    function currentMemu() {
+        var $menu = $(".page-sidebar-menu");
+        $("ul.page-sidebar-menu>li").removeClass("active");
+        $("ul.page-sidebar-menu a").removeClass("active");
+        var url = '@Request.Url.LocalPath.ToLower()';
+        $menu.find("a").each(function (i) {
+            var $this = $(this);
+            if (url == $this.attr("href").toLowerCase()) {
+                $this.parent().addClass("active");
+                $this.parent().parent().parent().addClass("active");
+                return false;
+            }
+            return true;
+        });
+    }
+</script>

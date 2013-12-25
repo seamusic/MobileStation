@@ -1,0 +1,162 @@
+﻿@using AppStore.Common
+@using AppStore.Manage.Models
+@model AppStore.Models.Category
+@{
+    ViewBag.Title = "应用分类编辑";
+}
+@section style
+{
+}
+@section featured {
+}
+@section importscript{
+    <script type="text/javascript" src="~/Content/Plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/Content/Plugins/jquery-validation/dist/additional-methods.min.js"></script>
+    <script src="~/Content/Plugins/jquery-validation/localization/messages_zh.js"></script>
+    <script type="text/javascript">
+        var FormValidation = function () {
+            var handleValidation1 = function () {
+                var form1 = $('#form1');
+                var error1 = $('.alert-danger', form1);
+                var success1 = $('.alert-success', form1);
+
+                form1.validate({
+                    errorElement: 'span', //default input error message container
+                    errorClass: 'help-block', // default input error message class
+                    focusInvalid: false, // do not focus the last invalid input
+                    ignore: "",
+                    rules: {
+                        CategoryName: {
+                            minlength: 2,
+                            required: true
+                        },
+                        Seq: {
+                            number: true
+                        }
+                    },
+
+                    invalidHandler: function (event, validator) { //display error alert on form submit              
+                        success1.hide();
+                        error1.show();
+                        App.scrollTo(error1, -200);
+                    },
+
+                    highlight: function (element) { // hightlight error inputs
+                        $(element)
+                            .closest('.form-group').addClass('has-error'); // set error class to the control group
+                    },
+
+                    unhighlight: function (element) { // revert the change done by hightlight
+                        $(element)
+                            .closest('.form-group').removeClass('has-error'); // set error class to the control group
+                    },
+
+                    success: function (label) {
+                        label
+                            .closest('.form-group').removeClass('has-error'); // set success class to the control group
+                    },
+
+                    submitHandler: function (form) {
+                        success1.show();
+                        error1.hide();
+                        form.submit();
+                    }
+                });
+            };
+
+            return {
+                init: function () {
+                    handleValidation1();
+                }
+            };
+        }();
+
+        $(document).ready(function () {
+            FormValidation.init();
+            $('#cancel').on('click', function (e) {
+                e.preventDefault();
+                $('form').get(0).reset();
+            });
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        @Html.Partial("_Breadcrumb", new BreadcrumbSet()
+        {
+            PrevList = new List<BreadcrumbLink>() { new BreadcrumbLink()
+                {
+                    Text = "应用分类", Url = Url.Action("CategoryList")
+                } },
+            Current = new BreadcrumbLink()
+                {
+                    Text = "编辑应用分类"
+                }
+        })
+        <div class="tab-pane" id="tab_7">
+            <div class="portlet box light-grey ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-reorder"></i>编辑分类
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <form action="#" id="form1" class="form-horizontal" method="POST">
+                        @Html.HiddenFor(o => o.CategoryID)
+                        <div class="form-body">
+                            <div class="alert alert-danger display-hide">
+                                <button class="close" data-dismiss="alert"></button>
+                                校验不通过，请检查。
+                            </div>
+                            <div class="alert alert-success display-hide">
+                                <button class="close" data-dismiss="alert"></button>
+                                校验通过。
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">应用类型<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    <div class="radio-list">
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.AppTypeID, (int)ApplicationType.应用)
+                                            应用
+                                        </label>
+                                        <label class="radio-inline">@Html.RadioButtonFor(m => m.AppTypeID, (int)ApplicationType.游戏)
+                                            游戏
+                                        </label>
+                                        <label class="radio-inline">@Html.RadioButtonFor(m => m.AppTypeID, (int)ApplicationType.装机必备)
+                                            装机必备
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">应用类型<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    <input name="CategoryName" type="text" class="form-control" value="@Model.CategoryName"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">排序</label>
+                                <div class="col-md-4">
+                                    <input name="Seq" type="text" class="form-control" value="@Model.Seq"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions fluid">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">提交</button>
+                                <button id="cancel" type="button" class="btn default">清空</button>
+                                <a type="button" class="btn default" href="@Url.Action("CategoryList")">返回</a>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

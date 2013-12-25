@@ -1,0 +1,94 @@
+﻿@using AppStore.Manage.Models
+@model AppStore.Models.Mobile
+
+@{
+    ViewBag.Title = "编辑手机信息";
+    var driverList = (IList<AppStore.Models.Driver>)ViewBag.DriveryList;
+    SelectList driverSelectList = null;
+    if (driverList != null)
+    {
+        driverSelectList = new SelectList(driverList, "DriverID", "DriverName", Model.DriverID);
+    }
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        @Html.Partial("_Breadcrumb", new BreadcrumbSet()
+        {
+            PrevList = new List<BreadcrumbLink>() { new BreadcrumbLink()
+                {
+                    Text = "手机列表", Url = Url.Action("MobileList")
+                } },
+            Current = new BreadcrumbLink()
+                {
+                    Text = "编辑手机信息"
+                }
+        })
+        <div class="tab-pane" id="tab_7">
+            <div class="portlet box light-grey ">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="icon-reorder"></i>编辑手机信息
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <!-- BEGIN FORM-->
+                    <form action="#" id="form1" class="form-horizontal" method="POST">
+                        @Html.HiddenFor(o => o.MobileID)
+                        @Html.HiddenFor(o => o.UpdateTime)
+                        <div class="form-body">
+                            <div class="alert alert-danger display-hide">
+                                <button class="close" data-dismiss="alert"></button>
+                                校验不通过，请检查。
+                            </div>
+                            <div class="alert alert-success display-hide">
+                                <button class="close" data-dismiss="alert"></button>
+                                校验通过。
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">名称<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.MobileName, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">手机型号<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.Model, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">PID<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.PID, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">VID<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(m => m.VID, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">驱动<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(m => m.DriverID, driverSelectList, new { @class = "form-control" });
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions fluid">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn green">提交</button>
+                                <button id="cancel" type="button" class="btn default">清空</button>
+                                <a type="button" class="btn default" href="@Url.Action("MobileList")">返回</a>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- END FORM-->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

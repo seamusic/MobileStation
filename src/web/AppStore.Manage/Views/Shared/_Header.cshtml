@@ -1,0 +1,42 @@
+﻿<div class="header navbar navbar-inverse navbar-fixed-top">
+    <!-- BEGIN TOP NAVIGATION BAR -->
+    <div class="header-inner">
+        <!-- BEGIN LOGO -->
+        <a class="navbar-brand" href="/">手机驿站应用商城
+        </a>
+        <!-- END LOGO -->
+        <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+        <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <img src="~/Images/menu-toggler.png" alt="" />
+        </a>
+        <!-- END RESPONSIVE MENU TOGGLER -->
+        <!-- BEGIN TOP NAVIGATION MENU -->
+        <ul class="nav navbar-nav pull-right">
+            <!-- BEGIN USER LOGIN DROPDOWN -->
+            <li class="dropdown user">
+                @if (Request.IsAuthenticated)
+                {
+                    <text>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                    <img alt="" src="~/Images/avatar1_small.jpg" />
+                    <span class="username">@User.Identity.Name</span>
+                    <i class="icon-angle-down"></i>
+                </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <i class="icon-key"></i><a href="javascript:document.getElementById('logoutForm').submit()">注销</a>
+                            }
+                        </li>
+                    </ul>
+                    </text>
+                }
+            </li>
+            <!-- END USER LOGIN DROPDOWN -->
+        </ul>
+        <!-- END TOP NAVIGATION MENU -->
+    </div>
+    <!-- END TOP NAVIGATION BAR -->
+</div>
