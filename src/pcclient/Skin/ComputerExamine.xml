@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<Window size="888,400">
+    <Font name="SimSun" size="12" bold="true" italic="false" />
+    <HorizontalLayout width="685" height="400">
+        <VerticalLayout bkimage="Skin\window_bg.png">
+            <HorizontalLayout height="100" inset="1,1,0,0">
+                <Container bkimage="Skin\examine_background.bmp">
+                    <Control bkimage="file=&apos;Skin\start.png&apos; dest=&apos;50,20,99,84,&apos;" />
+                    <Text text="{p 7}{f 3}{c #2F6F95}{b}欢迎使用手机驿站{/b}{/c}{/f}{/p}" float="true" pos="120,20,0,0" width="752" height="120" textpadding="2,0,2,0" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" showhtml="true" align="wrap" />
+                </Container>
+            </HorizontalLayout>
+            <HorizontalLayout inset="20,20,20,0">
+                <Control float="true" pos="219,67,0,0" width="280" height="121" bkimage="Skin\connect_pcphone.png" />
+                <Control name="imageConnect" float="true" pos="312,106,0,0" width="140" height="39" bkimage="Skin\disconnect_usb.png" />
+                <Text name="textDeviceInfo" text="您的设备尚未连接，请使用数据线将设备连接至电脑" float="true" pos="250,204,0,0" width="500" height="30" textpadding="2,0,2,0" align="wrap" showhtml="true"/>
+                <Button name="buttonConnect" float="true" visible="false" pos="355,252,0,0" width="54" height="24" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="Skin\join_on.png" pushedimage="Skin\join_off.png" />
+            </HorizontalLayout>
+        </VerticalLayout>
+    </HorizontalLayout>
+</Window>
