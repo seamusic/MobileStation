@@ -36,6 +36,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="FluentData">
+      <HintPath>..\Lib\FluentData.dll</HintPath>
+    </Reference>
     <Reference Include="MvcPager">
       <HintPath>..\Lib\MvcPager.dll</HintPath>
     </Reference>
@@ -54,6 +57,7 @@
     <Compile Include="IBusiness.cs" />
     <Compile Include="LogBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StatisticsBusiness.cs" />
     <Compile Include="SystemBusiness.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,7 +10,7 @@ using Webdiyer.WebControls.Mvc;
 
 namespace AppStore.Business
 {
-    public class ApplicationBusiness : BaseBusiness<ApplicationBusiness>, IBusiness
+    public class ApplicationBusiness : IBusiness
     {
         public IList<Application> GetApplication()
         {

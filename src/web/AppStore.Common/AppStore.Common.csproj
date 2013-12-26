@@ -30,11 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.1.13\lib\net40\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.1\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentData">
+      <HintPath>..\Lib\FluentData.dll</HintPath>
     </Reference>
     <Reference Include="MvcPager">
       <HintPath>..\Lib\MvcPager.dll</HintPath>
@@ -44,6 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
@@ -60,6 +67,7 @@
     <Compile Include="Dict.cs" />
     <Compile Include="EFPagedList.cs" />
     <Compile Include="FileStatus.cs" />
+    <Compile Include="FluentDataHelper.cs" />
     <Compile Include="JsonBinder.cs" />
     <Compile Include="JsonNetResult.cs" />
     <Compile Include="ListControlExtensions.cs" />
@@ -68,6 +76,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServerSetting.cs" />
     <Compile Include="ServerSettingProxy.cs" />
+    <Compile Include="SqlMapperUtil.cs" />
     <Compile Include="UploadFileInfo.cs" />
     <Compile Include="UploadHelper.cs" />
     <Compile Include="Utilities.cs" />

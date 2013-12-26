@@ -9,7 +9,7 @@ using Webdiyer.WebControls.Mvc;
 
 namespace AppStore.Business
 {
-    public class SystemBusiness : BaseBusiness<ApplicationBusiness>, IBusiness
+    public class SystemBusiness :IBusiness
     {
         #region mobile
         /// <summary>
