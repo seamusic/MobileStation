@@ -9,7 +9,7 @@ using Webdiyer.WebControls.Mvc;
 
 namespace AppStore.Business
 {
-    public class SystemBusiness :IBusiness
+    public class SystemBusiness : IBusiness
     {
         #region mobile
         /// <summary>
@@ -268,7 +268,7 @@ namespace AppStore.Business
             using (var db = new appstoreEntities())
             {
                 MobileClient mobileClient = db.MobileClient.FirstOrDefault(m => m.ClientKey == key);
-                var pcclient = db.PCClient.FirstOrDefault(m => m.ClientKey == key);
+                //var pcclient = db.PCClient.FirstOrDefault(m => m.ClientKey == key);
                 if (mobileClient == null)
                 {
                     mobileClient = new MobileClient
@@ -295,10 +295,7 @@ namespace AppStore.Business
                 }
                 else
                 {
-                    if (string.IsNullOrEmpty(mobileClient.PCClientID))
-                    {
-
-                    }
+                    mobileClient.UpdateTime = DateTime.Now;
                 }
 
             }
@@ -455,11 +452,17 @@ namespace AppStore.Business
                 {
                     mobileClient = new MobileClient()
                         {
+                            PCClientID = pcclient.PCClientID,
                             MobileClientID = Guid.NewGuid().ToString(),
                             ClientKey = mobileKey,
                             CreateTime = DateTime.Now,
                         };
                     db.MobileClient.Add(mobileClient);
+                }
+                else
+                {
+                    mobileClient.PCClientID = pcclient.PCClientID;
+                    mobileClient.UpdateTime = DateTime.Now;
                 }
 
                 var mobileApp =

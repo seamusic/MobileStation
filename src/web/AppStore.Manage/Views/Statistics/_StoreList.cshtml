@@ -5,31 +5,16 @@
 <table class="table table-striped table-bordered table-hover" id="dataList">
     <thead>
         <tr>
-            <th class="table-checkbox">
-                <input type="checkbox" class="group-checkable" /></th>
-            <th>名称</th>
-            <th>下载</th>
-            <th>描述</th>
-            <th>更新时间</th>
-            <th>操作</th>
+            <th>装机店名称</th>
+            <th>装机数</th>
+            <th>应用/每客户</th>
+            <th>7天活跃用户</th>
+            <th>有效应用</th>
         </tr>
     </thead>
     <tbody>
         @if (Model != null && Model.Count > 0)
         {
-            foreach (Driver driver in Model)
-            {
-            <tr class="odd gradeX">
-                <td>
-                    <input type="checkbox" class="checkboxes" value="@driver.DriverID" />
-                </td>
-                <td>@driver.DriverName</td>
-                <td><a href="@Url.Action("Driver","Download",new RouteValueDictionary() { { "id", driver.DriverID } })">下载</a> </td>
-                <td>@driver.Description</td>
-                <td class="center">@UIDisplay.ShowTime(driver.UpdateTime, 1)</td>
-                <td>@Html.ActionLink("编辑", "Driver", new RouteValueDictionary() { { "id", driver.DriverID } }) 删除</td>
-            </tr>
-            }
         }
         else
         {

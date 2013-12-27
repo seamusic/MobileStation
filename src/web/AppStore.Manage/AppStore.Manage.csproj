@@ -1526,6 +1526,9 @@
     <Content Include="Views\Statistics\_StoreList.cshtml" />
     <Content Include="Views\Statistics\_AppList.cshtml" />
     <Content Include="Views\Statistics\_ClientList.cshtml" />
+    <Content Include="Views\Statistics\StoreDetail.cshtml" />
+    <Content Include="Views\Statistics\ClientDetail.cshtml" />
+    <Content Include="Views\Statistics\AppDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

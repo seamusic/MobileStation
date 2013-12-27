@@ -8,9 +8,11 @@ using System.Linq;
 using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
+using AppStore.Business;
 using Dapper;
 using Dapper.Contrib.Extensions;
 using FluentData;
+using Lennon.Utility;
 
 namespace AppStore.Manage.Controllers
 {
@@ -26,24 +28,37 @@ namespace AppStore.Manage.Controllers
 
         public ActionResult Index()
         {
-            using (var context = Context())
-            {
-                context.Sql("").QuerySingle<DataTable>();
-            }
             return View();
         }
 
-        public ActionResult Stores()
+        public ActionResult Stores(int index=1)
+        {
+            var data = Singleton<StatisticsBusiness>.Instance.GetStoreStatistics();
+            return View(data);
+        }
+
+        public ActionResult StoreDetail(string id)
         {
             return View();
         }
 
-        public ActionResult Clients()
+        public ActionResult Clients(int index = 1)
+        {
+            var data = Singleton<StatisticsBusiness>.Instance.GetClientStatistics(index);
+            return View(data);
+        }
+
+        public ActionResult ClientDetail(string id)
         {
             return View();
         }
 
-        public ActionResult Apps()
+        public ActionResult Apps(int index=1)
+        {
+            var data = Singleton<StatisticsBusiness>.Instance.GetAppStatistics(index);
+            return View(data);
+        }
+        public ActionResult AppDetail(string id)
         {
             return View();
         }

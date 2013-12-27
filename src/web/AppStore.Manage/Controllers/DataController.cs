@@ -149,23 +149,6 @@ namespace AppStore.Manage.Controllers
         public JsonResult RegMobileApp(RegClient regClient)
         {
             var result = new OperateResult(false);
-            //if (string.IsNullOrEmpty(mobileInfo))
-            //{
-            //    return Json(false);
-            //}
-            //RegClient regClient = null;
-            //try
-            //{
-            //    regClient = JsonConvert.DeserializeObject<RegClient>(mobileInfo);
-            //}
-            //catch (Exception ex)
-            //{
-            //    return Json(false);
-            //}
-            //if (regClient == null)
-            //{
-            //    return Json(false);
-            //}
 
             if (string.IsNullOrEmpty(regClient.MobileKey))
             {
