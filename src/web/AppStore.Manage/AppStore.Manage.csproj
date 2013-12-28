@@ -1529,6 +1529,8 @@
     <Content Include="Views\Statistics\StoreDetail.cshtml" />
     <Content Include="Views\Statistics\ClientDetail.cshtml" />
     <Content Include="Views\Statistics\AppDetail.cshtml" />
+    <Content Include="Views\Statistics\_RunlogList.cshtml" />
+    <Content Include="Views\Statistics\GetDitie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

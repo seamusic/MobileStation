@@ -4,6 +4,8 @@ using System.Data;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
+using AppStore.Models;
+using Webdiyer.WebControls.Mvc;
 
 namespace AppStore.Business
 {
@@ -126,7 +128,7 @@ GROUP BY a.ApplicationID, ApplicationName,a.PackageName").QuerySingle<DataTable>
 
         public DataTable GetClientStatistics(int index = 1)
         {
-            using (var context=GetContext)
+            using (var context = GetContext)
             {
                 return context.Sql(@"SELECT mc.MobileClientID,mc.ClientKey,COUNT(ma.MobileAppID) TotalInstall,
 ActiveStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
@@ -135,6 +137,62 @@ TodayStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma
               WHERE datediff(DAY,ma.UpdateTime,getdate())=0 AND ma.MobileClientID=mc.MobileClientID)
 FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID
 GROUP BY mc.MobileClientID, mc.ClientKey,mc.CreateTime ORDER BY mc.CreateTime DESC").QuerySingle<DataTable>();
+            }
+        }
+
+        public DataTable GetStoreClientStatistics(string pcid, int index = 1)
+        {
+            using (var context = GetContext)
+            {
+                return context.Sql(@"SELECT mc.MobileClientID,mc.ClientKey,COUNT(ma.MobileAppID) TotalInstall,
+ActiveStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
+              WHERE ma.FirstTime IS NOT NULL AND ma.SecondTime IS NOT NULL AND ma.MobileClientID=mc.MobileClientID),
+TodayStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
+              WHERE datediff(DAY,ma.UpdateTime,getdate())=0 AND ma.MobileClientID=mc.MobileClientID)
+FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID
+WHERE mc.PCClientID=@PCClientID
+GROUP BY mc.MobileClientID, mc.ClientKey,mc.CreateTime ORDER BY mc.CreateTime DESC")
+                                                                                   .Parameter("PCClientID", pcid)
+                                                                                   .QuerySingle<DataTable>();
+            }
+        }
+
+        public DataTable GetClientAppStatistics(string id, int index)
+        {
+            using (var context = GetContext)
+            {
+                return context.Sql(@"SELECT a.ApplicationID,a.ApplicationName,a.PackageName,COUNT(ma.MobileAppID) TotalClient,
+TotalInstall=(SELECT COUNT(1) FROM RunLog rl WHERE rl.[Action]=1 AND rl.PackageName=a.PackageName),
+ActiveStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
+              WHERE ma.FirstTime IS NOT NULL AND ma.SecondTime IS NOT NULL AND ma.PackageName=a.PackageName),
+TodayStart=(SELECT COUNT(1) FROM RunLog rl WHERE rl.[Action]=2 AND rl.PackageName=a.PackageName AND datediff(DAY,rl.StartTime,getdate())=0),
+Last7days=(SELECT count(DISTINCT m.MobileClientID) FROM RunLog rl INNER JOIN MobileApp m ON rl.MobileAppID = m.MobileAppID 
+           WHERE rl.PackageName=a.PackageName AND datediff(DAY,rl.StartTime,getdate())<7)
+FROM [Application] a LEFT JOIN MobileApp ma ON a.PackageName=ma.PackageName
+WHERE ma.MobileClientID=@MobileClientID
+GROUP BY a.ApplicationID, ApplicationName,a.PackageName")
+                                                        .Parameter("MobileClientID", id)
+                                                        .QuerySingle<DataTable>();
+            }
+        }
+
+        public PagedList<RunLog> GetAppLogStatistics(string id, int index)
+        {
+            using (var db = new appstoreEntities())
+            {
+                var qry = db.RunLog.AsQueryable();
+
+                var model = qry.OrderByDescending(a => a.UpdateTime).ToPagedList(index, 10);
+                return model;
+            }
+            return null;
+        }
+
+        public DataTable GetDitie()
+        {
+            using (var context=GetContext)
+            {
+                return context.Sql("SELECT * FROM ditie AS t").QuerySingle<DataTable>();
             }
         }
     }

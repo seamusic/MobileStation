@@ -1,0 +1,24 @@
+﻿@using System.Data
+@model System.Data.DataTable
+
+@{
+    ViewBag.Title = "title";
+    Layout = null;
+}
+
+@{
+    for (int i = 1; i < Model.Rows.Count; i++)
+    {
+        DataRow row = Model.Rows[i];
+        var startName = Model.Rows[i][0].ToString();
+        for (int j = 1; j < row.ItemArray.Length; j++)
+        {
+            var endName = Model.Columns[j].Caption;
+            var item = row.ItemArray[j];
+            var sql = string.Format("insert into dbo.BAS_TicketPrice(StartStationName,EndStationName,Price)value('{0}','{1}','{2}');", startName, endName, item);
+    <text>
+    @sql<br/>
+    </text>
+        }
+    }
+}

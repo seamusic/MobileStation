@@ -31,15 +31,16 @@ namespace AppStore.Manage.Controllers
             return View();
         }
 
-        public ActionResult Stores(int index=1)
+        public ActionResult Stores(int index = 1)
         {
             var data = Singleton<StatisticsBusiness>.Instance.GetStoreStatistics();
             return View(data);
         }
 
-        public ActionResult StoreDetail(string id)
+        public ActionResult StoreDetail(string id, int index=1)
         {
-            return View();
+            var data = Singleton<StatisticsBusiness>.Instance.GetStoreClientStatistics(id, index);
+            return View(data);
         }
 
         public ActionResult Clients(int index = 1)
@@ -48,19 +49,27 @@ namespace AppStore.Manage.Controllers
             return View(data);
         }
 
-        public ActionResult ClientDetail(string id)
+        public ActionResult ClientDetail(string id, int index = 1)
         {
-            return View();
+            var data = Singleton<StatisticsBusiness>.Instance.GetClientAppStatistics(id, index);
+            return View(data);
         }
 
-        public ActionResult Apps(int index=1)
+        public ActionResult Apps(int index = 1)
         {
             var data = Singleton<StatisticsBusiness>.Instance.GetAppStatistics(index);
             return View(data);
         }
-        public ActionResult AppDetail(string id)
+        public ActionResult AppDetail(string id, int index=1)
         {
-            return View();
+            var data = Singleton<StatisticsBusiness>.Instance.GetAppLogStatistics(id, index);
+            return View(data);
+        }
+
+        public ActionResult GetDitie()
+        {
+            var data = Singleton<StatisticsBusiness>.Instance.GetDitie();
+            return View(data);
         }
     }
 }
