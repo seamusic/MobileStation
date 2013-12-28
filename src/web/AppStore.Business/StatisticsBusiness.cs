@@ -16,6 +16,9 @@ namespace AppStore.Business
                 dynamic data = new ExpandoObject();
                 data.Date = dateTime.ToString("yyyy-MM-dd");
                 //新增装机店
+                data.TotalStore = context.Sql("SELECT COUNT(*) FROM PCClient")
+                    .QuerySingle<int>();
+                //新增装机店
                 data.NewStore = context.Sql("SELECT COUNT(*) FROM PCClient mc WHERE mc.CreateTime>@date1 and mc.CreateTime<@date2")
                     .Parameter("date1", dateTime)
                     .Parameter("date2", dateTime.AddDays(1))

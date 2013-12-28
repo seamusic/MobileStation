@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "首页";
 }
 @section style
 {
@@ -68,6 +68,8 @@
                         <thead>
                             <tr>
                                 <th></th>
+                                <th>总装机店</th>
+                                <th>总用户</th>
                                 <th>新增装机店</th>
                                 <th>新增用户</th>
                                 <th>活跃用户</th>
@@ -80,6 +82,8 @@
                                 {
                                 <tr>
                                     <th>@o.Date</th>
+                                    <th>@o.TotalStore</th>
+                                    <td>@o.TotalMobile</td>
                                     <td>@o.NewStore</td>
                                     <td>@o.TodayMobile</td>
                                     <td>@o.ActiveMobile</td>
