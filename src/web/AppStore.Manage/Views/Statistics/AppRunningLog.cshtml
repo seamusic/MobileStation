@@ -1,0 +1,64 @@
+﻿@using System.Data
+@using AppStore.Models
+@using Webdiyer.WebControls.Mvc
+@model Webdiyer.WebControls.Mvc.PagedList<AppStore.Models.RunLog>
+@{
+    ViewBag.Title = "客户端应用统计详细";
+    var app = ViewBag.App as Application;
+    var client = ViewBag.MobileClient as MobileClient;
+}
+@section style
+{
+}
+@section featured {
+}
+@section importscript{
+    @{Html.RegisterMvcPagerScriptResource();}
+}
+
+<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+<!-- BEGIN PAGE HEADER-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        <h3 class="page-title">
+            @app.ApplicationName 在 @client.ClientKey 上的运行日志 <small>统计管理</small>
+        </h3>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <i class="icon-home"></i>
+                <a href="/">统计管理</a>
+                <i class="icon-angle-right"></i>
+            </li>
+            <li><a href="#">应用统计</a></li>
+            <li class="pull-right">
+                <div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range">
+                    <i class="icon-calendar"></i>
+                    <span></span>
+                    <i class="icon-angle-down"></i>
+                </div>
+            </li>
+        </ul>
+        <!-- END PAGE TITLE & BREADCRUMB-->
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="portlet-body">
+            @using (Html.BeginForm("AppRunningLog", "Statistics", new { index = "" }, FormMethod.Get, new { id = "searchForm", @class = "form-inline" }))
+            {
+                <div class="form-group" style="display: none;">
+                    <label class="sr-only" for="ApplicationName">日期</label>
+                    <div class="input-icon">
+                        <i class="icon-envelope"></i>
+                        <input type="text" class="form-control" id="ApplicationName" placeholder="应用名称">
+                    </div>
+                </div>
+                <input type="submit" value="搜索(S)" class="btn btn-default" accesskey="S" />
+            }
+            <div id="dataArea">
+                @Html.Partial("_RunlogList", Model)
+            </div>
+        </div>
+    </div>
+</div>

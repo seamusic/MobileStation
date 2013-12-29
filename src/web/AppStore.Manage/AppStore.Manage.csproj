@@ -1533,6 +1533,7 @@
     <Content Include="Views\Statistics\AppDetail.cshtml" />
     <Content Include="Views\Statistics\_RunlogList.cshtml" />
     <Content Include="Views\Statistics\GetDitie.cshtml" />
+    <Content Include="Views\Statistics\AppRunningLog.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
