@@ -5,34 +5,34 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="d5de91977e5048609e5a16726fcfcacf" Name="关系图2" >
-        <EntityTypeShape EntityType="AppStore.Models.Application" Width="1.5" PointX="11.995149023828631" PointY="5.4532555516125889" />
-        <EntityTypeShape EntityType="AppStore.Models.ApplicationEvaluate" Width="1.5" PointX="6.4937574055482443" PointY="31.123497739026089" />
-        <EntityTypeShape EntityType="AppStore.Models.ApplicationTag" Width="1.5" PointX="4.9837431427946983" PointY="7.6753623372294761" />
-        <EntityTypeShape EntityType="AppStore.Models.AppType" Width="1.5" PointX="2.7923309238591845" PointY="4.6459722391543776" />
-        <EntityTypeShape EntityType="AppStore.Models.AppUser" Width="1.5" PointX="10.789276515501214" PointY="21.547658468386" />
-        <EntityTypeShape EntityType="AppStore.Models.Brand" Width="1.5" PointX="2.1851903266204475" PointY="10.551701088692854" />
-        <EntityTypeShape EntityType="AppStore.Models.Category" Width="1.5" PointX="2.019628460528156" PointY="1.4150571233663043" />
-        <EntityTypeShape EntityType="AppStore.Models.Driver" Width="1.5" PointX="11.850927388226113" PointY="28.35596954652852" />
-        <EntityTypeShape EntityType="AppStore.Models.Mobile" Width="1.5" PointX="1.316562245281675" PointY="11.98262118361081" />
-        <EntityTypeShape EntityType="AppStore.Models.MobileApp" Width="1.5" PointX="7.9897760692936259" PointY="15.609659217116265" />
-        <EntityTypeShape EntityType="AppStore.Models.MobileApplication" Width="1.5" PointX="10.187404799362367" PointY="26.897063223131497" />
-        <EntityTypeShape EntityType="AppStore.Models.MobileClient" Width="1.5" PointX="7.403050295730611" PointY="14.9096228698779" />
-        <EntityTypeShape EntityType="AppStore.Models.PCApp" Width="1.5" PointX="7.3686529152880667" PointY="9.4777413948801073" />
-        <EntityTypeShape EntityType="AppStore.Models.PCClient" Width="1.5" PointX="2.8962848740146891" PointY="7.5184238588057566" />
-        <EntityTypeShape EntityType="AppStore.Models.PCInstallLog" Width="1.5" PointX="2.3297849289745951" PointY="6.7502518774709905" />
-        <EntityTypeShape EntityType="AppStore.Models.PhoneModel" Width="1.5" PointX="6.2384734573953207" PointY="3.3597743228821897" />
-        <EntityTypeShape EntityType="AppStore.Models.Picture" Width="1.5" PointX="11.536720722698011" PointY="11.799524893890846" />
-        <EntityTypeShape EntityType="AppStore.Models.Role" Width="1.5" PointX="9.72293188316884" PointY="2.35220939030508" />
-        <EntityTypeShape EntityType="AppStore.Models.RoleUser" Width="1.5" PointX="6.9952482706845025" PointY="29.402252941114014" />
-        <EntityTypeShape EntityType="AppStore.Models.RunLog" Width="1.5" PointX="2.2776682443347145" PointY="23.841124486104178" />
-        <EntityTypeShape EntityType="AppStore.Models.Statistics" Width="1.5" PointX="7.9525101054238672" PointY="7.2727550451051233" />
-        <EntityTypeShape EntityType="AppStore.Models.Tag" Width="1.5" PointX="3.4580995978126765" PointY="0.74583269690435039" />
-        <EntityTypeShape EntityType="AppStore.Models.User" Width="1.5" PointX="11.069961882694607" PointY="9.0079283160194414" />
-        <EntityTypeShape EntityType="AppStore.Models.UserMobile" Width="1.5" PointX="8.65388951294771" PointY="18.94317772376499" />
-        <EntityTypeShape EntityType="AppStore.Models.UserProfile" Width="1.5" PointX="8.15857139423423" PointY="20.210336813801124" />
-        <EntityTypeShape EntityType="AppStore.Models.webpages_Membership" Width="1.5" PointX="1.8925233417621454" PointY="29.015578372876895" />
-        <EntityTypeShape EntityType="AppStore.Models.webpages_OAuthMembership" Width="1.5" PointX="2.23765648074339" PointY="19.903820315331139" />
-        <EntityTypeShape EntityType="AppStore.Models.webpages_Roles" Width="1.5" PointX="4.5521960633584282" PointY="5.0900008404115216" />
+        <EntityTypeShape EntityType="AppStore.Models.Application" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AppStore.Models.ApplicationEvaluate" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AppStore.Models.ApplicationTag" Width="1.5" PointX="4.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AppStore.Models.AppType" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AppStore.Models.AppUser" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AppStore.Models.Brand" Width="1.5" PointX="6.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AppStore.Models.Category" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AppStore.Models.Driver" Width="1.5" PointX="4.75" PointY="7.75" />
+        <EntityTypeShape EntityType="AppStore.Models.Mobile" Width="1.5" PointX="6.75" PointY="7.75" />
+        <EntityTypeShape EntityType="AppStore.Models.MobileApp" Width="1.5" PointX="8.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AppStore.Models.MobileApplication" Width="1.5" PointX="8.75" PointY="8.75" />
+        <EntityTypeShape EntityType="AppStore.Models.MobileClient" Width="1.5" PointX="10.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AppStore.Models.PCApp" Width="1.5" PointX="0.75" PointY="10.75" />
+        <EntityTypeShape EntityType="AppStore.Models.PCClient" Width="1.5" PointX="2.75" PointY="10.75" />
+        <EntityTypeShape EntityType="AppStore.Models.PCInstallLog" Width="1.5" PointX="10.75" PointY="4.75" />
+        <EntityTypeShape EntityType="AppStore.Models.PhoneModel" Width="1.5" PointX="10.75" PointY="7.75" />
+        <EntityTypeShape EntityType="AppStore.Models.Picture" Width="1.5" PointX="12.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AppStore.Models.Role" Width="1.5" PointX="12.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AppStore.Models.RoleUser" Width="1.5" PointX="4.75" PointY="12.75" />
+        <EntityTypeShape EntityType="AppStore.Models.RunLog" Width="1.5" PointX="12.75" PointY="6.75" />
+        <EntityTypeShape EntityType="AppStore.Models.Statistics" Width="1.5" PointX="6.75" PointY="12.75" />
+        <EntityTypeShape EntityType="AppStore.Models.Tag" Width="1.5" PointX="8.75" PointY="12.75" />
+        <EntityTypeShape EntityType="AppStore.Models.User" Width="1.5" PointX="12.75" PointY="10.75" />
+        <EntityTypeShape EntityType="AppStore.Models.UserMobile" Width="1.5" PointX="14.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AppStore.Models.UserProfile" Width="1.5" PointX="3" PointY="0.875" />
+        <EntityTypeShape EntityType="AppStore.Models.webpages_Membership" Width="1.5" PointX="0.75" PointY="14.75" />
+        <EntityTypeShape EntityType="AppStore.Models.webpages_OAuthMembership" Width="1.5" PointX="14.75" PointY="3.75" />
+        <EntityTypeShape EntityType="AppStore.Models.webpages_Roles" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="AppStore.Models.webpages_UsersInRoles" />
       </Diagram>
     </edmx:Diagrams>

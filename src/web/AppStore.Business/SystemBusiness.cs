@@ -34,6 +34,14 @@ namespace AppStore.Business
             }
         }
 
+        public MobileApp GetMobileApp(string id)
+        {
+            using (var db = new appstoreEntities())
+            {
+                return db.MobileApp.FirstOrDefault(o => o.MobileAppID == id);
+            }
+        }
+
         public Mobile GetMobile(string vid, string pid)
         {
             using (var db = new appstoreEntities())
