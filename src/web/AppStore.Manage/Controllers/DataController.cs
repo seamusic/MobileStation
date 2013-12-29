@@ -363,9 +363,17 @@ namespace AppStore.Manage.Controllers
             else
             {
                 var driver = Singleton<SystemBusiness>.Instance.GetDriver(info.pid, info.vid);
-                return Json(driver == null ? "" : driver.DownloadUrl);
+                if (driver == null||string.IsNullOrEmpty(driver.DownloadUrl))
+                {
+                    return Json(string.Empty);
+                }
+                else
+                {
+                    var url = Path.Combine(setting.DownloadPath, driver.DownloadUrl);
+                    return Json(url);
+                }
             }
-            return Json(result.Result);
+            return Json(string.Empty);
         }
 
         [HttpPost]

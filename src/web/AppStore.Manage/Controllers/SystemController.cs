@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -50,8 +51,8 @@ namespace AppStore.Manage.Controllers
             {
                 return RedirectToAction("MobileList");
             }
-            return View(mobile); 
-        } 
+            return View(mobile);
+        }
         #endregion
 
         #region Driver
@@ -80,12 +81,13 @@ namespace AppStore.Manage.Controllers
             {
                 return RedirectToAction("DriverList");
             }
-            return View(driver); 
+            return View(driver);
         }
 
         [HttpPost]
         public JsonResult UploadDriver(FormCollection fc)
         {
+            Thread.Sleep(10 * 1000);
             var fileInfoList = Singleton<UploadHelper>.Instance.UploadDriver(Request);
             return Json(fileInfoList);
         }
@@ -117,8 +119,8 @@ namespace AppStore.Manage.Controllers
             {
                 return RedirectToAction("BrandList");
             }
-            return View(ent); 
-        } 
+            return View(ent);
+        }
         #endregion
 
         public ActionResult UserEdit(int? id)
@@ -167,8 +169,8 @@ namespace AppStore.Manage.Controllers
             {
                 return RedirectToAction("PCClientList");
             }
-            return View(ent); 
-        } 
+            return View(ent);
+        }
         #endregion
 
         #region MobileClient
@@ -197,8 +199,8 @@ namespace AppStore.Manage.Controllers
             {
                 return RedirectToAction("MobileClientList");
             }
-            return View(ent); 
-        } 
+            return View(ent);
+        }
         #endregion
     }
 }

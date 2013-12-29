@@ -699,10 +699,6 @@
     <Content Include="Content\Plugins\jquery-validation\demo\tinymce\themes\simple\langs\en.js" />
     <Content Include="Content\Plugins\jquery-validation\demo\tinymce\themes\simple\skins\default\ui.css" />
     <Content Include="Content\Plugins\jquery-validation\demo\tinymce\tiny_mce.js" />
-    <Content Include="Content\Plugins\jquery-validation\dist\additional-methods.js" />
-    <Content Include="Content\Plugins\jquery-validation\dist\additional-methods.min.js" />
-    <Content Include="Content\Plugins\jquery-validation\dist\jquery.validate.js" />
-    <Content Include="Content\Plugins\jquery-validation\dist\jquery.validate.min.js" />
     <Content Include="Content\Plugins\jquery-validation\Gruntfile.js" />
     <Content Include="Content\Plugins\jquery-validation\lib\jquery-1.6.4.js" />
     <Content Include="Content\Plugins\jquery-validation\lib\jquery-1.7.2.js" />
