@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web;
 using System.Web.Hosting;
 using System.Web.Mvc;
@@ -68,6 +69,10 @@ namespace AppStore.Common
             var savePath = string.IsNullOrEmpty(path) ? _setting.TemplatePath : path;
             var uploadPath = GetSavePath(_setting.UploadPath, savePath);
 
+            var chunk = string.IsNullOrEmpty(request.Params["chunk"]) ? 0 : int.Parse(request.Params["chunk"]);
+            var chunks = string.IsNullOrEmpty(request.Params["chunks"]) ? 0 : int.Parse(request.Params["chunks"]);
+            var fileName = string.IsNullOrEmpty(request.Params["name"]) ? Guid.NewGuid().ToString() : request.Params["name"];
+
             //判断Request中是否有接收Files文件
             if (request.Files.Count != 0)
             {
@@ -83,20 +88,42 @@ namespace AppStore.Common
                     }
 
                     //获取用户上传文件的后缀名
-                    string extension = Path.GetExtension(file.FileName);
-
+                    string extension = Path.GetExtension(fileName);
                     //重新命名文件
-                    var saveFileName = rename ? DateTime.Now.ToString("yyyyMMddHHmmss") + extension : file.FileName;
+                    var saveFileName = rename ? DateTime.Now.ToString("yyyyMMddHHmmss") + extension : fileName;
+                    string filePath = Path.Combine(uploadPath, saveFileName);
 
-                    //利用file.SaveAs保存图片
-                    string name = Path.Combine(uploadPath, saveFileName);
-
-                    if (File.Exists(name))
+                    if (chunk == 0)
                     {
-                        File.Delete(name);
+                        //有则删除之，以免后患
+                        if (File.Exists(filePath))
+                        {
+                            File.Delete(filePath);
+                        }
                     }
 
-                    file.SaveAs(name);
+                    //不相等则说明是分段上传的
+                    if (!fileName.Equals(file.FileName, StringComparison.OrdinalIgnoreCase))
+                    {
+                        using (var fs = new FileStream(filePath, FileMode.Append, FileAccess.Write))
+                        {
+                            var buffer = new byte[1024];
+                            var len = file.InputStream.Read(buffer, 0, 1024);
+                            while (len > 0)
+                            {
+                                fs.Write(buffer, 0, len);
+                                len = file.InputStream.Read(buffer, 0, 1024);
+                            }
+                            fs.Flush();
+                            fs.Close();
+                        }
+                    }
+                    else
+                    {
+                        //不是分段上传的则直接保存
+                        file.SaveAs(filePath);
+                    }
+
                     var info = new UploadFileInfo
                     {
                         Name = saveFileName,

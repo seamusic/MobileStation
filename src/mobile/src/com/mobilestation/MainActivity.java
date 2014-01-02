@@ -52,19 +52,4 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	private void runService() {
-		// 创建Intent
-		Intent intent = new Intent();
-		// 设置Class属性
-		intent.setClass(MainActivity.this,
-				com.mobilestation.service.ReportService.class);
-		// 启动该Service
-		startService(intent);
-
-		/*
-		 * Intent i=new Intent(MainActivity.this,
-		 * com.mobilestation.service.SyncService.class); startService(i);
-		 */
-	}
-
 }

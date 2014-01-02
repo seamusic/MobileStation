@@ -57,8 +57,8 @@ public class ReportService extends Service {
 		GETRUNNINGAPP_EVENT_TIMEOUT = sharedPreferences.getInt(
 				"CHECKAPP_INTERVAL", GETRUNNINGAPP_EVENT_TIMEOUT);
 
-		UpgradeService upgrade = new UpgradeService(context);
-		upgrade.Upgrade(true);
+//		UpgradeService upgrade = new UpgradeService(context);
+//		upgrade.Upgrade(true);
 
 		PostData postData = new PostData(context);
 		// 注册客户端

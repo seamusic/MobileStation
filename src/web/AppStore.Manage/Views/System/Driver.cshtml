@@ -21,18 +21,18 @@
                     silverlight_xap_url: '/Content/Plugins/plupload/Moxie.xap',
                     headers: { "path": '@Model.DriverID' },
                     multi_selection: false,
-                    max_file_size: '40mb',
+                    max_file_size: '100mb',
+                    chunk_size: '1mb',
                     filters: [{ title: "驱动文件", extensions: "zip,rar,exe" }],
                 });
                 uploadApk.bind('Init', function (up, params) {
-                    $('#apkFilelist').html("");
+                    $('#filelist').html("");
+                    setProgress(0);
                 });
-
                 uploadApk.init();
-
                 uploadApk.bind('FilesAdded', function (up, files) {
                     plupload.each(files, function (file) {
-                        document.getElementById('apkFilelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                        document.getElementById('filelist').innerHTML = '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
                     });
                     up.refresh();
                 });
@@ -41,6 +41,7 @@
                         var data = $.parseJSON(response.response);
                         if (data) {
                             $("#DownloadUrl").val(data[0].SitePath);
+                            $('#filelist').html("上传文件完成");
                         }
                     } else {
                         layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
@@ -48,6 +49,7 @@
                 });
                 uploadApk.bind('UploadProgress', function (up, file) {
                     document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+                    setProgress(file.percent);
                 });
                 uploadApk.bind('Error', function (up, err) {
                     layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
@@ -68,6 +70,17 @@
         $(document).ready(function () {
             initUpload.init();
         });
+        
+        function setProgress(percent) {
+            var p = parseInt(percent);
+            if (p > 0) {
+                $("#progress_area").show();
+            }
+            $(".progress-bar-info").css("width", p.toString() + "%");
+            if (p == 100) {
+                $("#progress_area").hide();
+            }
+        }
     </script>
 }
 
@@ -96,7 +109,7 @@
                     <!-- BEGIN FORM-->
                     <form action="#" id="form1" class="form-horizontal" method="POST">
                         @Html.HiddenFor(o => o.DriverID)
-                            @Html.HiddenFor(o => o.UpdateTime)
+                        @Html.HiddenFor(o => o.UpdateTime)
                         <div class="form-body">
                             <div class="alert alert-danger display-hide">
                                 <button class="close" data-dismiss="alert"></button>
@@ -118,6 +131,15 @@
                                     @Html.TextBoxFor(m => m.Version, new { @class = "form-control" })
                                 </div>
                             </div>
+                            <div class="form-group" id="progress_area" style="display: none;">
+                                <label class="control-label col-md-3">上传进度</label>
+                                <div class="col-md-7">
+                                    <div class="progress progress-striped">
+                                        <div class="progress-bar progress-bar-info" role="progressbar" style="width: 20%">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">上传<span class="required">*</span></label>
                                 <div class="col-md-4">
@@ -126,9 +148,9 @@
                                         <a id="uploadApkFiles" href="javascript:;" class="btn btn-default">上传文件</a>
                                     </div>
                                     <br />
-                                    <div id="apkFilelist">你的浏览器不支持FLASH，Silverlight 或 HTML5。</div>
-                                    @Html.HiddenFor(m=>m.DownloadUrl)
-                                    @UIDisplay.FormatDownload(2,Model.DownloadUrl)
+                                    <div id="filelist">你的浏览器不支持FLASH，Silverlight 或 HTML5。</div>
+                                    @Html.TextBoxFor(m => m.DownloadUrl, new { @class = "form-control" })
+                                    @UIDisplay.FormatDownload(2, Model.DownloadUrl)
                                 </div>
                             </div>
                             <div class="form-group">

@@ -128,22 +128,25 @@
                     silverlight_xap_url: '/Content/Plugins/plupload/Moxie.xap',
                     multi_selection: false,
                     max_file_size: '50mb',
+                    chunk_size: '1mb',
                     filters: [{ title: "安卓文件", extensions: "apk" }],
                 });
                 uploadApk.bind('Init', function (up, params) {
                     $('#apkFilelist').html("");
+                    setProgress(0);
                 });
 
                 uploadApk.init();
 
                 uploadApk.bind('FilesAdded', function (up, files) {
                     plupload.each(files, function (file) {
-                        document.getElementById('apkFilelist').innerHTML += '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
+                        document.getElementById('apkFilelist').innerHTML = '<div id="' + file.id + '">' + file.name + ' (' + plupload.formatSize(file.size) + ') <b></b></div>';
                     });
                     up.refresh();
                 });
                 uploadApk.bind('FileUploaded', function (up, file, response) {
                     if (response && response.status === 200) {
+                        document.getElementById('apkFilelist').innerHTML = '文件上传完成';
                         var data = $.parseJSON(response.response);
                         fillApkInfo(data);
                         //重新初始化一下
@@ -155,6 +158,7 @@
                 });
                 uploadApk.bind('UploadProgress', function (up, file) {
                     document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+                    setProgress(file.percent);
                 });
                 uploadApk.bind('Error', function (up, err) {
                     layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
@@ -213,6 +217,7 @@
                 });
                 uploadIcon.bind('Init', function (up, params) {
                     $('#iconFilelist').html("");
+                    setProgress(0);
                 });
 
                 uploadIcon.init();
@@ -233,6 +238,7 @@
                 });
                 uploadIcon.bind('UploadProgress', function (up, file) {
                     document.getElementById(file.id).getElementsByTagName('b')[0].innerHTML = '<span>' + file.percent + "%</span>";
+                    setProgress(file.percent);
                 });
                 uploadIcon.bind('Error', function (up, err) {
                     layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
@@ -327,11 +333,12 @@
         }
 
         function setProgress(percent) {
-            if (percent > 0) {
+            var p = parseInt(percent);
+            if (p > 0) {
                 $("#progress_area").show();
             }
-            $(".progress-bar-info").css("width", percent.toString() + "%");
-            if (percent == 100) {
+            $(".progress-bar-info").css("width", p.toString() + "%");
+            if (p == 100) {
                 $("#progress_area").hide();
             }
         }
@@ -390,10 +397,12 @@
                                             @Html.RadioButtonFor(m => m.AppType, 1)
                                             应用
                                         </label>
-                                        <label class="radio-inline">@Html.RadioButtonFor(m => m.AppType, 2)
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.AppType, 2)
                                             游戏
                                         </label>
-                                        <label class="radio-inline">@Html.RadioButtonFor(m => m.AppType, 3)
+                                        <label class="radio-inline">
+                                            @Html.RadioButtonFor(m => m.AppType, 3)
                                             装机必备
                                         </label>
                                         <label class="radio-inline">
@@ -420,25 +429,26 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">上传文件<span class="required">*</span></label>
                                 <div class="col-md-7">
+                                    @Html.TextBoxFor(m => m.DownloadUrl, new { @class = "form-control" })
+                                    <p>必须先上传APK文件，上传文件后，大部分信息均可自动填写</p>
                                     <div id="apkContainer">
                                         <a id="pickApkFiles" href="javascript:;" class="btn btn-default">选择文件</a>
                                         <a id="uploadApkFiles" href="javascript:;" class="btn btn-default">上传文件</a>
                                     </div>
                                     <br />
                                     <div id="apkFilelist">你的浏览器不支持FLASH，Silverlight 或 HTML5。</div>
-                                    @Html.HiddenFor(m => m.DownloadUrl)
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">上传图标<span class="required">*</span></label>
                                 <div class="col-md-7">
+                                    @Html.TextBoxFor(m => m.Icon, new { @class = "form-control" })
                                     <div id="iconContainer">
                                         <a id="pickIconFiles" href="javascript:;" class="btn btn-default">选择文件</a>
                                         <a id="uploadIconFiles" href="javascript:;" class="btn btn-default">上传文件</a>
                                     </div>
                                     <br />
                                     <div id="iconFilelist">你的浏览器不支持FLASH，Silverlight 或 HTML5。</div>
-                                    @Html.HiddenFor(m => m.Icon)
                                 </div>
                             </div>
                             <div class="form-group">
