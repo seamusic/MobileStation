@@ -51,14 +51,14 @@ public class DBService {
 	public DBService(Context context) {
 		this.context = context;
 		db = DbUtils.create(context);
-		try {
-			db.dropDb();
-		} catch (DbException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			db.dropDb();
+//		} catch (DbException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		db.configAllowTransaction(true);
-		db.configDebug(true);
+//		db.configDebug(true);
 	}
 
 	/**

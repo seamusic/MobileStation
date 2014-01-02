@@ -11,6 +11,7 @@ import com.mobilestation.bean.PackagesInfo;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -61,6 +62,7 @@ public class RunningApp {
 
 	public List<String> GetRunningPackName() {
 		List<RunningAppProcessInfo> runningapps = am.getRunningAppProcesses();
+
 		List<String> processnameList = new ArrayList<String>();
 		for (RunningAppProcessInfo info : runningapps) {
 			String processName = info.processName;
@@ -71,8 +73,9 @@ public class RunningApp {
 					|| "android.process.media".equals(processName)) {
 				continue;
 			}
-
-			processnameList.add(processName);
+			if (info.importance == RunningAppProcessInfo.IMPORTANCE_VISIBLE
+					|| info.importance == RunningAppProcessInfo.IMPORTANCE_FOREGROUND)
+				processnameList.add(processName);
 		}
 		return processnameList;
 	}
@@ -111,8 +114,8 @@ public class RunningApp {
 			int pid = appProcess.pid; // pid
 			int uid = appProcess.uid;
 			String processName = appProcess.processName; // 进程名
-			Log.i(TAG, "processName: " + processName + "  pid: " + pid + " uid:"
-					+ uid);
+			Log.i(TAG, "processName: " + processName + "  pid: " + pid
+					+ " uid:" + uid);
 
 			String[] pkgNameList = appProcess.pkgList; // 获得运行在该进程里的所有应用程序包
 
