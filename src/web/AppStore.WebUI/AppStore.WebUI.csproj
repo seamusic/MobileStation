@@ -192,6 +192,7 @@
     <Content Include="Images\syncfusion-icons.png" />
     <Content Include="Images\tuijianbg.jpg" />
     <Content Include="Images\up.png" />
+    <Content Include="Images\window_bg.jpg" />
     <Content Include="Images\window_bg.png" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\base64.js" />

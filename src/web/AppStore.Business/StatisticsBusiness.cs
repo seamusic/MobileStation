@@ -104,8 +104,14 @@ group by convert(varchar(10),CreateTime,120)) b ON a.RegDate=b.CreateTime  ORDER
                     context.Sql(
                         @"SELECT p.PCClientID,p.ClientName,TotalClient=(SELECT COUNT(*) FROM MobileClient mc WHERE mc.PCClientID=p.PCClientID),
 Last7daysClient=(SELECT COUNT(1) FROM MobileClient mc WHERE datediff(d,mc.UpdateTime,GETDATE())<7 AND mc.PCClientID=p.PCClientID),
-ActiveStart =(SELECT COUNT(distinct ma.MobileAppID) FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID
-WHERE ma.FirstTime IS NOT NULL AND ma.SecondTime IS NOT NULL AND mc.PCClientID=p.PCClientID)
+FirstCount =(SELECT COUNT(distinct ma.MobileAppID) FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID
+WHERE ma.FirstTime IS NOT NULL and mc.PCClientID=p.PCClientID),
+SecondCount =(SELECT COUNT(distinct ma.MobileAppID) FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID
+WHERE ma.SecondTime IS NOT NULL AND mc.PCClientID=p.PCClientID),
+TotalInstall=(SELECT COUNT(*) FROM MobileApp AS ma INNER JOIN MobileClient AS mc ON mc.MobileClientID = ma.MobileClientID
+WHERE ma.CreateTime IS NOT NULL AND mc.PCClientID=p.PCClientID),
+TotalRemove=(SELECT COUNT(*) FROM MobileApp AS ma INNER JOIN MobileClient AS mc ON mc.MobileClientID = ma.MobileClientID
+             WHERE ma.RemoveTime IS NOT NULL AND mc.PCClientID=p.PCClientID)
 FROM PCClient p").QuerySingle<DataTable>();
             }
         }
@@ -131,8 +137,10 @@ GROUP BY a.ApplicationID, ApplicationName,a.PackageName").QuerySingle<DataTable>
             using (var context = GetContext)
             {
                 return context.Sql(@"SELECT mc.MobileClientID,mc.ClientKey,COUNT(ma.MobileAppID) TotalInstall,
-ActiveStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
-              WHERE ma.FirstTime IS NOT NULL AND ma.SecondTime IS NOT NULL AND ma.MobileClientID=mc.MobileClientID),
+FirstCount=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
+              WHERE ma.FirstTime IS NOT NULL AND ma.MobileClientID=mc.MobileClientID),
+SecondCount=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
+              WHERE ma.SecondTime IS NOT NULL AND ma.MobileClientID=mc.MobileClientID),
 TodayStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
               WHERE datediff(DAY,ma.UpdateTime,getdate())=0 AND ma.MobileClientID=mc.MobileClientID)
 FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID
@@ -145,10 +153,12 @@ GROUP BY mc.MobileClientID, mc.ClientKey,mc.CreateTime ORDER BY mc.CreateTime DE
             using (var context = GetContext)
             {
                 return context.Sql(@"SELECT mc.MobileClientID,mc.ClientKey,COUNT(ma.MobileAppID) TotalInstall,
-ActiveStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
-              WHERE ma.FirstTime IS NOT NULL AND ma.SecondTime IS NOT NULL AND ma.MobileClientID=mc.MobileClientID),
-TodayStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
-              WHERE datediff(DAY,ma.UpdateTime,getdate())=0 AND ma.MobileClientID=mc.MobileClientID)
+FirstCount=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
+              WHERE ma.FirstTime IS NOT NULL AND ma.MobileClientID=mc.MobileClientID),              
+SecondCount=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
+              WHERE ma.SecondTime IS NOT NULL AND ma.MobileClientID=mc.MobileClientID),
+TodayStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM RunLog AS rl INNER JOIN MobileApp AS ma ON ma.MobileAppID = rl.MobileAppID
+WHERE rl.[Action]=3 and datediff(DAY,rl.EndTime,getdate())=0 AND ma.MobileClientID=mc.MobileClientID)
 FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID
 WHERE mc.PCClientID=@PCClientID
 GROUP BY mc.MobileClientID, mc.ClientKey,mc.CreateTime ORDER BY mc.CreateTime DESC")
@@ -161,7 +171,7 @@ GROUP BY mc.MobileClientID, mc.ClientKey,mc.CreateTime ORDER BY mc.CreateTime DE
         {
             using (var context = GetContext)
             {
-                return context.Sql(@"SELECT ma.MobileAppID,mc.ClientKey,a.ApplicationName,ma.FirstTime,ma.SecondTime,ma.Totaltime,ma.Frequency,ma.UpdateTime
+                return context.Sql(@"SELECT ma.MobileAppID,mc.ClientKey,a.ApplicationName,ma.CreateTime,ma.RemoveTime,ma.FirstTime,ma.SecondTime,ma.Totaltime,ma.Frequency,ma.UpdateTime
   FROM MobileApp ma LEFT JOIN MobileClient mc ON mc.MobileClientID = ma.MobileClientID
   LEFT JOIN [Application] a ON ma.PackageName=a.PackageName
 WHERE mc.MobileClientID=@MobileClientID

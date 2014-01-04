@@ -42,9 +42,11 @@
                     <thead>
                         <tr>
                             <th>应用名称</th>
+                            <th>安装时间</th>
                             <th>第一次启动</th>
                             <th>第二次启动</th>
-                            <th>运行时间</th>
+                            <th>卸载时间</th>
+                            <th>运行时间(秒)</th>
                             <th>启动次数</th>
                             <th>更新时间</th>
                             <th></th>
@@ -57,8 +59,10 @@
                             {
                                 <tr>
                                     <td>@dataRow["ApplicationName"]</td>
+                                    <td>@dataRow["CreateTime"]</td>
                                     <td>@dataRow["FirstTime"]</td>
                                     <td>@dataRow["SecondTime"]</td>
+                                    <td>@dataRow["RemoveTime"]</td>
                                     <td>@dataRow["Totaltime"]</td>
                                     <td>@dataRow["Frequency"]</td>
                                     <td>@dataRow["UpdateTime"]</td>

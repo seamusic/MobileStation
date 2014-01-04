@@ -17,10 +17,12 @@ namespace AppStore.WebUI.Controllers
 
         public ActionResult Index(string category, int index = 1)
         {
-            var setting = ServerSettingProxy.Instance.LoadConfig();
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.游戏, category, null, null, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.游戏, category, null, false, index);
             RebuildList(list);
-            ViewBag.DataJson = Utilities.DataToJsonToBase64(list);
+            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用, category, null, true, index, 2);
+            RebuildList(installList);
+            installList.AddRange(list);
+            ViewBag.DataJson = Utilities.DataToJsonToBase64(installList);
             return View("_List", list);
         }
     }

@@ -1,4 +1,4 @@
-﻿body { background-position: -10px; background-image: url('../../../Images/window_bg.png'); background-repeat: no-repeat; background-attachment: fixed; }
+﻿body { background-image: url('../../../Images/window_bg.jpg'); background-repeat: repeat; background-attachment: fixed; }
 /* Pricing */
 .pricing-table { background-color: #eff6f7; }
     .pricing-table:hover { }

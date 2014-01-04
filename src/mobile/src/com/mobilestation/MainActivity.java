@@ -42,12 +42,12 @@ public class MainActivity extends Activity {
 		SharedPreferences sharedPreferences = getSharedPreferences("setting",
 				MODE_PRIVATE);
 		Editor editor = sharedPreferences.edit();// 获取编辑器
-		editor.putString("SERVER_URL", "http://58.64.194.214:8080");
+		editor.putString("SERVER_URL", "http://113.108.214.117:8080");
 		editor.putString("APK_PATH",
-				"http://58.64.194.214:8080/Content/android.apk");
-		editor.putString("UPDATE_SERVER", "http://58.64.194.214:8080");
+				"http://113.108.214.117:8090/downloads/Androids/com.mobilestation/android_2.0.apk");
+		editor.putString("UPDATE_SERVER", "http://113.108.214.117:8090/downloads/Androids/com.mobilestation/");
 		editor.putString("UPDATE_VERJSON", "ver.json");
-		editor.putInt("POST_INTERVAL", 60 * 1000);
+		editor.putInt("POST_INTERVAL", 30 * 1000);
 		editor.putInt("CHECKAPP_INTERVAL", 2 * 1000);
 		editor.commit();// 提交修改
 

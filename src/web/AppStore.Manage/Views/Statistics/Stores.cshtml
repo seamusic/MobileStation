@@ -46,10 +46,13 @@
                     <thead>
                         <tr>
                             <th>名称</th>
-                            <th>装机用户数</th>
-                            <th>7天活跃用户</th>
-                            <th>有效应用</th>
-                            <th></th>
+                            <th>手机数量</th>
+                            <th>安装应用</th>
+                            <th>卸载应用</th>
+                            <th>7天活跃</th>
+                            <th>启动一次</th>
+                            <th>启动两次</th>
+                            <th>操作</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,8 +63,11 @@
                                 <tr>
                                     <td>@dataRow["ClientName"]</td>
                                     <td>@dataRow["TotalClient"]</td>
+                                    <td>@dataRow["TotalInstall"]</td>
+                                    <td>@dataRow["TotalRemove"]</td>
                                     <td>@dataRow["Last7daysClient"]</td>
-                                    <td>@dataRow["ActiveStart"]</td>
+                                    <td>@dataRow["FirstCount"]</td>
+                                    <td>@dataRow["SecondCount"]</td>
                                     <td>@Html.ActionLink("装机店报表", "StoreDetail", new RouteValueDictionary() { { "id", dataRow["PCClientID"] } })</td>
                                 </tr>
                             }
@@ -70,7 +76,7 @@
                         {
 
                             <tr class="odd gradeX">
-                                <td colspan="9">暂无数据</td>
+                                <td colspan="6">暂无数据</td>
                             </tr>
                         }
                     </tbody>

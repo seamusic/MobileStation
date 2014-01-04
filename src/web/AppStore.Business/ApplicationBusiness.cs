@@ -29,7 +29,7 @@ namespace AppStore.Business
                 return db.Application.FirstOrDefault(m => m.ApplicationID == id);
             }
         }
-        
+
         public IList<Picture> GetApplicationPictures(string id)
         {
             using (var db = new appstoreEntities())
@@ -52,7 +52,7 @@ namespace AppStore.Business
         {
             using (var db = new appstoreEntities())
             {
-                var qry = db.Application.AsQueryable();
+                var qry = db.Application.Where(m => m.IsValid == true).AsQueryable();
                 if (appTyle != null && appTyle != 0)
                     qry = qry.Where(a => a.AppType == appTyle);
                 if (!string.IsNullOrWhiteSpace(categoryId))
@@ -167,7 +167,7 @@ namespace AppStore.Business
 
                 var oldPics = db.Picture.Where(o => o.ApplicationID == application.ApplicationID);
                 db.Picture.RemoveRange(oldPics);
-                if (pictures!=null)
+                if (pictures != null)
                 {
                     db.Picture.AddRange(pictures);
                 }
