@@ -58,3 +58,6 @@ BXSlider
 .recommend-slide { border: 3px solid #ececec; margin: 0 10px; padding: 10px; position: absolute;background-color: #04aeda; }
 .tab-content{padding: 5px; border: 1px solid;min-height: 350px;border-color: #ececec;border-top-width: 0;}
 .navbar-nav >li>a{ padding: 5px;}
+.topmenu li{}
+.topmenu li a { height: 52px; padding-left: 20px; padding-right: 20px; line-height: 250%; font-size: 16px; font-weight: bold; }
+.top-btn .btn {padding-right:6px;padding-left: 6px;}

@@ -363,7 +363,7 @@ namespace AppStore.Manage.Controllers
             else
             {
                 var driver = Singleton<SystemBusiness>.Instance.GetDriver(info.pid, info.vid);
-                if (driver == null||string.IsNullOrEmpty(driver.DownloadUrl))
+                if (driver == null || string.IsNullOrEmpty(driver.DownloadUrl))
                 {
                     return Json(string.Empty);
                 }
@@ -374,6 +374,30 @@ namespace AppStore.Manage.Controllers
                 }
             }
             return Json(string.Empty);
+        }
+
+        public JsonResult Drivers()
+        {
+            var driver = Singleton<SystemBusiness>.Instance.GetDriverList(1);
+            var list = driver.Select(d => new Driver
+            {
+                DriverID = d.DriverID, 
+                DownloadUrl = d.DownloadUrl
+            }).ToList();
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Apps()
+        {
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, null, null, null, 1, 1000);
+            var newlist = list.Select(d => new Application()
+            {
+                ApplicationID = d.ApplicationID,
+                PackageName = d.PackageName, 
+                DownloadUrl = d.DownloadUrl
+            }).ToList();
+            return Json(newlist, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
