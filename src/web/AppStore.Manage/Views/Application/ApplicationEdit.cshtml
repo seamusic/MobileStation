@@ -1,17 +1,18 @@
 ﻿@using AppStore.Common
 @using AppStore.Manage.Models
+@using AppStore.Models
 @model AppStore.Models.Application
 @{
     ViewBag.Title = "应用编辑";
-    var categoryList = (IList<AppStore.Models.Category>)ViewBag.CategoryList;
-    var categorySelectList = new SelectList(categoryList, "CategoryID", "CategoryName", Model.CategoryID);
+    var categoryGroupList = ViewBag.CategoryList as IList<AppStore.Models.CategoryGroup>;
+    var categorySelectList = Model.Category as ICollection<Category>;
 }
 
 @section style
 {
     <link href="~/Content/Plugins/plupload/jquery.plupload.queue/css/jquery.plupload.queue.css" rel="stylesheet" />
-}
-@section featured {
+    <link href="~/Content/Plugins/bootstrap-multiselect/css/bootstrap-multiselect.css" rel="stylesheet" />
+    <link href="~/Content/Plugins/bootstrap-multiselect/css/prettify.css" rel="stylesheet" />
 }
 @section importscript{
     <script src="~/Scripts/base64.min.js"></script>
@@ -30,7 +31,10 @@
     <script charset="utf-8" src="~/Content/Plugins/kindeditor/kindeditor.js"></script>
     <script charset="utf-8" src="~/Content/Plugins/kindeditor/lang/zh_CN.js"></script>
     <script charset="utf-8" src="~/Content/Plugins/kindeditor/plugins/code/prettify.js"></script>
-
+    <script src="~/Content/Plugins/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
+    <script src="~/Content/Plugins/bootstrap-multiselect/js/prettify.js"></script>
+}
+@section featured {
     <script type="text/javascript">
         var FormValidation = function () {
             var handleValidation1 = function () {
@@ -48,19 +52,36 @@
                             minlength: 2,
                             required: true
                         },
+                        DownloadUrl: {
+                            minlength: 2,
+                            required: true
+                        },
+                        Icon: {
+                            minlength: 2,
+                            required: true
+                        },
                         PictureUrl: {
                             minlength: 2,
                             required: true
                         },
-                        OfficialWebsite: {
+                        Version: {
+                            minlength: 2,
+                            required: true
+                        },
+                        Size: {
+                            minlength: 2,
+                            required: true
+                        },
+                        Description: {
                             minlength: 2,
                             required: true
                         },
                     },
 
-                    invalidHandler: function (event, validator) { //display error alert on form submit              
+                    invalidHandler: function (event, validator) { //display error alert on form submit
                         success1.hide();
                         error1.show();
+                        alert($('#appCategory').val());
                         App.scrollTo(error1, -200);
                     },
 
@@ -82,7 +103,8 @@
                     submitHandler: function (form) {
                         success1.show();
                         error1.hide();
-                        $("#images").val(imagesArray.join(","));
+                        //$("#images").val(imagesArray.join(","));
+                        //var catetory = $("#appCategory").multiselect('select', value);
                         form.submit();
                     }
                 });
@@ -246,15 +268,16 @@
                 });
             };
 
-            var buildUploadedFiles = function() {
+            var buildUploadedFiles = function () {
                 var dataString = '@ViewBag.PictureListData';
                 var dataJson = $.parseJSON(Base64.decode(dataString));
                 var files = [];
-                $.each(dataJson, function(key, val) {
+                $.each(dataJson, function (key, val) {
                     var x = addNewFile(val);
                     files.push(x);
                     imagesArray.push(val.Path);
                 });
+                $("#images").val(imagesArray.join(","));
                 return files;
             };
 
@@ -281,7 +304,7 @@
                 $('form').get(0).reset();
             });
 
-            $("input[name='AppType']").click(function () {
+            @*$("input[name='AppType']").click(function () {
                 var $this = $(this);
                 //GetCategoryList
                 $.getJSON("@Url.Action("GetCategoryList")", { type: $this.val() }, function (data) {
@@ -291,10 +314,15 @@
                     });
                     $("#CategoryID").html(items.join(""));
                 });
-            });
+            });*@
 
             initUpload.init();
+            FormValidation.init();
 
+            $('#appCategory').multiselect({
+                enableCaseInsensitiveFiltering: true,
+                numberDisplayed: 6
+            });
         });
 
         function addNewFile(json) {
@@ -391,36 +419,34 @@
                                 校验通过。
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">应用分类<span class="required">*</span></label>
-                                <div class="col-md-7">
-                                    <div class="radio-list">
-                                        <label class="radio-inline">
-                                            @Html.RadioButtonFor(m => m.AppType, 1)
-                                            应用
-                                        </label>
-                                        <label class="radio-inline">
-                                            @Html.RadioButtonFor(m => m.AppType, 2)
-                                            游戏
-                                        </label>
-                                        <label class="radio-inline">
-                                            @Html.RadioButtonFor(m => m.AppType, 3)
-                                            装机必备
-                                        </label>
-                                        <label class="radio-inline">
-                                            @Html.DropDownListFor(m => m.CategoryID, categorySelectList, new { @class = "form-control" })
-                                        </label>
-                                    </div>
+                                <label class="control-label col-md-2">应用分类<span class="required">*</span></label>
+                                <div class="col-md-6">
+                                    @*@Html.DropDownListFor(m => m.CategoryID, categorySelectList, new { @class = "form-control" })*@
+                                    <select id="appCategory" multiple="multiple" name="categories">
+                                        @{
+                                            foreach (var categoryGroup in categoryGroupList)
+                                            {
+                                                <optgroup label="@categoryGroup.Name">
+                                                    @foreach (var cateogry in categoryGroup.Categories)
+                                                    {
+                                                        string isSelect = categorySelectList != null && categorySelectList.Any(o => o.CategoryID == cateogry.CategoryID) ? "selected" : "";
+                                                        <option value="@cateogry.CategoryID" @isSelect>@cateogry.CategoryName</option>
+                                                    }
+                                                </optgroup>
+                                            }
+                                        }
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">应用名称<span class="required">*</span></label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">应用名称<span class="required">*</span></label>
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(m => m.ApplicationName, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group" id="progress_area" style="display: none;">
-                                <label class="control-label col-md-3">上传进度</label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">上传进度</label>
+                                <div class="col-md-6">
                                     <div class="progress progress-striped">
                                         <div class="progress-bar progress-bar-info" role="progressbar" style="width: 20%">
                                         </div>
@@ -428,8 +454,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">上传文件<span class="required">*</span></label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">上传文件<span class="required">*</span></label>
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(m => m.DownloadUrl, new { @class = "form-control" })
                                     <p>必须先上传APK文件，上传文件后，大部分信息均可自动填写</p>
                                     <div id="apkContainer">
@@ -441,8 +467,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">上传图标<span class="required">*</span></label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">上传图标<span class="required">*</span></label>
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(m => m.Icon, new { @class = "form-control" })
                                     <div id="iconContainer">
                                         <a id="pickIconFiles" href="javascript:;" class="btn btn-default">选择文件</a>
@@ -453,8 +479,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">上传图片<span class="required">*</span></label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">上传图片<span class="required">*</span></label>
+                                <div class="col-md-6">
                                     <div id="uploader">
                                         <p>你的浏览器不支持FLASH，Silverlight 或 HTML5。</p>
                                     </div>
@@ -463,20 +489,20 @@
                                 </div>
                             </div>
                             <div class="form-group hide">
-                                <label class="control-label col-md-3">开发商</label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">开发商</label>
+                                <div class="col-md-6">
                                     <input name="CategoryName" type="text" class="form-control" />
                                 </div>
                             </div>
                             <div class="form-group hide">
-                                <label class="control-label col-md-3">官方网站</label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">官方网站</label>
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(m => m.OfficialWebsite, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">属性</label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">属性</label>
+                                <div class="col-md-6">
                                     <div class="checkbox-list">
                                         <label class="checkbox-inline">
                                             @Html.CheckBoxFor(m => m.IsRecommend, new { @class = "form-control" })
@@ -498,45 +524,45 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">评分</label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">评分</label>
+                                <div class="col-md-6">
                                     @UIDisplay.AppScore(Model.Score)
                                 </div>
                             </div>
                             <div class="form-group hidden">
-                                <label class="control-label col-md-3">排序</label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">排序</label>
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(m => m.Seq, new { @class = "form-control", @value = "0" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">下载量</label>
-                                <div class="col-md-7">
-                                    @Html.TextBoxFor(m => m.Total, new { @class = "form-control",@value="0" })
+                                <label class="control-label col-md-2">下载量</label>
+                                <div class="col-md-6">
+                                    @Html.TextBoxFor(m => m.Total, new { @class = "form-control", @value = "0" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">版本<span class="required">*</span></label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">版本<span class="required">*</span></label>
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(m => m.Version, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">大小<span class="required">*</span></label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">大小<span class="required">*</span></label>
+                                <div class="col-md-6">
                                     @Html.TextBoxFor(m => m.Size, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-3">描述<span class="required">*</span></label>
-                                <div class="col-md-7">
+                                <label class="control-label col-md-2">描述<span class="required">*</span></label>
+                                <div class="col-md-6">
                                     @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>
                         <div class="form-actions fluid">
-                            <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn green disabled" id="submitButton">提交</button>
+                            <div class="col-md-offset-3 col-md-6">
+                                <button type="submit" class="btn green" id="submitButton">提交</button>
                                 <button id="cancel" type="button" class="btn default">清空</button>
                                 <a type="button" class="btn default" href="@Url.Action("Index")">返回</a>
                             </div>

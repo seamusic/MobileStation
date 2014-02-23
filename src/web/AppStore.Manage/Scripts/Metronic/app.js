@@ -441,22 +441,22 @@ var App = function () {
     }
 
     // Handles portlet tools & actions
-    var handlePortletTools = function () {
-        jQuery('body').on('click', '.portlet > .portlet-title > .tools > a.remove', function (e) {
+    var handlePortletTools = function() {
+        jQuery('body').on('click', '.portlet > .portlet-title > .tools > a.remove', function(e) {
             e.preventDefault();
             jQuery(this).closest(".portlet").remove();
         });
 
-        jQuery('body').on('click', '.portlet > .portlet-title > .tools > a.reload', function (e) {
+        jQuery('body').on('click', '.portlet > .portlet-title > .tools > a.reload', function(e) {
             e.preventDefault();
             var el = jQuery(this).closest(".portlet").children(".portlet-body");
             App.blockUI(el);
-            window.setTimeout(function () {
+            window.setTimeout(function() {
                 App.unblockUI(el);
             }, 1000);
         });
 
-        jQuery('body').on('click', '.portlet > .portlet-title > .tools > .collapse, .portlet .portlet-title > .tools > .expand', function (e) {
+        jQuery('body').on('click', '.portlet > .portlet-title > .tools > .collapse, .portlet .portlet-title > .tools > .expand', function(e) {
             e.preventDefault();
             var el = jQuery(this).closest(".portlet").children(".portlet-body");
             if (jQuery(this).hasClass("collapse")) {
@@ -467,23 +467,23 @@ var App = function () {
                 el.slideDown(200);
             }
         });
-    }
+    };
 
     // Handles custom checkboxes & radios using jQuery Uniform plugin
-    var handleUniform = function () {
+    var handleUniform = function() {
         if (!jQuery().uniform) {
             return;
         }
         var test = $("input[type=checkbox]:not(.toggle), input[type=radio]:not(.toggle, .star)");
         if (test.size() > 0) {
-            test.each(function () {
+            test.each(function() {
                 if ($(this).parents(".checker").size() == 0) {
                     $(this).show();
                     $(this).uniform();
                 }
             });
         }
-    }
+    };
 
     // Handles Bootstrap Accordions.
     var handleAccordions = function () {
@@ -852,7 +852,7 @@ var App = function () {
             handleTheme(); // handles style customer tool
 
             //ui component handlers
-            handleFancybox() // handle fancy box
+            handleFancybox(); // handle fancy box
             handleSelect2(); // handle custom Select2 dropdowns
             handlePortletTools(); // handles portlet action bar functionality(refresh, configure, toggle, remove)
             handleDropdowns(); // handle dropdowns

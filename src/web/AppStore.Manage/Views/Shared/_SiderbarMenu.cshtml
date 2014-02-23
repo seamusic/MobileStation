@@ -4,6 +4,7 @@
 @using Lennon.Utility
 @section importscript
 {
+
 }
 @{
     bool isAdmin = false;
@@ -131,24 +132,3 @@
         </a>
     </li>
 </ul>
-
-<script type="text/javascript">
-    jQuery(document).ready(function () {
-        currentMemu();
-    });
-    function currentMemu() {
-        var $menu = $(".page-sidebar-menu");
-        $("ul.page-sidebar-menu>li").removeClass("active");
-        $("ul.page-sidebar-menu a").removeClass("active");
-        var url = '@Request.Url.LocalPath.ToLower()';
-        $menu.find("a").each(function (i) {
-            var $this = $(this);
-            if (url == $this.attr("href").toLowerCase()) {
-                $this.parent().addClass("active");
-                $this.parent().parent().parent().addClass("active");
-                return false;
-            }
-            return true;
-        });
-    }
-</script>

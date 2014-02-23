@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -45,6 +46,10 @@ namespace AppStore.Manage.Controllers
         public JsonResult GetCategoryList(int type)
         {
             var list = Singleton<ApplicationBusiness>.Instance.GetCategoryList(type);
+            foreach (Category category in list)
+            {
+                category.Application = new Collection<Application>();
+            }
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -91,7 +96,6 @@ namespace AppStore.Manage.Controllers
         public ActionResult ApplicationEdit(string id)
         {
             var application = Singleton<ApplicationBusiness>.Instance.GetApplication(id);
-            IList<Category> categories = new List<Category>();
             IList<Picture> pictureList = new List<Picture>();
 
             if (application == null)
@@ -107,10 +111,9 @@ namespace AppStore.Manage.Controllers
                 pictureList = Singleton<ApplicationBusiness>.Instance.GetApplicationPictures(id);
             }
 
-            categories = Singleton<ApplicationBusiness>.Instance.GetCategoryList(application.AppType);
             ViewBag.PictureListData = Utilities.DataToJsonToBase64(pictureList);
             ViewBag.PictureList = pictureList;
-            ViewBag.CategoryList = categories;
+            ViewBag.CategoryList = Singleton<ApplicationBusiness>.Instance.GetAllCategory();
             return View(application);
         }
 
@@ -127,6 +130,7 @@ namespace AppStore.Manage.Controllers
                 }
 
                 var imageStr = fc["images"];
+                var categoryIds = fc["categories"];
                 List<Picture> picList = null;
                 if (!string.IsNullOrEmpty(imageStr))
                 {
@@ -144,7 +148,9 @@ namespace AppStore.Manage.Controllers
                     }).ToList();
                 }
 
-                var result = Singleton<ApplicationBusiness>.Instance.SaveApplication(application, picList);
+                //application.Category = 
+
+                var result = Singleton<ApplicationBusiness>.Instance.SaveApplication(application, picList, categoryIds);
                 if (result)
                 {
                     return RedirectToAction("Index");

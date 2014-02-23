@@ -66,6 +66,7 @@
   <ItemGroup>
     <Compile Include="Dict.cs" />
     <Compile Include="EFPagedList.cs" />
+    <Compile Include="EntitiesJson.cs" />
     <Compile Include="FileStatus.cs" />
     <Compile Include="FluentDataHelper.cs" />
     <Compile Include="IQueryableExtension.cs" />

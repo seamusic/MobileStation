@@ -81,6 +81,7 @@
     <Compile Include="Category.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="CategoryGroup.cs" />
     <Compile Include="DB.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

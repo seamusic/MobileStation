@@ -5,15 +5,17 @@
 <table class="table table-striped table-bordered table-hover" id="dataList">
     <thead>
         <tr>
-            <th class="table-checkbox">
+            <th class="table-checkbox" style="width: 20px;display: none;">
                 <input type="checkbox" class="group-checkable" />
             </th>
-            <th>类别</th>
             <th>应用名称</th>
-            <th>版本</th>
-            <th>大小</th>
-            <th>更新时间</th>
-            <th>操作</th>
+            <th style="width: 90px;">版本</th>
+            <th style="width: 80px;">大小</th>
+            <th style="width: 80px;">下载次数</th>
+            <th style="width: 60px;">评分</th>
+            <th style="width: 80px;">是否有效</th>
+            <th style="width: 150px;">更新时间</th>
+            <th style="width: 80px;">操作</th>
         </tr>
     </thead>
     <tbody>
@@ -22,13 +24,15 @@
             foreach (Application application in Model)
             {
                 <tr class="odd gradeX">
-                    <td>
+                    <td style="display: none;">
                         <input type="checkbox" class="checkboxes" value="@application.ApplicationID" />
                     </td>
-                    <td>@UIDisplay.AppType(application.AppType)</td>
                     <td>@application.ApplicationName</td>
                     <td>@application.Version</td>
                     <td>@application.Size</td>
+                    <td>@application.Total</td>
+                    <td>@application.Score</td>
+                    <td>@UIDisplay.IsValid(application.IsValid)</td>
                     <td class="center">@UIDisplay.ShowTime(application.UpdateTime, 1)</td>
                     <td>
                         @Html.ActionLink("编辑", "ApplicationEdit", new RouteValueDictionary()

@@ -28,7 +28,7 @@ namespace AppStore.Business
         {
             using (var db = new appstoreEntities())
             {
-                var ent = db.Application.FirstOrDefault(m => m.ApplicationID == id);
+                var ent = db.Application.Include(i => i.Category).FirstOrDefault(m => m.ApplicationID == id);
                 try
                 {
                     if (ent != null)
@@ -62,20 +62,20 @@ namespace AppStore.Business
         /// <param name="index"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public PagedList<Application> GetApplicationList(int? appTyle, string categoryId, string applicationName, bool? isrecommend, 
+        public PagedList<Application> GetApplicationList(int? appTyle, string categoryId, string applicationName, bool? isrecommend,
             string order, bool asc, bool? isvalid, int index = 1, int count = 9)
         {
             using (var db = new appstoreEntities())
             {
-                var qry = db.Application.Include("Category").AsQueryable();
-                if (isvalid!=null)
+                var qry = db.Application.Include(i => i.Category).AsQueryable();
+                if (isvalid != null)
                 {
                     qry = qry.Where(m => m.IsValid == isvalid);
                 }
                 if (appTyle != null && appTyle != 0)
                     qry = qry.Where(a => a.AppType == appTyle);
                 if (!string.IsNullOrWhiteSpace(categoryId))
-                    qry = qry.Where(a => a.Category.Any(o=>o.CategoryID==categoryId));
+                    qry = qry.Where(a => a.Category.Any(o => o.CategoryID == categoryId));
                 if (!string.IsNullOrWhiteSpace(applicationName))
                     qry = qry.Where(a => a.ApplicationName.Contains(applicationName));
                 if (isrecommend != null)
@@ -116,10 +116,30 @@ namespace AppStore.Business
         {
             using (var db = new appstoreEntities())
             {
-                return db.Category.Where(m => m.AppTypeID == apptype).OrderBy(o => o.Seq).ToList();
+                if (apptype==0)
+                {
+                    return db.Category.ToList<Category>();
+                }
+                else
+                {
+                    return db.Category.Where(m => m.AppTypeID == apptype).OrderBy(o => o.Seq).ToList<Category>();
+                }
             }
 
             return null;
+        }
+
+        public IList<CategoryGroup> GetAllCategory()
+        {
+            using (var db = new appstoreEntities())
+            {
+                var list = db.Category.ToList();
+                var group = new List<CategoryGroup>();
+                group.Add(new CategoryGroup() { Id = (int)ApplicationType.装机必备, Name = ApplicationType.装机必备.ToString(), Categories = list.Where(o => o.AppTypeID == (int)ApplicationType.装机必备).OrderBy(o => o.Seq).ToList() });
+                group.Add(new CategoryGroup() { Id = (int)ApplicationType.应用工具, Name = ApplicationType.应用工具.ToString(), Categories = list.Where(o => o.AppTypeID == (int)ApplicationType.应用工具).OrderBy(o => o.Seq).ToList() });
+                group.Add(new CategoryGroup() { Id = (int)ApplicationType.游戏娱乐, Name = ApplicationType.游戏娱乐.ToString(), Categories = list.Where(o => o.AppTypeID == (int)ApplicationType.游戏娱乐).OrderBy(o => o.Seq).ToList() });
+                return group;
+            }
         }
 
         /// <summary>
@@ -140,7 +160,7 @@ namespace AppStore.Business
             }
         }
 
-        public IList<Application> GetTopRanking(string categoryId,int count=10)
+        public IList<Application> GetTopRanking(string categoryId, int count = 10)
         {
             if (string.IsNullOrEmpty(categoryId))
             {
@@ -149,7 +169,7 @@ namespace AppStore.Business
 
             using (var db = new appstoreEntities())
             {
-                return db.Application.Where(o => o.Category.Any(c=>c.CategoryID==categoryId)).OrderByDescending(o => o.Total).Take(count).ToList();
+                return db.Application.Where(o => o.Category.Any(c => c.CategoryID == categoryId)).OrderByDescending(o => o.Total).Take(count).ToList();
             }
         }
 
@@ -195,13 +215,20 @@ namespace AppStore.Business
 
         public bool DeleteApplication(string id)
         {
-            bool result;
+            bool result = false;
             using (var db = new appstoreEntities())
             {
-                var employer = new Application() { ApplicationID = id };
-                db.Application.Attach(employer);
-                db.Application.Remove(employer);
-                result = db.SaveChanges() > 0;
+                var app = db.Application.Include(i => i.Category).FirstOrDefault(o => o.ApplicationID == id);
+                if (app != null)
+                {
+                    var pics = db.Picture.Where(o => o.ApplicationID == id);
+                    db.Picture.RemoveRange(pics);
+
+                    app.Category = null;
+
+                    db.Application.Remove(app);
+                    result = db.SaveChanges() > 0;
+                }
             }
             return result;
         }
@@ -224,21 +251,45 @@ namespace AppStore.Business
         /// <param name="application"></param>
         /// <param name="pictures"></param>
         /// <returns></returns>
-        public bool SaveApplication(Application application, IList<Picture> pictures)
+        public bool SaveApplication(Application application, IList<Picture> pictures, string cids)
         {
             bool result;
             using (var db = new appstoreEntities())
             {
-                if (application.CreateTime == DateTime.MinValue || application.CreateTime == null)
+                var old = db.Application.Include(i => i.Category)
+                    .SingleOrDefault(o => o.ApplicationID == application.ApplicationID);
+                var categories = db.Category.Where(o => cids.Contains(o.CategoryID)).ToList();
+                if (old == null)
                 {
                     application.CreateTime = DateTime.Now;
                     application.UpdateTime = DateTime.Now;
+                    db.Category.AddRange(categories);
                     db.Application.Add(application);
                 }
                 else
                 {
-                    db.Application.Attach(application);
-                    db.Entry(application).State = EntityState.Modified;
+                    DbEntityEntry<Application> entry = db.Entry(old);
+                    entry.CurrentValues.SetValues(application);
+                    //var oldCategoryIds = new HashSet<string>(old.Category.Select(o => o.CategoryID));
+                    //移除cids中没有的
+                    foreach (Category category in old.Category)
+                    {
+                        if (!cids.Contains(category.CategoryID))
+                        {
+                            old.Category.Remove(category);
+                        }
+                    }
+                    //添加cids中有的
+                    foreach (var category in categories)
+                    {
+                        if (old.Category.All(o => o.CategoryID != category.CategoryID))
+                        {
+                            old.Category.Add(category);
+                        }
+                    }
+
+                    //db.Application.Attach(application);
+                    //db.Entry(application).State = EntityState.Modified;
                 }
 
                 var oldPics = db.Picture.Where(o => o.ApplicationID == application.ApplicationID);
