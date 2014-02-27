@@ -13,6 +13,7 @@ using AppStore.Models;
 using Lennon.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Webdiyer.WebControls.Mvc;
 
 namespace AppStore.Manage.Controllers
 {
@@ -385,6 +386,11 @@ namespace AppStore.Manage.Controllers
                 DownloadUrl = d.DownloadUrl
             }).ToList();
 
+            foreach (Driver item in list)
+            {
+                item.DownloadUrl = string.IsNullOrEmpty(item.DownloadUrl) ? string.Empty : Path.Combine(setting.DownloadPath, item.DownloadUrl).Replace('\\', '/');
+            }
+
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -397,7 +403,16 @@ namespace AppStore.Manage.Controllers
                 PackageName = d.PackageName, 
                 DownloadUrl = d.DownloadUrl
             }).ToList();
+            RebuildList(newlist);
             return Json(newlist, JsonRequestBehavior.AllowGet);
+        }
+
+        protected void RebuildList(IList<Application> list)
+        {
+            foreach (var item in list)
+            {
+                item.DownloadUrl = string.IsNullOrEmpty(item.DownloadUrl) ? string.Empty : Path.Combine(setting.DownloadPath, item.DownloadUrl).Replace('\\', '/');
+            }
         }
 
         [HttpPost]
