@@ -12,8 +12,6 @@
             <th>版本</th>
             <th>大小</th>
             <th>更新时间</th>
-            <th>下载次数</th>
-            <th>属性</th>
             <th>操作</th>
         </tr>
     </thead>
@@ -31,8 +29,6 @@
                 <td>@application.Version</td>
                 <td>@application.Size</td>
                 <td class="center">@UIDisplay.ShowTime(application.UpdateTime, 1)</td>
-                <td>@application.Total</td>
-                <td>推荐 必备</td>
                 <td>@Html.ActionLink("编辑", "ApplicationEdit", new RouteValueDictionary() { { "id", application.ApplicationID } }) 删除</td>
             </tr>
             }

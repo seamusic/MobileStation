@@ -26,7 +26,7 @@ namespace AppStore.Manage.Controllers
 
         private ActionResult SearchApplication(int? appTyle, string categoryId, string applicationName, int index = 1)
         {
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(appTyle, categoryId, applicationName, null, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(appTyle, categoryId, applicationName, null, false, index);
             if (Request.IsAjaxRequest())
                 return PartialView("_ApplicationList", list);
             return View(list);
@@ -155,6 +155,34 @@ namespace AppStore.Manage.Controllers
             }
             var fileInfoList = Singleton<UploadHelper>.Instance.Upload(Request, path, true);
             return Json(fileInfoList);
+        }
+
+        public ActionResult OrderList(int? AppTypeID)
+        {
+            if (AppTypeID != null && AppTypeID != 0)
+            {
+                var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(AppTypeID, null, null, null, true, 1, 1000);
+                return View(list);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult OrderList(string order)
+        {
+            var result = new OperateResult(false);
+
+            if (!string.IsNullOrEmpty(order))
+            {
+                var ids = order.Split(',');
+                for (int i = 0; i < ids.Length; i++)
+                {
+                    Singleton<ApplicationBusiness>.Instance.SaveAppLication(ids[i], i + 1);
+                }
+                result.Result = true;
+            }
+
+            return Json(result);
         }
     }
 }

@@ -48,7 +48,7 @@ namespace AppStore.Business
         /// <param name="index"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public PagedList<Application> GetApplicationList(int? appTyle, string categoryId, string applicationName, bool? isrecommend, int index = 1, int count = 9)
+        public PagedList<Application> GetApplicationList(int? appTyle, string categoryId, string applicationName, bool? isrecommend, bool asc, int index = 1, int count = 9)
         {
             using (var db = new appstoreEntities())
             {
@@ -64,7 +64,8 @@ namespace AppStore.Business
                     qry = qry.Where(m => m.IsRecommend == isrecommend);
                 }
 
-                var model = qry.OrderByDescending(a => a.UpdateTime).ToPagedList(index, count);
+                PagedList<Application> model = asc ? qry.OrderBy(a => a.Seq).ToPagedList(index, count) : qry.OrderByDescending(a => a.Seq).ToPagedList(index, count);
+
                 return model;
             }
             return null;
@@ -153,14 +154,14 @@ namespace AppStore.Business
             bool result;
             using (var db = new appstoreEntities())
             {
-                if (application.UpdateTime == DateTime.MinValue)
+                if (application.CreateTime == DateTime.MinValue)
                 {
+                    application.CreateTime = DateTime.Now;
                     application.UpdateTime = DateTime.Now;
                     db.Application.Add(application);
                 }
                 else
                 {
-                    application.UpdateTime = DateTime.Now;
                     db.Application.Attach(application);
                     db.Entry(application).State = EntityState.Modified;
                 }
@@ -173,6 +174,21 @@ namespace AppStore.Business
                 }
 
                 result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+
+        public bool SaveAppLication(string id, int seq)
+        {
+            bool result = false;
+            using (var db = new appstoreEntities())
+            {
+                var app = db.Application.FirstOrDefault(o => o.ApplicationID == id);
+                if (app != null)
+                {
+                    app.Seq = seq;
+                    result = db.SaveChanges() > 0;
+                }
             }
             return result;
         }

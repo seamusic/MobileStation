@@ -25,7 +25,7 @@ namespace AppStore.Manage.Controllers
         public JsonResult Index(string type, string category, int index = 1)
         {
             var applicationType = type == "game" ? ApplicationType.游戏 : ApplicationType.应用;
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, null, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, null, true, index);
             ViewBag.DataJson = Utilities.DataToJsonToBase64(list);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -41,7 +41,7 @@ namespace AppStore.Manage.Controllers
         public JsonResult Recommend(string type, string category, int index = 1)
         {
             var applicationType = type == "game" ? ApplicationType.游戏 : ApplicationType.应用;
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, (bool?)true, index, 2);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, (bool?)true, true, index, 2);
             ViewBag.RecommendData = Utilities.DataToJsonToBase64(list);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -382,8 +382,9 @@ namespace AppStore.Manage.Controllers
             var driver = Singleton<SystemBusiness>.Instance.GetDriverList(1);
             var list = driver.Select(d => new Driver
             {
-                DriverID = d.DriverID, 
-                DownloadUrl = d.DownloadUrl
+                DriverID = d.DriverID,
+                DownloadUrl = d.DownloadUrl,
+                UpdateTime = d.UpdateTime
             }).ToList();
 
             foreach (Driver item in list)
@@ -396,12 +397,14 @@ namespace AppStore.Manage.Controllers
 
         public JsonResult Apps()
         {
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, null, null, null, 1, 1000);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, null, null, null, true, 1, 1000);
             var newlist = list.Select(d => new Application()
             {
                 ApplicationID = d.ApplicationID,
-                PackageName = d.PackageName, 
-                DownloadUrl = d.DownloadUrl
+                PackageName = d.PackageName,
+                DownloadUrl = d.DownloadUrl,
+                CreateTime = d.CreateTime,
+                UpdateTime = d.UpdateTime
             }).ToList();
             RebuildList(newlist);
             return Json(newlist, JsonRequestBehavior.AllowGet);

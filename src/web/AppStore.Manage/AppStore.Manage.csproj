@@ -626,6 +626,39 @@
     <Content Include="Content\Plugins\jquery-multi-select\test\spec\multiSelectSpec.js" />
     <Content Include="Content\Plugins\jquery-multi-select\test\spec\SpecHelper.js" />
     <Content Include="Content\Plugins\jquery-multi-select\test\src\jquery.js" />
+    <Content Include="Content\Plugins\jquery-ui\images\animated-overlay.gif" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_flat_10_000000_40x100.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_glass_100_f6f6f6_1x400.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_glass_100_fdf5ce_1x400.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_gloss-wave_35_f6a828_500x100.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_highlight-soft_100_eeeeee_1x100.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-bg_highlight-soft_75_ffe45c_1x100.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-icons_228ef1_256x240.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-icons_ef8c08_256x240.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-icons_ffd27a_256x240.png" />
+    <Content Include="Content\Plugins\jquery-ui\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\Plugins\jquery-ui\jquery-1.10.2.js" />
+    <Content Include="Content\Plugins\jquery-ui\jquery-ui-1.10.2.custom.min.js" />
+    <Content Include="Content\Plugins\jquery-ui\jquery-ui-1.10.3.custom.js" />
+    <Content Include="Content\Plugins\jquery-ui\jquery-ui-1.10.3.custom.min.css" />
+    <Content Include="Content\Plugins\jquery-ui\jquery-ui-1.10.3.custom.min.js" />
+    <Content Include="Content\Plugins\jquery-ui\jquery-ui-1.10.4.custom.js" />
+    <Content Include="Content\Plugins\jquery-ui\jquery-ui-1.10.4.custom.min.js" />
     <Content Include="Content\Plugins\jquery-validation\changelog.txt" />
     <Content Include="Content\Plugins\jquery-validation\demo\ajaxSubmit-integration-demo.html" />
     <Content Include="Content\Plugins\jquery-validation\demo\captcha\captcha.js" />
@@ -1530,6 +1563,7 @@
     <Content Include="Views\Statistics\_RunlogList.cshtml" />
     <Content Include="Views\Statistics\GetDitie.cshtml" />
     <Content Include="Views\Statistics\AppRunningLog.cshtml" />
+    <Content Include="Views\Application\OrderList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
