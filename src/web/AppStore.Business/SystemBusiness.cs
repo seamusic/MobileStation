@@ -84,7 +84,7 @@ namespace AppStore.Business
         {
             using (var db = new appstoreEntities())
             {
-                return db.Driver.OrderByDescending(o => o.UpdateTime).ToPagedList(index, 100);
+                return db.Driver.OrderByDescending(o => o.UpdateTime).ToPagedList(index, 500);
             }
 
             return null;

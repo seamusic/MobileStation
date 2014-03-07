@@ -170,6 +170,7 @@
     <Content Include="Images\corners.png" />
     <Content Include="Images\icon-color-close.png" />
     <Content Include="Images\icon-color.png" />
+    <Content Include="Images\installall.png" />
     <Content Include="Images\logo_blue.png" />
     <Content Include="Images\logo_blue_small.png" />
     <Content Include="Images\logo_green.png" />
@@ -191,6 +192,7 @@
     <Content Include="Images\syncfusion-icons-white.png" />
     <Content Include="Images\syncfusion-icons.png" />
     <Content Include="Images\tuijianbg.jpg" />
+    <Content Include="Images\uninstallall.png" />
     <Content Include="Images\up.png" />
     <Content Include="Images\window_bg.jpg" />
     <Content Include="Images\window_bg.png" />

@@ -34,6 +34,8 @@
           <Property Name="OSVersion" Type="varchar" MaxLength="36" />
           <Property Name="SDKVersion" Type="varchar" MaxLength="36" />
           <Property Name="Icon" Type="varchar" MaxLength="256" />
+          <Property Name="Seq" Type="int" />
+          <Property Name="CreateTime" Type="datetime" />
         </EntityType>
         <EntityType Name="ApplicationEvaluate">
           <Key>
@@ -486,6 +488,8 @@
           <Property Name="OSVersion" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
           <Property Name="SDKVersion" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
           <Property Name="Icon" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <Property Name="Seq" Type="Int32" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="ApplicationEvaluate">
           <Key>
@@ -815,6 +819,8 @@
           <EntitySetMapping Name="Application">
             <EntityTypeMapping TypeName="AppStore.Models.Application">
               <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
                 <ScalarProperty Name="Icon" ColumnName="Icon" />
                 <ScalarProperty Name="SDKVersion" ColumnName="SDKVersion" />
                 <ScalarProperty Name="OSVersion" ColumnName="OSVersion" />

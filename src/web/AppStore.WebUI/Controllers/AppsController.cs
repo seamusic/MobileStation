@@ -17,9 +17,9 @@ namespace AppStore.WebUI.Controllers
 
         public ActionResult Index(string category, int index = 1)
         {
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用, category, null, false, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用, category, null, false, true, index);
             RebuildList(list);
-            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用, category, null, true, index, 2);
+            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用, category, null, true, true, index, 2);
             RebuildList(installList);
             installList.AddRange(list);
             ViewBag.DataJson = Utilities.DataToJsonToBase64(installList);

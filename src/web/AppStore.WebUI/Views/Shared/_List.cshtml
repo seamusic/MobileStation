@@ -13,6 +13,12 @@
     <script type="text/javascript">
         var dataJson = null;
         jQuery(document).ready(function () {
+            $("ul.topmenu li a").each(function() {
+                var $this = $(this);
+                if ($this.attr("href") == location.pathname) {
+                    $this.parent().addClass("active");
+                }
+            });
             var dataString = '@ViewBag.DataJson';
             dataJson = $.parseJSON(Base64.decode(dataString));
 
@@ -34,6 +40,10 @@
                 var str = JSON.stringify(dataJson);
                 window.external.CB_InstallAPK(str);
             });
+            $("#uninstallAll").click(function (event) {
+                event.preventDefault();
+                window.external.CB_UninstallAllAPK();
+            });
 
             $(function () {
                 var userAgent = window.navigator.userAgent.toLowerCase();
@@ -46,9 +56,16 @@
 <!-- Fixed navbar -->
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container">
-        <ul class="nav navbar-nav navbar-right">
-            <li><span href="javascrip:;" class="btn" id="installAll">
-                <img src="~/Images/onekey.png" class="small" width="120px;" /></span></li>
+        <ul class="nav navbar-nav topmenu">
+            <li><a href="@Url.Action("Index", "Home")">装机必备</a></li>
+            <li><a href="@Url.Action("Index", "Apps")">应用</a></li>
+            <li><a href="@Url.Action("Index", "Games")">游戏</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right top-btn">
+            <li><span class="btn" id="installAll">
+                <img src="~/Images/installall.png" class="small" style="width: 120px;"/></span></li>
+            <li><span class="btn" id="uninstallAll">
+                <img src="~/Images/uninstallall.png" class="small"  style="width: 120px;"/></span></li>
         </ul>
         <!--/.nav-collapse -->
     </div>

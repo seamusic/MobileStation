@@ -39,5 +39,7 @@ namespace AppStore.Models
         public string OSVersion { get; set; }
         public string SDKVersion { get; set; }
         public string Icon { get; set; }
+        public Nullable<int> Seq { get; set; }
+        public Nullable<System.DateTime> CreateTime { get; set; }
     }
 }

@@ -13,6 +13,7 @@ using AppStore.Models;
 using Lennon.Utility;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Webdiyer.WebControls.Mvc;
 
 namespace AppStore.Manage.Controllers
 {
@@ -24,7 +25,7 @@ namespace AppStore.Manage.Controllers
         public JsonResult Index(string type, string category, int index = 1)
         {
             var applicationType = type == "game" ? ApplicationType.游戏 : ApplicationType.应用;
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, null, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, null, true, index);
             ViewBag.DataJson = Utilities.DataToJsonToBase64(list);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -40,7 +41,7 @@ namespace AppStore.Manage.Controllers
         public JsonResult Recommend(string type, string category, int index = 1)
         {
             var applicationType = type == "game" ? ApplicationType.游戏 : ApplicationType.应用;
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, (bool?)true, index, 2);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, (bool?)true, true, index, 2);
             ViewBag.RecommendData = Utilities.DataToJsonToBase64(list);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
@@ -363,7 +364,7 @@ namespace AppStore.Manage.Controllers
             else
             {
                 var driver = Singleton<SystemBusiness>.Instance.GetDriver(info.pid, info.vid);
-                if (driver == null||string.IsNullOrEmpty(driver.DownloadUrl))
+                if (driver == null || string.IsNullOrEmpty(driver.DownloadUrl))
                 {
                     return Json(string.Empty);
                 }
@@ -374,6 +375,47 @@ namespace AppStore.Manage.Controllers
                 }
             }
             return Json(string.Empty);
+        }
+
+        public JsonResult Drivers()
+        {
+            var driver = Singleton<SystemBusiness>.Instance.GetDriverList(1);
+            var list = driver.Select(d => new Driver
+            {
+                DriverID = d.DriverID,
+                DownloadUrl = d.DownloadUrl,
+                UpdateTime = d.UpdateTime
+            }).ToList();
+
+            foreach (Driver item in list)
+            {
+                item.DownloadUrl = string.IsNullOrEmpty(item.DownloadUrl) ? string.Empty : Path.Combine(setting.DownloadPath, item.DownloadUrl).Replace('\\', '/');
+            }
+
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult Apps()
+        {
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, null, null, null, true, 1, 1000);
+            var newlist = list.Select(d => new Application()
+            {
+                ApplicationID = d.ApplicationID,
+                PackageName = d.PackageName,
+                DownloadUrl = d.DownloadUrl,
+                CreateTime = d.CreateTime,
+                UpdateTime = d.UpdateTime
+            }).ToList();
+            RebuildList(newlist);
+            return Json(newlist, JsonRequestBehavior.AllowGet);
+        }
+
+        protected void RebuildList(IList<Application> list)
+        {
+            foreach (var item in list)
+            {
+                item.DownloadUrl = string.IsNullOrEmpty(item.DownloadUrl) ? string.Empty : Path.Combine(setting.DownloadPath, item.DownloadUrl).Replace('\\', '/');
+            }
         }
 
         [HttpPost]

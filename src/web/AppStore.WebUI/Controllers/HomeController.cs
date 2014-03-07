@@ -19,9 +19,9 @@ namespace AppStore.WebUI.Controllers
         // GET: /Home/
         public ActionResult Index(string category, int index = 1)
         {
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, false, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, false, true, index);
             RebuildList(list);
-            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, true, index, 2);
+            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, true, true, index, 2);
             RebuildList(installList);
             installList.AddRange(list);
             ViewBag.DataJson = Utilities.DataToJsonToBase64(installList);
@@ -60,7 +60,7 @@ namespace AppStore.WebUI.Controllers
                     applicationType = ApplicationType.装机必备;
                     break;
             }
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, true, index, 2);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, true, true, index, 2);
             RebuildList(list);
             ViewBag.RecommendData = Utilities.DataToJsonToBase64(list);
             return View("_Recommend", list);
