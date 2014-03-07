@@ -1,0 +1,131 @@
+﻿@using AppStore.Manage.Models
+@using AppStore.Models
+@model IList<AppStore.Models.Application>
+@{
+    ViewBag.Title = "应用排序";
+}
+@section style
+{
+    <style>
+        #application_list {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            width: 60%;
+        }
+
+            #application_list li {
+                margin: 5px;
+                padding: 5px;
+                border: 1px #c0c0c0 dotted;
+            }
+
+                #application_list li span {
+                    position: absolute;
+                    margin-left: -1.3em;
+                }
+    </style>
+}
+@section featured {
+}
+@section importscript{
+    <script src="~/Content/Plugins/jquery-ui/jquery-ui-1.10.4.custom.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#application_list").sortable({
+                stop: function () {
+                    var col1 = $("#application_list").sortable("toArray");
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("OrderList")",
+                        data: { order: col1.join(",") }
+                    })
+                      .done(function (data) {
+                          if (data && !data.Result) {
+                              alert("保存顺序失败");
+                          }
+                      });
+                }
+            });
+            $("#application_list").disableSelection();
+        });
+    </script>
+}
+
+<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
+<!-- BEGIN PAGE HEADER-->
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+        @Html.Partial("_Breadcrumb", new BreadcrumbSet()
+{
+    PrevList = new List<BreadcrumbLink>() { new BreadcrumbLink()
+        {
+            Text = "应用", Url = Url.Action("Index")
+        } },
+    Current = new BreadcrumbLink()
+        {
+            Text = "应用排序"
+        }
+})
+        <!-- END PAGE TITLE & BREADCRUMB-->
+        <div class="portlet-body">
+            @using (Html.BeginForm("OrderList", "Application", new { index = "" }, FormMethod.Get, new { id = "searchForm", @class = "form-inline" }))
+            {
+                <div class="form-group">
+                    <div class="radio-list">
+                        <label class="radio-inline">
+                            <input type="radio" name="AppTypeID" value="1">
+                            应用
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="AppTypeID" value="2">
+                            游戏
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="AppTypeID" value="3">
+                            装机必备
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="ApplicationName">应用名称</label>
+                    <div class="input-icon">
+                        <i class="icon-envelope"></i>
+                        <input type="text" class="form-control" id="ApplicationName" placeholder="应用名称">
+                    </div>
+                </div>
+                <input type="submit" value="搜索(S)" class="btn btn-default" accesskey="S" />
+            }
+            <br />
+            <table class="table table-striped table-bordered table-hover" id="sample_1">
+                <thead>
+                    <tr>
+                        <th>应用名称</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="odd gradeX">
+                        <td>
+                            <div class="row">
+                                <div class="col-md-1">
+                                </div>
+                                <div class="col-md-11">
+                                    @if (Model != null)
+                                    {
+                                        <ol id="application_list">
+                                            @foreach (Application application in Model)
+                                            {
+                                                <li id="@application.ApplicationID">@application.Seq &nbsp;&nbsp; @application.ApplicationName</li>
+                                            }
+                                        </ol>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
