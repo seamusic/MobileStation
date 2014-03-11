@@ -78,3 +78,12 @@
     var url = Path.Combine(setting.DownloadPath, downloadUrl);
     <a href="@url">下载</a>
 }
+
+
+@helper IsRecommond(bool? re)
+{
+    if (re==true)
+    {
+        <b>推荐</b>
+    }
+}

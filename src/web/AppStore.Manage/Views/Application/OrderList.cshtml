@@ -83,16 +83,9 @@
                             游戏
                         </label>
                         <label class="radio-inline">
-                            <input type="radio" name="AppTypeID" value="3">
+                            <input type="radio" name="AppTypeID" value="3" checked="checked">
                             装机必备
                         </label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="sr-only" for="ApplicationName">应用名称</label>
-                    <div class="input-icon">
-                        <i class="icon-envelope"></i>
-                        <input type="text" class="form-control" id="ApplicationName" placeholder="应用名称">
                     </div>
                 </div>
                 <input type="submit" value="搜索(S)" class="btn btn-default" accesskey="S" />
@@ -113,12 +106,12 @@
                                 <div class="col-md-11">
                                     @if (Model != null)
                                     {
-                                        <ol id="application_list">
+                                        <ul id="application_list">
                                             @foreach (Application application in Model)
                                             {
-                                                <li id="@application.ApplicationID">@application.Seq &nbsp;&nbsp; @application.ApplicationName</li>
+                                                <li id="@application.ApplicationID">@application.Seq &nbsp;&nbsp; @application.ApplicationName @UIDisplay.IsRecommond(application.IsRecommend)</li>
                                             }
-                                        </ol>
+                                        </ul>
                                     }
                                 </div>
                             </div>

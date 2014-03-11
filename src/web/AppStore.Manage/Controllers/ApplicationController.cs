@@ -157,7 +157,7 @@ namespace AppStore.Manage.Controllers
             return Json(fileInfoList);
         }
 
-        public ActionResult OrderList(int? AppTypeID)
+        public ActionResult OrderList(int? AppTypeID=3)
         {
             if (AppTypeID != null && AppTypeID != 0)
             {

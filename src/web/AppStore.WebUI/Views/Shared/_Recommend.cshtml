@@ -6,17 +6,19 @@
     Layout = null;
 }
 <script type="text/javascript">
-    (function () {
+    jQuery(document).ready(function () {
         var recommendString = '@ViewBag.RecommendData';
         var recommendJson = $.parseJSON(Base64.decode(recommendString));
         $(".recommend-install").click(function (event) {
             event.preventDefault();
+            var $this = $(this);
+            var id = $this.data("value");
             var json = $.grep(recommendJson, function (n, i) {
                 return n.ApplicationID === id;
             });
             window.external.CB_InstallAPK(JSON.stringify(json));
         });
-    })();
+    });
 </script>
 
 @if (Model != null)
@@ -25,12 +27,14 @@
     {
         Application application = Model[i];
     <div class="item text-center">
-        <a href="javascript:void(0);" class="">
-            <img src="@application.PictureUrl" class="img-rounded recommend-pic" /></a>
+        <a href="@Url.Action("Detail", "Home", new { id = application.ApplicationID })" class="">
+            <img src="@application.PictureUrl" class="img-rounded recommend-pic" />
+        </a>
         <br/>
         <strong>@application.ApplicationName</strong>
         <br/>
-        <a href="javascript:void(0);" class="btn recommend-install btn-default btn-sm" style="width: 66.66%">安装</a>
+        <a href="#" data-value="@application.ApplicationID" data-name="@application.ApplicationName" 
+           class="btn recommend-install btn-default btn-sm" style="width: 66.66%">安装</a>
     </div>
         if (i < Model.Count - 1)
         {
