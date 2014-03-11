@@ -73,6 +73,7 @@
 }
 @helper FormatDownload(int type,string downloadUrl)
 {
+    downloadUrl = downloadUrl ?? string.Empty;
     var setting = ServerSettingProxy.Instance.LoadConfig();
     var url = Path.Combine(setting.DownloadPath, downloadUrl);
     <a href="@url">下载</a>

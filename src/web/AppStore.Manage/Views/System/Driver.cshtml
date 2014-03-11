@@ -13,7 +13,7 @@
             var uploadApk = null;
             var initApkUpload = function () {
                 uploadApk = new plupload.Uploader({
-                    runtimes: 'gears,flash,silverlight,browserplus',
+                    runtimes: 'flash,silverlight,browserplus',
                     browse_button: 'pickApkFiles', // you can pass in id...
                     container: document.getElementById('apkContainer'), // ... or DOM Element itself
                     url: '@Url.Action("UploadDriver")',
@@ -42,6 +42,7 @@
                         if (data) {
                             $("#DownloadUrl").val(data[0].SitePath);
                             $('#filelist').html("上传文件完成");
+                            $("#submitButton").removeClass("disabled");
                         }
                     } else {
                         layer.alert("上传文件出错：" + err.code + ": " + err.message, 8);
@@ -162,7 +163,7 @@
                         </div>
                         <div class="form-actions fluid">
                             <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn green">提交</button>
+                                <button type="submit" class="btn green disabled" id="submitButton">提交</button>
                                 <button id="cancel" type="button" class="btn default">清空</button>
                                 <a type="button" class="btn default" href="@Url.Action("DriverList")">返回</a>
                             </div>
