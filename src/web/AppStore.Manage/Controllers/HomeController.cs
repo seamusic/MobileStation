@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Dynamic;
 using System.Linq;
@@ -10,9 +11,11 @@ using Lennon.Utility;
 
 namespace AppStore.Manage.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private int recentDays = 15;
+
+        [Description("后台管理首页")]
         public ActionResult Index()
         {
             var today = DateTime.Today;

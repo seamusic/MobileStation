@@ -179,6 +179,46 @@ namespace AppStore.Business
         }
         #endregion
 
+        public PagedList<User> GetUserProfiles(int index)
+        {
+            using (var db = new appstoreEntities())
+            {
+                return db.User.OrderByDescending(o => o.UpdateTime).ToPagedList(index, 100);
+            }
+
+            return null;
+        }
+
+        public User GetUserProfile(string id)
+        {
+            using (var db = new appstoreEntities())
+            {
+                return db.User.FirstOrDefault(o => o.UserId == id);
+            }
+        }
+
+        public bool SaveUserProfile(User ent)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                if (ent.UpdateTime == null || ent.UpdateTime == DateTime.MinValue)
+                {
+                    ent.UpdateTime = DateTime.Now;
+                    db.User.Add(ent);
+                }
+                else
+                {
+                    ent.UpdateTime = DateTime.Now;
+                    db.User.Attach(ent);
+                    db.Entry(ent).State = EntityState.Modified;
+                }
+
+                result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+
         #region PCClient
         public PagedList<PCClient> GetPCClientList(int index)
         {

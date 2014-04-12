@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -7,29 +8,32 @@ using System.Web.Mvc;
 using System.Web.Security;
 using AppStore.Business;
 using AppStore.Common;
+using AppStore.Manage.Models;
 using AppStore.Models;
 using Lennon.Utility;
 using WebMatrix.WebData;
 
 namespace AppStore.Manage.Controllers
 {
-    public class SystemController : Controller
+    public class SystemController : BaseController
     {
         //
         // GET: /System/
-
+        [Description("系统管理首页")]
         public ActionResult Index()
         {
             return RedirectToAction("MobileClientList");
         }
 
         #region Mobile
+        [Description("手机列表")]
         public ActionResult MobileList(int index = 1)
         {
             var list = Singleton<SystemBusiness>.Instance.GetMobileList(index);
             return View(list);
         }
 
+        [Description("手机查看")]
         public ActionResult Mobile(string id)
         {
             var mobile = Singleton<SystemBusiness>.Instance.GetMobile(id);
@@ -43,6 +47,7 @@ namespace AppStore.Manage.Controllers
             return View(mobile);
         }
 
+        [Description("手机修改")]
         [HttpPost]
         public ActionResult Mobile(Mobile mobile)
         {
@@ -56,12 +61,14 @@ namespace AppStore.Manage.Controllers
         #endregion
 
         #region Driver
+        [Description("驱动列表")]
         public ActionResult DriverList(int index = 1)
         {
             var list = Singleton<SystemBusiness>.Instance.GetDriverList(index);
             return View(list);
         }
 
+        [Description("驱动查看")]
         public ActionResult Driver(string id)
         {
             var data = Singleton<SystemBusiness>.Instance.GetDriver(id);
@@ -73,6 +80,7 @@ namespace AppStore.Manage.Controllers
             return View(data);
         }
 
+        [Description("驱动编辑")]
         [HttpPost]
         public ActionResult Driver(Driver driver)
         {
@@ -94,12 +102,14 @@ namespace AppStore.Manage.Controllers
         #endregion
 
         #region Brand
+        [Description("品牌列表")]
         public ActionResult BrandList(int index = 1)
         {
             var list = Singleton<SystemBusiness>.Instance.GetBrandList(index);
             return View(list);
         }
 
+        [Description("品牌查看")]
         public ActionResult BrandEdit(string id)
         {
             var data = Singleton<SystemBusiness>.Instance.GetBrand(id);
@@ -111,6 +121,7 @@ namespace AppStore.Manage.Controllers
             return View(data);
         }
 
+        [Description("品牌编辑")]
         [HttpPost]
         public ActionResult BrandEdit(Brand ent)
         {
@@ -123,33 +134,46 @@ namespace AppStore.Manage.Controllers
         }
         #endregion
 
-        public ActionResult UserEdit(int? id)
+        [Description("用户查看")]
+        public ActionResult UserEdit(string id)
         {
-            return View();
+            var data = new User();
+            if (id!= null)
+            {
+                data = Singleton<SystemBusiness>.Instance.GetUserProfile(id);
+            }
+            ViewBag.Roles = Roles.GetAllRoles();
+            return View(data);
         }
 
+        [Description("用户编辑")]
         [HttpPost]
-        public ActionResult UserEdit(FormCollection form)
+        public ActionResult UserEdit(User profile)
         {
-            WebSecurity.CreateUserAndAccount(form["userName"], "Admin");
-            if (!Roles.RoleExists("Administrator"))
+            var result = Singleton<SystemBusiness>.Instance.SaveUserProfile(profile);
+            if (result)
             {
-                Roles.CreateRole("Administrator");
+                return RedirectToAction("UserEdit");
             }
-            Roles.AddUserToRole("Admin", "Administrator");
+            return View(profile);
+        }
 
-            //((SimpleMembershipProvider)Membership.Provider).DeleteAccount("Admin");
-            //Membership.DeleteUser("Admin");
-            return View();
+        [Description("用户列表")]
+        public ActionResult UserList(int index = 1)
+        {
+            var list = Singleton<SystemBusiness>.Instance.GetUserProfiles(index);
+            return View(list);
         }
 
         #region PCClient
+        [Description("装机店列表")]
         public ActionResult PCClientList(int index = 1)
         {
             var list = Singleton<SystemBusiness>.Instance.GetPCClientList(index);
             return View(list);
         }
 
+        [Description("装机店查看")]
         public ActionResult PCClientEdit(string id)
         {
             var data = Singleton<SystemBusiness>.Instance.GetPCClient(id);
@@ -161,6 +185,7 @@ namespace AppStore.Manage.Controllers
             return View(data);
         }
 
+        [Description("装机店编辑")]
         [HttpPost]
         public ActionResult PCClientEdit(PCClient ent)
         {
@@ -174,12 +199,14 @@ namespace AppStore.Manage.Controllers
         #endregion
 
         #region MobileClient
+        [Description("手机端列表")]
         public ActionResult MobileClientList(int index = 1)
         {
             var list = Singleton<SystemBusiness>.Instance.GetMobileClientList(index);
             return View(list);
         }
 
+        [Description("手机端查看")]
         public ActionResult MobileClientEdit(string id)
         {
             var data = Singleton<SystemBusiness>.Instance.GetMobileClient(id);
@@ -191,6 +218,7 @@ namespace AppStore.Manage.Controllers
             return View(data);
         }
 
+        [Description("手机端编辑")]
         [HttpPost]
         public ActionResult MobileClientEdit(MobileClient ent)
         {

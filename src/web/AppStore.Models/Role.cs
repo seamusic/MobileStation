@@ -14,8 +14,17 @@ namespace AppStore.Models
     
     public partial class Role
     {
+        public Role()
+        {
+            this.ActionPermissionRole = new HashSet<ActionPermissionRole>();
+            this.UserRole = new HashSet<UserRole>();
+        }
+    
         public string RoleID { get; set; }
-        public string 角色名称 { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
+    
+        public virtual ICollection<ActionPermissionRole> ActionPermissionRole { get; set; }
+        public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

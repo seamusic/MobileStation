@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AppStore.Business">
+      <HintPath>..\AppStore.Business\bin\Debug\AppStore.Business.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.1\lib\net40\EntityFramework.dll</HintPath>
     </Reference>
@@ -41,6 +44,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +53,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionPermission.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ActionPermissionRole.cs">
+      <DependentUpon>DB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Application.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -120,9 +131,6 @@
     <Compile Include="Role.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="RoleUser.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
     <Compile Include="RunLog.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -138,16 +146,7 @@
     <Compile Include="UserMobile.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
-    <Compile Include="UserProfile.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="webpages_Membership.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="webpages_OAuthMembership.cs">
-      <DependentUpon>DB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="webpages_Roles.cs">
+    <Compile Include="UserRole.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -179,6 +178,10 @@
     <ProjectReference Include="..\ApkUtil\ApkUtil.csproj">
       <Project>{88395272-FA8A-4467-8D66-67068C15D6C9}</Project>
       <Name>ApkUtil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utility\Utility.csproj">
+      <Project>{11B11CD1-ACC1-4084-AD58-2A1207961188}</Project>
+      <Name>Utility</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

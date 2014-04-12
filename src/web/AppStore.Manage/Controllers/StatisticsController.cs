@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -16,7 +17,7 @@ using Lennon.Utility;
 
 namespace AppStore.Manage.Controllers
 {
-    public class StatisticsController : Controller
+    public class StatisticsController : BaseController
     {
         private IDbContext Context()
         {
@@ -25,18 +26,20 @@ namespace AppStore.Manage.Controllers
         }
         //
         // GET: /Statistics/
-
+        [Description("统计首页")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Description("装机店统计")]
         public ActionResult Stores(int index = 1)
         {
             var data = Singleton<StatisticsBusiness>.Instance.GetStoreStatistics();
             return View(data);
         }
 
+        [Description("装机店明细")]
         public ActionResult StoreDetail(string id, int index = 1)
         {
             ViewBag.Store = Singleton<SystemBusiness>.Instance.GetPCClient(id);
@@ -44,12 +47,14 @@ namespace AppStore.Manage.Controllers
             return View(data);
         }
 
+        [Description("手机端统计")]
         public ActionResult Clients(int index = 1)
         {
             var data = Singleton<StatisticsBusiness>.Instance.GetClientStatistics(index);
             return View(data);
         }
 
+        [Description("手机端明细")]
         public ActionResult ClientDetail(string id, int index = 1)
         {
             ViewBag.MobileClient = Singleton<SystemBusiness>.Instance.GetMobileClient(id);
@@ -57,6 +62,7 @@ namespace AppStore.Manage.Controllers
             return View(data);
         }
 
+        [Description("应用统计")]
         public ActionResult Apps(int index = 1)
         {
             var data = Singleton<StatisticsBusiness>.Instance.GetAppStatistics(index);
@@ -69,16 +75,11 @@ namespace AppStore.Manage.Controllers
         /// <param name="id">应用ID</param>
         /// <param name="index"></param>
         /// <returns></returns>
+        [Description("应用统计明细")]
         public ActionResult AppDetail(string id, int index = 1)
         {
             ViewBag.App = Singleton<ApplicationBusiness>.Instance.GetApplication(id);
             var data = Singleton<StatisticsBusiness>.Instance.GetAppClientStatistics(id, index);
-            return View(data);
-        }
-
-        public ActionResult GetDitie()
-        {
-            var data = Singleton<StatisticsBusiness>.Instance.GetDitie();
             return View(data);
         }
 
@@ -89,6 +90,7 @@ namespace AppStore.Manage.Controllers
             ViewBag.MobileClient = Singleton<SystemBusiness>.Instance.GetMobileClient(mobileApp.MobileClientID);
             return SearchRunningLog(id, index);
         }
+        [Description("应用运行日志")]
         private ActionResult SearchRunningLog(string id, int index = 1)
         {
             var data = Singleton<StatisticsBusiness>.Instance.GetAppLogStatistics(id, index);

@@ -6,6 +6,9 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using System.Web.Security;
+using AppStore.Business;
+using Lennon.Utility;
 using WebMatrix.WebData;
 
 namespace AppStore.Manage
@@ -29,6 +32,17 @@ namespace AppStore.Manage
 
             //添加下列代码
             //WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            //初始化权限
+            Singleton<AuthorizeBusiness>.Instance.InitPermission();
+        }
+
+        protected void Application_PostAuthenticateRequest(object sender, System.EventArgs e)
+        {
+            var formsIdentity = HttpContext.Current.User.Identity as FormsIdentity;
+            if (formsIdentity != null && formsIdentity.IsAuthenticated && formsIdentity.AuthenticationType == "Forms")
+            {
+                HttpContext.Current.User = Singleton<AuthorizeBusiness>.Instance.TryParsePrincipal(HttpContext.Current.Request);
+            }
         }
     }
 }

@@ -139,6 +139,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Code\PermissionManager.cs" />
+    <Content Include="App_Code\AuthorizeFilterAttribute.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\DownloadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -157,8 +160,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\AccountModels.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Models\BreadcrumbModels.cs" />
+    <Compile Include="App_Code\UserAuthorizeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -1477,6 +1483,8 @@
     <Content Include="Views\Statistics\GetDitie.cshtml" />
     <Content Include="Views\Statistics\AppRunningLog.cshtml" />
     <Content Include="Views\Application\OrderList.cshtml" />
+    <Content Include="Views\System\UserList.cshtml" />
+    <Content Include="Views\System\_UserList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

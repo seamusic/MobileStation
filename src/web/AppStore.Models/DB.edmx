@@ -4,7 +4,33 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AppStore.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="AppStore.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ActionPermission">
+          <Key>
+            <PropertyRef Name="ActionPermissionId" />
+          </Key>
+          <Property Name="ActionPermissionId" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="ParentId" Type="varchar" MaxLength="36" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="IsController" Type="bit" Nullable="false" />
+          <Property Name="IsAllowedNoneRoles" Type="bit" Nullable="false" />
+          <Property Name="IsAllowedAllRoles" Type="bit" Nullable="false" />
+          <Property Name="ControlName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ActionName" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="100" />
+          <Property Name="Permission" Type="int" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="IsAllowed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ActionPermissionRole">
+          <Key>
+            <PropertyRef Name="ActionPermissionRoleId" />
+          </Key>
+          <Property Name="ActionPermissionRoleId" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="IsAllowed" Type="bit" Nullable="false" />
+          <Property Name="RoleId" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="ActionPermissionId" Type="varchar" MaxLength="36" Nullable="false" />
+        </EntityType>
         <EntityType Name="Application">
           <Key>
             <PropertyRef Name="ApplicationID" />
@@ -247,16 +273,8 @@
             <PropertyRef Name="RoleID" />
           </Key>
           <Property Name="RoleID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="角色名称" Type="varchar" MaxLength="50" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="Description" Type="varchar" MaxLength="2000" />
-        </EntityType>
-        <EntityType Name="RoleUser">
-          <Key>
-            <PropertyRef Name="RoleID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="RoleID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="UserID" Type="varchar" MaxLength="36" Nullable="false" />
         </EntityType>
         <EntityType Name="RunLog">
           <Key>
@@ -289,11 +307,11 @@
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="UserID" />
+            <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserID" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="36" Nullable="false" />
           <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="LoginID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LoginId" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="RegTime" Type="datetime" />
           <Property Name="LastLoginTime" Type="datetime" />
@@ -311,78 +329,65 @@
           <Property Name="PhoneModelID" Type="varchar" MaxLength="36" Nullable="false" />
           <Property Name="UserID" Type="varchar" MaxLength="36" Nullable="false" />
         </EntityType>
-        <EntityType Name="UserProfile">
+        <EntityType Name="UserRole">
           <Key>
-            <PropertyRef Name="UserId" />
+            <PropertyRef Name="UserRoleId" />
           </Key>
-          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="56" Nullable="false" />
+          <Property Name="UserRoleId" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="UserId" Type="varchar" MaxLength="36" Nullable="false" />
+          <Property Name="RoleId" Type="varchar" MaxLength="36" Nullable="false" />
         </EntityType>
-        <EntityType Name="webpages_Membership">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="CreateDate" Type="datetime" />
-          <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
-          <Property Name="IsConfirmed" Type="bit" />
-          <Property Name="LastPasswordFailureDate" Type="datetime" />
-          <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
-          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="PasswordChangedDate" Type="datetime" />
-          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
-          <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
-        </EntityType>
-        <EntityType Name="webpages_OAuthMembership">
-          <Key>
-            <PropertyRef Name="Provider" />
-            <PropertyRef Name="ProviderUserId" />
-          </Key>
-          <Property Name="Provider" Type="nvarchar" MaxLength="30" Nullable="false" />
-          <Property Name="ProviderUserId" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="UserId" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="webpages_Roles">
-          <Key>
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="RoleName" Type="nvarchar" MaxLength="256" Nullable="false" />
-        </EntityType>
-        <EntityType Name="webpages_UsersInRoles">
-          <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="RoleId" Type="int" Nullable="false" />
-        </EntityType>
-        <Association Name="fk_RoleId">
-          <End Role="webpages_Roles" Type="Self.webpages_Roles" Multiplicity="1" />
-          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+        <Association Name="FK_ControllerActionRole_ControllerAction">
+          <End Role="ActionPermission" Type="Self.ActionPermission" Multiplicity="1" />
+          <End Role="ActionPermissionRole" Type="Self.ActionPermissionRole" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="webpages_Roles">
-              <PropertyRef Name="RoleId" />
+            <Principal Role="ActionPermission">
+              <PropertyRef Name="ActionPermissionId" />
             </Principal>
-            <Dependent Role="webpages_UsersInRoles">
+            <Dependent Role="ActionPermissionRole">
+              <PropertyRef Name="ActionPermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControllerActionRole_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="ActionPermissionRole" Type="Self.ActionPermissionRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ActionPermissionRole">
               <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_UserId">
-          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1" />
-          <End Role="webpages_UsersInRoles" Type="Self.webpages_UsersInRoles" Multiplicity="*" />
+        <Association Name="FK_UserRole_Role">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="UserProfile">
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
               <PropertyRef Name="UserId" />
             </Principal>
-            <Dependent Role="webpages_UsersInRoles">
+            <Dependent Role="UserRole">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="AppStoreModelsStoreContainer">
+          <EntitySet Name="ActionPermission" EntityType="Self.ActionPermission" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ActionPermissionRole" EntityType="Self.ActionPermissionRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationEvaluate" EntityType="Self.ApplicationEvaluate" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ApplicationTag" EntityType="Self.ApplicationTag" Schema="dbo" store:Type="Tables" />
@@ -401,24 +406,27 @@
           <EntitySet Name="PhoneModel" EntityType="Self.PhoneModel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Picture" EntityType="Self.Picture" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RoleUser" EntityType="Self.RoleUser" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RunLog" EntityType="Self.RunLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statistics" EntityType="Self.Statistics" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserMobile" EntityType="Self.UserMobile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="webpages_UsersInRoles" EntityType="Self.webpages_UsersInRoles" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="fk_RoleId" Association="Self.fk_RoleId">
-            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
-            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ControllerActionRole_ControllerAction" Association="Self.FK_ControllerActionRole_ControllerAction">
+            <End Role="ActionPermission" EntitySet="ActionPermission" />
+            <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
           </AssociationSet>
-          <AssociationSet Name="fk_UserId" Association="Self.fk_UserId">
-            <End Role="UserProfile" EntitySet="UserProfile" />
-            <End Role="webpages_UsersInRoles" EntitySet="webpages_UsersInRoles" />
+          <AssociationSet Name="FK_ControllerActionRole_Role" Association="Self.FK_ControllerActionRole_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Role" Association="Self.FK_UserRole_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_User" Association="Self.FK_UserRole_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRole" EntitySet="UserRole" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -426,6 +434,8 @@
     <edmx:ConceptualModels>
       <Schema Namespace="AppStore.Models" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="appstoreEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="ActionPermission" EntityType="AppStore.Models.ActionPermission" />
+          <EntitySet Name="ActionPermissionRole" EntityType="AppStore.Models.ActionPermissionRole" />
           <EntitySet Name="Application" EntityType="AppStore.Models.Application" />
           <EntitySet Name="ApplicationEvaluate" EntityType="AppStore.Models.ApplicationEvaluate" />
           <EntitySet Name="ApplicationTag" EntityType="AppStore.Models.ApplicationTag" />
@@ -444,21 +454,58 @@
           <EntitySet Name="PhoneModel" EntityType="AppStore.Models.PhoneModel" />
           <EntitySet Name="Picture" EntityType="AppStore.Models.Picture" />
           <EntitySet Name="Role" EntityType="AppStore.Models.Role" />
-          <EntitySet Name="RoleUser" EntityType="AppStore.Models.RoleUser" />
           <EntitySet Name="RunLog" EntityType="AppStore.Models.RunLog" />
           <EntitySet Name="Statistics" EntityType="AppStore.Models.Statistics" />
           <EntitySet Name="Tag" EntityType="AppStore.Models.Tag" />
           <EntitySet Name="User" EntityType="AppStore.Models.User" />
           <EntitySet Name="UserMobile" EntityType="AppStore.Models.UserMobile" />
-          <EntitySet Name="UserProfile" EntityType="AppStore.Models.UserProfile" />
-          <EntitySet Name="webpages_Membership" EntityType="AppStore.Models.webpages_Membership" />
-          <EntitySet Name="webpages_OAuthMembership" EntityType="AppStore.Models.webpages_OAuthMembership" />
-          <EntitySet Name="webpages_Roles" EntityType="AppStore.Models.webpages_Roles" />
-          <AssociationSet Name="webpages_UsersInRoles" Association="AppStore.Models.webpages_UsersInRoles">
-            <End Role="webpages_Roles" EntitySet="webpages_Roles" />
-            <End Role="UserProfile" EntitySet="UserProfile" />
+          <EntitySet Name="UserRole" EntityType="AppStore.Models.UserRole" />
+          <AssociationSet Name="FK_ControllerActionRole_ControllerAction" Association="AppStore.Models.FK_ControllerActionRole_ControllerAction">
+            <End Role="ActionPermission" EntitySet="ActionPermission" />
+            <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ControllerActionRole_Role" Association="AppStore.Models.FK_ControllerActionRole_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_Role" Association="AppStore.Models.FK_UserRole_Role">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="UserRole" EntitySet="UserRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserRole_User" Association="AppStore.Models.FK_UserRole_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserRole" EntitySet="UserRole" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="ActionPermission">
+          <Key>
+            <PropertyRef Name="ActionPermissionId" />
+          </Key>
+          <Property Name="ActionPermissionId" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="ParentId" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="IsController" Type="Boolean" Nullable="false" />
+          <Property Name="IsAllowedNoneRoles" Type="Boolean" Nullable="false" />
+          <Property Name="IsAllowedAllRoles" Type="Boolean" Nullable="false" />
+          <Property Name="ControlName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActionName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Permission" Type="Int32" />
+          <Property Name="CreateTime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IsAllowed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="ActionPermissionRole" Relationship="AppStore.Models.FK_ControllerActionRole_ControllerAction" FromRole="ActionPermission" ToRole="ActionPermissionRole" />
+        </EntityType>
+        <EntityType Name="ActionPermissionRole">
+          <Key>
+            <PropertyRef Name="ActionPermissionRoleId" />
+          </Key>
+          <Property Name="ActionPermissionRoleId" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="IsAllowed" Type="Boolean" Nullable="false" />
+          <Property Name="RoleId" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="ActionPermissionId" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ActionPermission" Relationship="AppStore.Models.FK_ControllerActionRole_ControllerAction" FromRole="ActionPermissionRole" ToRole="ActionPermission" />
+          <NavigationProperty Name="Role" Relationship="AppStore.Models.FK_ControllerActionRole_Role" FromRole="ActionPermissionRole" ToRole="Role" />
+        </EntityType>
         <EntityType Name="Application">
           <Key>
             <PropertyRef Name="ApplicationID" />
@@ -701,16 +748,10 @@
             <PropertyRef Name="RoleID" />
           </Key>
           <Property Name="RoleID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
-          <Property Name="角色名称" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="RoleUser">
-          <Key>
-            <PropertyRef Name="RoleID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="RoleID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
-          <Property Name="UserID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ActionPermissionRole" Relationship="AppStore.Models.FK_ControllerActionRole_Role" FromRole="Role" ToRole="ActionPermissionRole" />
+          <NavigationProperty Name="UserRole" Relationship="AppStore.Models.FK_UserRole_Role" FromRole="Role" ToRole="UserRole" />
         </EntityType>
         <EntityType Name="RunLog">
           <Key>
@@ -743,11 +784,11 @@
         </EntityType>
         <EntityType Name="User">
           <Key>
-            <PropertyRef Name="UserID" />
+            <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="UserID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
           <Property Name="UserName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="LoginID" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LoginId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="RegTime" Type="DateTime" Precision="3" />
           <Property Name="LastLoginTime" Type="DateTime" Precision="3" />
@@ -756,6 +797,7 @@
           <Property Name="UpdateTime" Type="DateTime" Precision="3" />
           <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserRole" Relationship="AppStore.Models.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
         </EntityType>
         <EntityType Name="UserMobile">
           <Key>
@@ -765,50 +807,63 @@
           <Property Name="PhoneModelID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
           <Property Name="UserID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="UserProfile">
+        <EntityType Name="UserRole">
           <Key>
-            <PropertyRef Name="UserId" />
+            <PropertyRef Name="UserRoleId" />
           </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="56" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="webpages_Roles" Relationship="AppStore.Models.webpages_UsersInRoles" FromRole="UserProfile" ToRole="webpages_Roles" />
+          <Property Name="UserRoleId" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <Property Name="RoleId" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Role" Relationship="AppStore.Models.FK_UserRole_Role" FromRole="UserRole" ToRole="Role" />
+          <NavigationProperty Name="User" Relationship="AppStore.Models.FK_UserRole_User" FromRole="UserRole" ToRole="User" />
         </EntityType>
-        <EntityType Name="webpages_Membership">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="CreateDate" Type="DateTime" Precision="3" />
-          <Property Name="ConfirmationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="IsConfirmed" Type="Boolean" />
-          <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
-          <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
-          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
-          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityType Name="webpages_OAuthMembership">
-          <Key>
-            <PropertyRef Name="Provider" />
-            <PropertyRef Name="ProviderUserId" />
-          </Key>
-          <Property Name="Provider" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="ProviderUserId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="webpages_Roles">
-          <Key>
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="RoleName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserProfile" Relationship="AppStore.Models.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="UserProfile" />
-        </EntityType>
-        <Association Name="webpages_UsersInRoles">
-          <End Type="AppStore.Models.webpages_Roles" Role="webpages_Roles" Multiplicity="*" />
-          <End Type="AppStore.Models.UserProfile" Role="UserProfile" Multiplicity="*" />
+        <Association Name="FK_ControllerActionRole_ControllerAction">
+          <End Type="AppStore.Models.ActionPermission" Role="ActionPermission" Multiplicity="1" />
+          <End Type="AppStore.Models.ActionPermissionRole" Role="ActionPermissionRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ActionPermission">
+              <PropertyRef Name="ActionPermissionId" />
+            </Principal>
+            <Dependent Role="ActionPermissionRole">
+              <PropertyRef Name="ActionPermissionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ControllerActionRole_Role">
+          <End Type="AppStore.Models.Role" Role="Role" Multiplicity="1" />
+          <End Type="AppStore.Models.ActionPermissionRole" Role="ActionPermissionRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="ActionPermissionRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_Role">
+          <End Type="AppStore.Models.Role" Role="Role" Multiplicity="1" />
+          <End Type="AppStore.Models.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleID" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserRole_User">
+          <End Type="AppStore.Models.User" Role="User" Multiplicity="1" />
+          <End Type="AppStore.Models.UserRole" Role="UserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -816,6 +871,34 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="AppStoreModelsStoreContainer" CdmEntityContainer="appstoreEntities">
+          <EntitySetMapping Name="ActionPermission">
+            <EntityTypeMapping TypeName="AppStore.Models.ActionPermission">
+              <MappingFragment StoreEntitySet="ActionPermission">
+                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Permission" ColumnName="Permission" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="ControlName" ColumnName="ControlName" />
+                <ScalarProperty Name="IsAllowedAllRoles" ColumnName="IsAllowedAllRoles" />
+                <ScalarProperty Name="IsAllowedNoneRoles" ColumnName="IsAllowedNoneRoles" />
+                <ScalarProperty Name="IsController" ColumnName="IsController" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ActionPermissionId" ColumnName="ActionPermissionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ActionPermissionRole">
+            <EntityTypeMapping TypeName="AppStore.Models.ActionPermissionRole">
+              <MappingFragment StoreEntitySet="ActionPermissionRole">
+                <ScalarProperty Name="ActionPermissionId" ColumnName="ActionPermissionId" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
+                <ScalarProperty Name="ActionPermissionRoleId" ColumnName="ActionPermissionRoleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Application">
             <EntityTypeMapping TypeName="AppStore.Models.Application">
               <MappingFragment StoreEntitySet="Application">
@@ -1072,15 +1155,7 @@
             <EntityTypeMapping TypeName="AppStore.Models.Role">
               <MappingFragment StoreEntitySet="Role">
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="角色名称" ColumnName="角色名称" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RoleUser">
-            <EntityTypeMapping TypeName="AppStore.Models.RoleUser">
-              <MappingFragment StoreEntitySet="RoleUser">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="RoleID" ColumnName="RoleID" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -1128,9 +1203,9 @@
                 <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
                 <ScalarProperty Name="RegTime" ColumnName="RegTime" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1142,56 +1217,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserProfile">
-            <EntityTypeMapping TypeName="AppStore.Models.UserProfile">
-              <MappingFragment StoreEntitySet="UserProfile">
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="webpages_Membership">
-            <EntityTypeMapping TypeName="AppStore.Models.webpages_Membership">
-              <MappingFragment StoreEntitySet="webpages_Membership">
-                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
-                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
-                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
-                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
-                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
-                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
-                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="webpages_OAuthMembership">
-            <EntityTypeMapping TypeName="AppStore.Models.webpages_OAuthMembership">
-              <MappingFragment StoreEntitySet="webpages_OAuthMembership">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProviderUserId" ColumnName="ProviderUserId" />
-                <ScalarProperty Name="Provider" ColumnName="Provider" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="webpages_Roles">
-            <EntityTypeMapping TypeName="AppStore.Models.webpages_Roles">
-              <MappingFragment StoreEntitySet="webpages_Roles">
-                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <EntitySetMapping Name="UserRole">
+            <EntityTypeMapping TypeName="AppStore.Models.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
                 <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="webpages_UsersInRoles" TypeName="AppStore.Models.webpages_UsersInRoles" StoreEntitySet="webpages_UsersInRoles">
-            <EndProperty Name="UserProfile">
-              <ScalarProperty Name="UserId" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="webpages_Roles">
-              <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1209,7 +1243,7 @@
         <edmx:DesignerProperty Name="EnablePluralization" Value="False" />
         <edmx:DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
         <edmx:DesignerProperty Name="CodeGenerationStrategy" Value="无" />
-        <edmx:DesignerProperty Name="UseLegacyProvider" Value="True" />
+        <edmx:DesignerProperty Name="UseLegacyProvider" Value="False" />
       </edmx:DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->

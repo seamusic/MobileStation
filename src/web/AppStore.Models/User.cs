@@ -14,9 +14,14 @@ namespace AppStore.Models
     
     public partial class User
     {
-        public string UserID { get; set; }
+        public User()
+        {
+            this.UserRole = new HashSet<UserRole>();
+        }
+    
+        public string UserId { get; set; }
         public string UserName { get; set; }
-        public string LoginID { get; set; }
+        public string LoginId { get; set; }
         public string Password { get; set; }
         public Nullable<System.DateTime> RegTime { get; set; }
         public Nullable<System.DateTime> LastLoginTime { get; set; }
@@ -25,5 +30,7 @@ namespace AppStore.Models
         public Nullable<System.DateTime> UpdateTime { get; set; }
         public string Mobile { get; set; }
         public string Telephone { get; set; }
+    
+        public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

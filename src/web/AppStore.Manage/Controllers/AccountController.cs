@@ -5,14 +5,14 @@ using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using AppStore.Business;
+using Lennon.Utility;
 using WebMatrix.WebData;
 using AppStore.Manage.Filters;
 using AppStore.Manage.Models;
 
 namespace AppStore.Manage.Controllers
 {
-    [Authorize]
-    [InitializeSimpleMembership]
     public class AccountController : Controller
     {
         //
@@ -21,6 +21,7 @@ namespace AppStore.Manage.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            Singleton<AuthorizeBusiness>.Instance.SignOut();
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -33,8 +34,15 @@ namespace AppStore.Manage.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
-            if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
+            if (ModelState.IsValid && Singleton<AuthorizeBusiness>.Instance.ValidateUser(model.UserName, model.Password))
             {
+                Singleton<AuthorizeBusiness>.Instance.SignIn(model.UserName, model.RememberMe);
+                if (HttpContext.Session != null) HttpContext.Session["CurrentUser"] = Singleton<AuthorizeBusiness>.Instance.GetUserByName(model.UserName);
+                if (!String.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+
                 return RedirectToLocal(returnUrl);
             }
 

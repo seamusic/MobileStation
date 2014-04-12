@@ -40,6 +40,7 @@
     <div class="content">
         <!-- BEGIN LOGIN FORM -->
         <form class="login-form" action="#" method="post">
+            @Html.AntiForgeryToken()
             <h3 class="form-title">管理员登录</h3>
             <div class="alert alert-error hide">
                 <button class="close" data-dismiss="alert"></button>

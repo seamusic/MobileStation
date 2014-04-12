@@ -87,3 +87,15 @@
         <b>推荐</b>
     }
 }
+
+@helper IsValid(bool? isValid)
+{
+    if (isValid == true)
+    {
+        <b>是</b>
+    }
+    else
+    {
+  <b>否</b>
+    }
+}

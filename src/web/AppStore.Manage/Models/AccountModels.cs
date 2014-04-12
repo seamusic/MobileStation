@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Mvc;
 using System.Web.Security;
+using AppStore.Models;
 
 namespace AppStore.Manage.Models
 {
@@ -26,6 +27,15 @@ namespace AppStore.Manage.Models
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int UserId { get; set; }
         public string UserName { get; set; }
+        public string LoginID { get; set; }
+        public string Password { get; set; }
+        public Nullable<System.DateTime> RegTime { get; set; }
+        public Nullable<System.DateTime> LastLoginTime { get; set; }
+        public Nullable<int> ErrorCount { get; set; }
+        public Nullable<bool> IsValid { get; set; }
+        public Nullable<System.DateTime> UpdateTime { get; set; }
+        public string Mobile { get; set; }
+        public string Telephone { get; set; }
     }
 
     public class RegisterExternalLoginModel

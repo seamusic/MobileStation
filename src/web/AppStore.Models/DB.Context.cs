@@ -25,6 +25,8 @@ namespace AppStore.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<ActionPermission> ActionPermission { get; set; }
+        public DbSet<ActionPermissionRole> ActionPermissionRole { get; set; }
         public DbSet<Application> Application { get; set; }
         public DbSet<ApplicationEvaluate> ApplicationEvaluate { get; set; }
         public DbSet<ApplicationTag> ApplicationTag { get; set; }
@@ -43,15 +45,11 @@ namespace AppStore.Models
         public DbSet<PhoneModel> PhoneModel { get; set; }
         public DbSet<Picture> Picture { get; set; }
         public DbSet<Role> Role { get; set; }
-        public DbSet<RoleUser> RoleUser { get; set; }
         public DbSet<RunLog> RunLog { get; set; }
         public DbSet<Statistics> Statistics { get; set; }
         public DbSet<Tag> Tag { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<UserMobile> UserMobile { get; set; }
-        public DbSet<UserProfile> UserProfile { get; set; }
-        public DbSet<webpages_Membership> webpages_Membership { get; set; }
-        public DbSet<webpages_OAuthMembership> webpages_OAuthMembership { get; set; }
-        public DbSet<webpages_Roles> webpages_Roles { get; set; }
+        public DbSet<UserRole> UserRole { get; set; }
     }
 }

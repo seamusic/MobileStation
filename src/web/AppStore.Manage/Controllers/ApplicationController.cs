@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -8,6 +9,7 @@ using System.Web.Mvc;
 using ApkUtil;
 using AppStore.Business;
 using AppStore.Common;
+using AppStore.Manage.Models;
 using AppStore.Models;
 using Lennon.Utility;
 using Webdiyer.WebControls.Mvc;
@@ -15,10 +17,11 @@ using WebGrease;
 
 namespace AppStore.Manage.Controllers
 {
-    public class ApplicationController : Controller
+    public class ApplicationController : BaseController
     {
         //
         // GET: /Application/
+        [Description("应用管理首页")]
         public ActionResult Index(int? appTypeId, string categoryId, string applicationName, int index = 1)
         {
             return SearchApplication(appTypeId, categoryId, applicationName, index);
@@ -32,6 +35,7 @@ namespace AppStore.Manage.Controllers
             return View(list);
         }
 
+        [Description("应用列表")]
         public ActionResult CategoryList()
         {
             var list = Singleton<ApplicationBusiness>.Instance.GetCategory();
@@ -44,12 +48,14 @@ namespace AppStore.Manage.Controllers
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
+        [Description("查看应用分类")]
         public ActionResult CategoryEdit(string categoryId)
         {
             var category = Singleton<ApplicationBusiness>.Instance.GetCategory(categoryId) ?? new Category();
             return View(category);
         }
 
+        [Description("编辑应用分类")]
         [HttpPost]
         public ActionResult CategoryEdit(Category category)
         {
@@ -61,6 +67,7 @@ namespace AppStore.Manage.Controllers
             return View(category);
         }
 
+        [Description("查看应用")]
         public ActionResult ApplicationEdit(string id)
         {
             var application = Singleton<ApplicationBusiness>.Instance.GetApplication(id);
@@ -85,6 +92,7 @@ namespace AppStore.Manage.Controllers
             return View(application);
         }
 
+        [Description("编辑应用")]
         [HttpPost]
         [ValidateInput(false)]
         public ActionResult ApplicationEdit(Application application, FormCollection fc)
