@@ -139,8 +139,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Code\PermissionManager.cs" />
-    <Content Include="App_Code\AuthorizeFilterAttribute.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -155,6 +153,7 @@
     <Compile Include="Controllers\MobileController.cs" />
     <Compile Include="Controllers\StatisticsController.cs" />
     <Compile Include="Controllers\SystemController.cs" />
+    <Compile Include="App_Code\UserAuthorize.cs" />
     <Compile Include="Dapper\SqlMapperExtensions.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -164,7 +163,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\BreadcrumbModels.cs" />
-    <Compile Include="App_Code\UserAuthorizeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
