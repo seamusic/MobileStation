@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using AppStore.Business;
+using AppStore.Models;
 using Lennon.Utility;
 using WebMatrix.WebData;
 using AppStore.Manage.Filters;
@@ -37,13 +38,21 @@ namespace AppStore.Manage.Controllers
             if (ModelState.IsValid && Singleton<AuthorizeBusiness>.Instance.ValidateUser(model.UserName, model.Password))
             {
                 Singleton<AuthorizeBusiness>.Instance.SignIn(model.UserName, model.RememberMe);
-                if (HttpContext.Session != null) HttpContext.Session["CurrentUser"] = Singleton<AuthorizeBusiness>.Instance.GetUserByName(model.UserName);
-                if (!String.IsNullOrEmpty(returnUrl))
+                if (HttpContext.Session != null)
                 {
-                    return Redirect(returnUrl);
+                    HttpContext.Session["CurrentUser"] = Singleton<AuthorizeBusiness>.Instance.GetUserByLoginId(model.UserName);
                 }
 
-                return RedirectToLocal(returnUrl);
+                if (HttpContext.ApplicationInstance.Context.User != null)
+                {
+                    var formsPrincipal = HttpContext.ApplicationInstance.Context.User as FormsPrincipal;
+                    if (formsPrincipal != null && formsPrincipal.UserData.Roles.IndexOf("普通用户", System.StringComparison.Ordinal)>-1)
+                    {
+                        return RedirectToAction("Stores", "Statistics");
+                    }
+                }
+
+                return RedirectToLocal(returnUrl); 
             }
 
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
@@ -51,16 +60,10 @@ namespace AppStore.Manage.Controllers
             return View(model);
         }
 
-        //
-        // POST: /Account/LogOff
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            WebSecurity.Logout();
-
-            return RedirectToAction("Index", "Home");
+            Singleton<AuthorizeBusiness>.Instance.SignOut();
+            return RedirectToLocal(FormsAuthentication.LoginUrl); ;
         }
 
         private ActionResult RedirectToLocal(string returnUrl)
@@ -73,6 +76,36 @@ namespace AppStore.Manage.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+
+        public bool HasPermision(string url)
+        {
+            if (string.IsNullOrEmpty(url))
+            {
+                return false;
+            }
+
+            var controller = "";
+            var action = "";
+            if (url.IndexOf("/", System.StringComparison.Ordinal) > 0)
+            {
+                controller = url.Split('/')[0];
+                action = url.Split('/')[1];
+            }
+            else
+            {
+                controller = url;
+            }
+
+            if (HttpContext.Session != null)
+            {
+                var user = HttpContext.Session["CurrentUser"] as User;
+                if (user != null)
+                {
+                    return Singleton<AuthorizeBusiness>.Instance.IsAllowed(user, controller, action);
+                }
+            }
+            return false;
         }
 
         private static string ErrorCodeToString(MembershipCreateStatus createStatus)
@@ -111,6 +144,19 @@ namespace AppStore.Manage.Controllers
                 default:
                     return "发生未知错误。请验证您的输入并重试。如果问题仍然存在，请与系统管理员联系。";
             }
+        }
+
+        public bool IsAdmin()
+        {
+            if (HttpContext.Session != null)
+            {
+                var user = HttpContext.Session["CurrentUser"] as User;
+                if (user != null)
+                {
+                    return Singleton<AuthorizeBusiness>.Instance.IsAllowed(user, "Application", "Index");
+                }
+            }
+            return false;
         }
     }
 }

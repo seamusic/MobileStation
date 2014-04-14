@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 using AppStore.Business;
 using AppStore.Models;
 using Lennon.Utility;
@@ -14,10 +15,17 @@ namespace AppStore.Manage
     public class UserAuthorizeAttribute : AuthorizeAttribute
     {
         private bool _isPermissionFail;
+        public bool _authorize { get; set; }
 
         public UserAuthorizeAttribute()
         {
-            _authorize = HttpContext.Current.User.Identity.Name != "";
+            if (HttpContext.Current.User != null)
+            {
+                var user = HttpContext.Current.User as FormsPrincipal;
+                if (user != null)
+                    _authorize = (user.IsInRole(Roles) || user.IsInUser(Users));
+            }
+            _authorize = HttpContext.Current.User != null && HttpContext.Current.User.Identity.Name != "";
         }
         public UserAuthorizeAttribute(string permission)
         {
@@ -42,6 +50,12 @@ namespace AppStore.Manage
             {
                 var user = filterContext.HttpContext.Session["CurrentUser"] as User;
 
+                if (user == null)
+                {
+                    FormsAuthentication.RedirectToLoginPage();
+                    return;
+                }
+
                 var controller = filterContext.RouteData.Values["controller"].ToString();
                 var action = filterContext.RouteData.Values["action"].ToString();
                 var isAllowed = Singleton<AuthorizeBusiness>.Instance.IsAllowed(user, controller, action);
@@ -55,7 +69,7 @@ namespace AppStore.Manage
         }
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            if (!_authorize)
+            if (_isPermissionFail)
             {
                 filterContext.HttpContext.Response.Redirect("/Admin/PermissionError");
             }
@@ -66,6 +80,5 @@ namespace AppStore.Manage
 
         }
 
-        public bool _authorize { get; set; }
     }
 }

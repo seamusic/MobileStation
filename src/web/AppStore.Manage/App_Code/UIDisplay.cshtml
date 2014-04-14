@@ -1,4 +1,6 @@
 ﻿@using AppStore.Common
+@using AppStore.Manage.Controllers
+@using Lennon.Utility
 @{
     Layout = null;
 }
@@ -98,4 +100,10 @@
     {
   <b>否</b>
     }
+}
+
+@helper HasPermission(string url)
+{
+    var hasPermision  = Singleton<AccountController>.Instance.HasPermision(url);
+    return;
 }

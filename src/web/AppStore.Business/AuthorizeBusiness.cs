@@ -65,7 +65,7 @@ namespace AppStore.Business
                 return true;
             }
 
-            var hasUser = HasUser(user.UserName);
+            var hasUser = HasUser(user.LoginId);
             if (!hasUser)
             {
                 return false;
@@ -127,18 +127,18 @@ namespace AppStore.Business
             return false;
         }
 
-        public bool IsAllowed(string userName, string permission)
+        public bool IsAllowed(string loginId, string permission)
         {
             return false;
         }
 
-        public bool ValidateUser(string userName, string password)
+        public bool ValidateUser(string loginId, string password)
         {
             using (var db = new appstoreEntities())
             {
-                var user = db.User.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
+                var user = db.User.FirstOrDefault(u => u.LoginId.Equals(loginId, StringComparison.OrdinalIgnoreCase));
                 var hash = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(password, "MD5");
-                if (user != null && user.Password == hash)
+                if (user != null && user.Password.Equals(hash, StringComparison.OrdinalIgnoreCase))
                 {
                     return true;
                 }
@@ -164,7 +164,7 @@ namespace AppStore.Business
                 }
                 if (user.UpdateTime == DateTime.MinValue || user.UpdateTime == null)
                 {
-                    if (HasUser(user.UserName))
+                    if (HasUser(user.LoginId))
                     {
                         return false;
                     }
@@ -183,34 +183,47 @@ namespace AppStore.Business
             return result;
         }
 
-        public User GetUserByName(string userName)
+        public User GetUserByLoginId(string loginId)
         {
             using (var db = new appstoreEntities())
             {
-                return db.User.FirstOrDefault(u => u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
+                return db.User.FirstOrDefault(u => u.LoginId.Equals(loginId, StringComparison.OrdinalIgnoreCase));
             }
         }
-
-        public bool HasUser(string userName)
+        private List<Role> GetUserRoles(string loginId)
         {
             using (var db = new appstoreEntities())
             {
-                return db.User.Any(u => u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase));
+                return db.UserRole.Where(u => u.User.LoginId.Equals(loginId, StringComparison.OrdinalIgnoreCase)).Select(c => c.Role).ToList();
             }
         }
 
-        public void SignIn(string userName, bool rememberMe)
+        public bool HasUser(string loginId)
         {
-            var user = GetUserByName(userName);
-            var userData = new UserDataPrincipal() { UserId = user.UserId, UserName = user.UserId };
-            if (userData == null)
-                throw new ArgumentNullException("userData");
+            using (var db = new appstoreEntities())
+            {
+                return db.User.Any(u => u.LoginId.Equals(loginId, StringComparison.OrdinalIgnoreCase));
+            }
+        }
+
+        public void SignIn(string loginId, bool rememberMe)
+        {
+            var user = GetUserByLoginId(loginId);
+            var userRols = GetUserRoles(loginId);
+            var userData = new UserDataPrincipal()
+            {
+                UserId = user.UserId,
+                LoginId = user.LoginId,
+                UserName = user.UserName,
+                Roles = string.Join(",", userRols.Select(ca => ca.Name))
+            };
 
             var data = (new JavaScriptSerializer()).Serialize(userData);
-
             //创建ticket
             var ticket = new FormsAuthenticationTicket(
-                2, userName, DateTime.Now, DateTime.Now.AddDays(7), rememberMe, data);
+                2, loginId, DateTime.Now, DateTime.Now.AddDays(7), rememberMe, data);
+
+            HttpContext.Current.User = new FormsPrincipal(ticket: ticket, userData: userData);
 
             //加密ticket
             var cookieValue = FormsAuthentication.Encrypt(ticket);
@@ -230,7 +243,7 @@ namespace AppStore.Business
             HttpContext.Current.Response.Cookies.Remove(cookie.Name);
             HttpContext.Current.Response.Cookies.Add(cookie);
 
-            FormsAuthentication.SetAuthCookie(userName, true);
+            FormsAuthentication.SetAuthCookie(loginId, true);
         }
 
         //从Request中解析出Ticket,UserData
@@ -269,18 +282,23 @@ namespace AppStore.Business
             FormsAuthentication.SignOut();
         }
 
-        public bool IsInRole(string userId, string role)
+        public bool IsInRole(string loginId, string role)
         {
             using (var db = new appstoreEntities())
             {
-                return db.UserRole.Any(o => o.UserId.Equals(userId, StringComparison.OrdinalIgnoreCase) || o.RoleId.Equals(role, StringComparison.OrdinalIgnoreCase));
+                //找出用户所有所属角色
+                var userroles = db.UserRole.Where(u => u.User.LoginId == loginId).Select(u => u.Role.Name).ToList();
+                var roles = role.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                return (from s in roles from userrole in userroles where s.Equals(userrole, StringComparison.OrdinalIgnoreCase) select s).Any();
             }
         }
-        public bool IsInUser(string userId)
+        public bool IsInUser(string userIds)
         {
+            //找出用户所有所属角色
+            var users = userIds.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
             using (var db = new appstoreEntities())
             {
-                return db.User.Any(o => o.UserId == userId);
+                return db.User.Any(u => users.Contains(u.LoginId));
             }
         }
 
