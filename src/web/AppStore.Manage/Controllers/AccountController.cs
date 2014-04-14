@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
@@ -43,16 +44,12 @@ namespace AppStore.Manage.Controllers
                     HttpContext.Session["CurrentUser"] = Singleton<AuthorizeBusiness>.Instance.GetUserByLoginId(model.UserName);
                 }
 
-                if (HttpContext.ApplicationInstance.Context.User != null)
+                if (Singleton<AuthorizeBusiness>.Instance.IsAdmin(model.UserName))
                 {
-                    var formsPrincipal = HttpContext.ApplicationInstance.Context.User as FormsPrincipal;
-                    if (formsPrincipal != null && formsPrincipal.UserData.Roles.IndexOf("普通用户", System.StringComparison.Ordinal)>-1)
-                    {
-                        return RedirectToAction("Stores", "Statistics");
-                    }
+                    return RedirectToAction("Stores", "Statistics");
                 }
 
-                return RedirectToLocal(returnUrl); 
+                return RedirectToLocal(returnUrl);
             }
 
             // 如果我们进行到这一步时某个地方出错，则重新显示表单

@@ -96,13 +96,11 @@ group by convert(varchar(10),CreateTime,120)) b ON a.RegDate=b.CreateTime  ORDER
             }
         }
 
-        public DataTable GetStoreStatistics()
+        public DataTable GetStoreStatistics(string userId)
         {
             using (var context = GetContext)
             {
-                return
-                    context.Sql(
-                        @"SELECT p.PCClientID,p.ClientName,TotalClient=(SELECT COUNT(*) FROM MobileClient mc WHERE mc.PCClientID=p.PCClientID),
+                var sql = @"SELECT p.PCClientID,p.ClientName,TotalClient=(SELECT COUNT(*) FROM MobileClient mc WHERE mc.PCClientID=p.PCClientID),
 Last7daysClient=(SELECT COUNT(1) FROM MobileClient mc WHERE datediff(d,mc.UpdateTime,GETDATE())<7 AND mc.PCClientID=p.PCClientID),
 FirstCount =(SELECT COUNT(distinct ma.MobileAppID) FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID
 WHERE ma.FirstTime IS NOT NULL and mc.PCClientID=p.PCClientID),
@@ -112,39 +110,55 @@ TotalInstall=(SELECT COUNT(*) FROM MobileApp AS ma INNER JOIN MobileClient AS mc
 WHERE ma.CreateTime IS NOT NULL AND mc.PCClientID=p.PCClientID),
 TotalRemove=(SELECT COUNT(*) FROM MobileApp AS ma INNER JOIN MobileClient AS mc ON mc.MobileClientID = ma.MobileClientID
              WHERE ma.RemoveTime IS NOT NULL AND mc.PCClientID=p.PCClientID)
-FROM PCClient p").QuerySingle<DataTable>();
+FROM PCClient p ";
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    sql += string.Format("where p.UserID='{0}'", userId);
+                }
+                return
+                    context.Sql(sql).QuerySingle<DataTable>();
             }
         }
 
-        public DataTable GetAppStatistics(int index = 1)
+        public DataTable GetAppStatistics(string userId,int index = 1)
         {
             using (var context = GetContext)
             {
-                return context.Sql(@"SELECT a.ApplicationID,a.ApplicationName,a.PackageName,COUNT(ma.MobileAppID) TotalClient,
+                var sql = @"SELECT a.ApplicationID,a.ApplicationName,a.PackageName,COUNT(ma.MobileAppID) TotalClient,
 TotalInstall=(SELECT COUNT(1) FROM RunLog rl WHERE rl.[Action]=1 AND rl.PackageName=a.PackageName),
 ActiveStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
               WHERE ma.FirstTime IS NOT NULL AND ma.SecondTime IS NOT NULL AND ma.PackageName=a.PackageName),
 TodayStart=(SELECT COUNT(1) FROM RunLog rl WHERE rl.[Action]=2 AND rl.PackageName=a.PackageName AND datediff(DAY,rl.StartTime,getdate())=0),
 Last7days=(SELECT count(DISTINCT m.MobileClientID) FROM RunLog rl INNER JOIN MobileApp m ON rl.MobileAppID = m.MobileAppID 
            WHERE rl.PackageName=a.PackageName AND datediff(DAY,rl.StartTime,getdate())<7)
-FROM [Application] a LEFT JOIN MobileApp ma ON a.PackageName=ma.PackageName
-GROUP BY a.ApplicationID, ApplicationName,a.PackageName").QuerySingle<DataTable>();
+FROM [Application] a LEFT JOIN MobileApp ma ON a.PackageName=ma.PackageName ";
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    sql += string.Format("where ma.MobileClientID in (select mc.MobileClientID from PCClient p inner join MobileClient mc on p.PCClientID=mc.PCClientID where p.UserID='{0}' ", userId);
+                }
+                sql += "GROUP BY a.ApplicationID, ApplicationName,a.PackageName";
+                return context.Sql(sql).QuerySingle<DataTable>();
             }
         }
 
-        public DataTable GetClientStatistics(int index = 1)
+        public DataTable GetClientStatistics(string userId, int index = 1)
         {
             using (var context = GetContext)
             {
-                return context.Sql(@"SELECT mc.MobileClientID,mc.ClientKey,COUNT(ma.MobileAppID) TotalInstall,
+                var sql = @"SELECT mc.MobileClientID,mc.ClientKey,COUNT(ma.MobileAppID) TotalInstall,
 FirstCount=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
               WHERE ma.FirstTime IS NOT NULL AND ma.MobileClientID=mc.MobileClientID),
 SecondCount=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
               WHERE ma.SecondTime IS NOT NULL AND ma.MobileClientID=mc.MobileClientID),
 TodayStart=(SELECT COUNT(DISTINCT ma.MobileAppID) FROM MobileApp ma 
               WHERE datediff(DAY,ma.UpdateTime,getdate())=0 AND ma.MobileClientID=mc.MobileClientID)
-FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID
-GROUP BY mc.MobileClientID, mc.ClientKey,mc.CreateTime ORDER BY mc.CreateTime DESC").QuerySingle<DataTable>();
+FROM MobileClient mc LEFT JOIN MobileApp ma ON ma.MobileClientID = mc.MobileClientID ";
+                if (!string.IsNullOrEmpty(userId))
+                {
+                    sql += string.Format("inner join PCClient p on p.PCClientID=mc.PCClientID where p.UserID='{0}' ", userId);
+                }
+                sql += " GROUP BY mc.MobileClientID, mc.ClientKey,mc.CreateTime ORDER BY mc.CreateTime DESC";
+                return context.Sql(sql).QuerySingle<DataTable>();
             }
         }
 
@@ -167,7 +181,7 @@ GROUP BY mc.MobileClientID, mc.ClientKey,mc.CreateTime ORDER BY mc.CreateTime DE
             }
         }
 
-        public DataTable GetClientAppStatistics(string id, int index=1)
+        public DataTable GetClientAppStatistics(string id, int index = 1)
         {
             using (var context = GetContext)
             {
@@ -205,7 +219,7 @@ WHERE ma.ApplicationID=@ApplicationID  ORDER BY mc.UpdateTime DESC")
         /// <param name="id"></param>
         /// <param name="index"></param>
         /// <returns></returns>
-        public PagedList<RunLog> GetAppLogStatistics(string id,  int index)
+        public PagedList<RunLog> GetAppLogStatistics(string id, int index)
         {
             using (var db = new appstoreEntities())
             {

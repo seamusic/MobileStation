@@ -26,6 +26,16 @@ namespace AppStore.Business
             Identity = new FormsIdentity(Ticket);
         }
 
+        public bool IsAdmin
+        {
+            get
+            {
+                if (UserData == null)
+                    throw new NotImplementedException();
+                return UserData.Roles.IndexOf("系统管理员", System.StringComparison.Ordinal) > -1;
+            }
+        }
+
         public bool IsInRole(string role)
         {
             var userData = UserData as UserDataPrincipal;

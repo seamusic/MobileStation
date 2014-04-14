@@ -35,7 +35,13 @@ namespace AppStore.Manage.Controllers
         [Description("装机店统计")]
         public ActionResult Stores(int index = 1)
         {
-            var data = Singleton<StatisticsBusiness>.Instance.GetStoreStatistics();
+            string userId = null;
+            var user = HttpContext.User as FormsPrincipal; 
+            if (user != null && !user.IsAdmin)
+            {
+                userId = user.UserData.UserId;
+            }
+            var data = Singleton<StatisticsBusiness>.Instance.GetStoreStatistics(userId);
             return View(data);
         }
 
@@ -50,7 +56,13 @@ namespace AppStore.Manage.Controllers
         [Description("手机端统计")]
         public ActionResult Clients(int index = 1)
         {
-            var data = Singleton<StatisticsBusiness>.Instance.GetClientStatistics(index);
+            string userId = null;
+            var user = HttpContext.User as FormsPrincipal;
+            if (user != null && !user.IsAdmin)
+            {
+                userId = user.UserData.UserId;
+            }
+            var data = Singleton<StatisticsBusiness>.Instance.GetClientStatistics(userId,index);
             return View(data);
         }
 
@@ -65,7 +77,13 @@ namespace AppStore.Manage.Controllers
         [Description("应用统计")]
         public ActionResult Apps(int index = 1)
         {
-            var data = Singleton<StatisticsBusiness>.Instance.GetAppStatistics(index);
+            string userId = null;
+            var user = HttpContext.User as FormsPrincipal;
+            if (user != null && !user.IsAdmin)
+            {
+                userId = user.UserData.UserId;
+            }
+            var data = Singleton<StatisticsBusiness>.Instance.GetAppStatistics(userId,index);
             return View(data);
         }
 

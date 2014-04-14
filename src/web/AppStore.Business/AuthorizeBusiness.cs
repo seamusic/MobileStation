@@ -222,9 +222,7 @@ namespace AppStore.Business
             //创建ticket
             var ticket = new FormsAuthenticationTicket(
                 2, loginId, DateTime.Now, DateTime.Now.AddDays(7), rememberMe, data);
-
-            HttpContext.Current.User = new FormsPrincipal(ticket: ticket, userData: userData);
-
+            
             //加密ticket
             var cookieValue = FormsAuthentication.Encrypt(ticket);
 
@@ -244,6 +242,7 @@ namespace AppStore.Business
             HttpContext.Current.Response.Cookies.Add(cookie);
 
             FormsAuthentication.SetAuthCookie(loginId, true);
+            //return new FormsPrincipal(ticket: ticket, userData: userData);
         }
 
         //从Request中解析出Ticket,UserData
@@ -280,6 +279,11 @@ namespace AppStore.Business
         public void SignOut()
         {
             FormsAuthentication.SignOut();
+        }
+
+        public bool IsAdmin(string loginId)
+        {
+            return IsInRole(loginId, "系统管理员");
         }
 
         public bool IsInRole(string loginId, string role)
