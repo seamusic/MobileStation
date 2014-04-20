@@ -59,6 +59,9 @@
       <HintPath>..\Lib\FluentData.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MvcCheckBoxList">
+      <HintPath>..\packages\MvcCheckBoxList.1.4.4.5\lib\net40\MvcCheckBoxList.dll</HintPath>
+    </Reference>
     <Reference Include="MvcPager">
       <HintPath>..\Lib\MvcPager.dll</HintPath>
     </Reference>
@@ -1483,6 +1486,8 @@
     <Content Include="Views\Application\OrderList.cshtml" />
     <Content Include="Views\System\UserList.cshtml" />
     <Content Include="Views\System\_UserList.cshtml" />
+    <Content Include="Views\System\RoleList.cshtml" />
+    <Content Include="Views\System\RoleEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

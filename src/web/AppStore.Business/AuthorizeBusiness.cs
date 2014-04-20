@@ -288,13 +288,15 @@ namespace AppStore.Business
 
         public bool IsInRole(string loginId, string role)
         {
+            //找出用户所有所属角色
+            List<string> userroles;
             using (var db = new appstoreEntities())
             {
-                //找出用户所有所属角色
-                var userroles = db.UserRole.Where(u => u.User.LoginId == loginId).Select(u => u.Role.Name).ToList();
-                var roles = role.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                return (from s in roles from userrole in userroles where s.Equals(userrole, StringComparison.OrdinalIgnoreCase) select s).Any();
+                userroles = db.UserRole.Where(u => u.User.LoginId == loginId).Select(u => u.Role.Name).ToList();
+                //return (from s in roles from userrole in userroles where s.Equals(userrole, StringComparison.OrdinalIgnoreCase) select s).Any();
             }
+            string[] roles = role.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            return userroles.Any(userrole => roles.Any(ro => userrole.Equals(ro, StringComparison.OrdinalIgnoreCase)));
         }
         public bool IsInUser(string userIds)
         {

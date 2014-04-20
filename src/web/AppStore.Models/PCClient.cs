@@ -22,5 +22,7 @@ namespace AppStore.Models
         public string Description { get; set; }
         public Nullable<System.DateTime> UpdateTime { get; set; }
         public Nullable<System.DateTime> CreateTime { get; set; }
+    
+        public virtual User User { get; set; }
     }
 }

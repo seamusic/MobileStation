@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Text;
 using AppStore.Models;
@@ -183,7 +184,15 @@ namespace AppStore.Business
         {
             using (var db = new appstoreEntities())
             {
-                return db.User.OrderByDescending(o => o.UpdateTime).ToPagedList(index, 100);
+                var userList = db.User.OrderByDescending(o => o.UpdateTime).ToPagedList(index, 10);
+                foreach (var user in userList)
+                {
+                    foreach (var pcClient in user.PCClient)
+                    {
+                        var name = pcClient.ClientName;
+                    }
+                }
+                return userList;
             }
 
             return null;
@@ -193,7 +202,31 @@ namespace AppStore.Business
         {
             using (var db = new appstoreEntities())
             {
-                return db.User.FirstOrDefault(o => o.UserId == id);
+                var user = db.User.FirstOrDefault(o => o.UserId == id);
+                if (user != null)
+                {
+                    user.UserInRoles = new List<Role>();
+                    foreach (UserRole role in user.UserRole)
+                    {
+                        user.UserInRoles.Add(role.Role);
+                    }
+                    user.UserPcClients = new List<PCClient>();
+                    foreach (var pcClient in user.PCClient)
+                    {
+                        user.UserPcClients.Add(pcClient);
+                    }
+                    user.Roles = db.Role.ToList();
+                    user.PcClients = db.PCClient.ToList();
+                }
+                return user;
+            }
+        }
+
+        public IList<Role> GetRoles()
+        {
+            using (var db = new appstoreEntities())
+            {
+                return db.Role.ToList();
             }
         }
 
@@ -213,6 +246,68 @@ namespace AppStore.Business
                     db.User.Attach(ent);
                     db.Entry(ent).State = EntityState.Modified;
                 }
+
+                result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+
+        public bool SaveUserProfile(User ent, string userInRoles, string pcClient)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                var roles = db.Role.Where(o => userInRoles.Contains(o.RoleID)).ToList();
+
+                var clients = db.PCClient.Where(o => pcClient.Contains(o.PCClientID)).ToList();
+
+                foreach (var role in roles)
+                {
+                    if (ent.UserInRoles.All(o => o.RoleID != role.RoleID))
+                    {
+                        db.UserRole.Add(new UserRole() { RoleId = role.RoleID, UserId = ent.UserId, UserRoleId = Guid.NewGuid().ToString().ToUpper() });
+                    }
+                }
+                foreach (UserRole userRole in ent.UserRole)
+                {
+                    if (userInRoles == null || userInRoles.IndexOf(userRole.RoleId, StringComparison.OrdinalIgnoreCase) < 0)
+                    {
+                        var removeRole = db.UserRole.Find(userRole.UserRoleId);
+                        db.UserRole.Remove(removeRole);
+                    }
+                }
+
+                foreach (var item in clients)
+                {
+                    item.UserID = ent.UserId;
+                }
+                foreach (var item in ent.PCClient)
+                {
+                    if (pcClient == null || pcClient.IndexOf(item.PCClientID, StringComparison.OrdinalIgnoreCase) < 0)
+                    {
+                        var removeEnt = db.PCClient.Find(item.PCClientID);
+                        removeEnt.UserID = null;
+                    }
+                }
+
+                if (ent.RegTime == null || ent.RegTime == DateTime.MinValue)
+                {
+                    ent.RegTime = DateTime.Now;
+                    ent.UpdateTime = DateTime.Now;
+                    ent.LastLoginTime = DateTime.Now;
+                    ent.LastLoginTime = DateTime.Now;
+                }
+                ent.UpdateTime = DateTime.Now;
+                ent.ErrorCount = 0;
+
+                db.User.AddOrUpdate(ent);
+                //else
+                //{
+                //    var old = db.User.FirstOrDefault(o => o.UserId == ent.UserId);
+                //    ent.UpdateTime = DateTime.Now;
+                //    db.User.Attach(ent);
+                //    db.Entry(ent).State = EntityState.Modified;
+                //}
 
                 result = db.SaveChanges() > 0;
             }
@@ -629,6 +724,45 @@ namespace AppStore.Business
                 }
                 return db.SaveChanges() > 0;
             }
+        }
+
+        public Role GetRole(string id)
+        {
+            using (var db = new appstoreEntities())
+            {
+                var role = db.Role.FirstOrDefault(o => o.RoleID == id);
+                if (role != null)
+                {
+                    role.RolePermissions = new List<ActionPermission>();
+                    foreach (var userRole in role.ActionPermissionRole)
+                    {
+                        role.RolePermissions.Add(userRole.ActionPermission);
+                    }
+                    role.ActionPermissions = db.ActionPermission.ToList();
+                }
+                return role;
+            }
+        }
+
+        public bool SaveRole(Role role, string rolePermissions)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                var oldRole = db.Role.FirstOrDefault(m => m.RoleID == role.RoleID);
+                if (oldRole == null)
+                {
+                    db.Role.Add(role);
+                }
+                else
+                {
+                    db.Role.Attach(oldRole);
+                    db.Entry(oldRole).State = EntityState.Modified;
+                }
+
+                result = db.SaveChanges() > 0;
+            }
+            return result;
         }
     }
 }

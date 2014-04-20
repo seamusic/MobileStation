@@ -361,6 +361,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_PCClient_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="PCClient" Type="Self.PCClient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PCClient">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserRole_Role">
           <End Role="Role" Type="Self.Role" Multiplicity="1" />
           <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
@@ -420,6 +432,10 @@
             <End Role="Role" EntitySet="Role" />
             <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
           </AssociationSet>
+          <AssociationSet Name="FK_PCClient_User" Association="Self.FK_PCClient_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PCClient" EntitySet="PCClient" />
+          </AssociationSet>
           <AssociationSet Name="FK_UserRole_Role" Association="Self.FK_UserRole_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="UserRole" EntitySet="UserRole" />
@@ -467,6 +483,10 @@
           <AssociationSet Name="FK_ControllerActionRole_Role" Association="AppStore.Models.FK_ControllerActionRole_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PCClient_User" Association="AppStore.Models.FK_PCClient_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="PCClient" EntitySet="PCClient" />
           </AssociationSet>
           <AssociationSet Name="FK_UserRole_Role" Association="AppStore.Models.FK_UserRole_Role">
             <End Role="Role" EntitySet="Role" />
@@ -704,6 +724,7 @@
           <Property Name="Description" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
           <Property Name="UpdateTime" Type="DateTime" Precision="3" />
           <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="User" Relationship="AppStore.Models.FK_PCClient_User" FromRole="PCClient" ToRole="User" />
         </EntityType>
         <EntityType Name="PCInstallLog">
           <Key>
@@ -797,6 +818,7 @@
           <Property Name="UpdateTime" Type="DateTime" Precision="3" />
           <Property Name="Mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PCClient" Relationship="AppStore.Models.FK_PCClient_User" FromRole="User" ToRole="PCClient" />
           <NavigationProperty Name="UserRole" Relationship="AppStore.Models.FK_UserRole_User" FromRole="User" ToRole="UserRole" />
         </EntityType>
         <EntityType Name="UserMobile">
@@ -838,6 +860,18 @@
             </Principal>
             <Dependent Role="ActionPermissionRole">
               <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PCClient_User">
+          <End Type="AppStore.Models.User" Role="User" Multiplicity="0..1" />
+          <End Type="AppStore.Models.PCClient" Role="PCClient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="PCClient">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

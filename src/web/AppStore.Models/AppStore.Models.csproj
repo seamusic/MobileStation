@@ -98,6 +98,7 @@
     <Compile Include="Driver.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="ExUser.cs" />
     <Compile Include="Mobile.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>

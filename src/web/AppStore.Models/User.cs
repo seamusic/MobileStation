@@ -16,6 +16,7 @@ namespace AppStore.Models
     {
         public User()
         {
+            this.PCClient = new HashSet<PCClient>();
             this.UserRole = new HashSet<UserRole>();
         }
     
@@ -31,6 +32,7 @@ namespace AppStore.Models
         public string Mobile { get; set; }
         public string Telephone { get; set; }
     
+        public virtual ICollection<PCClient> PCClient { get; set; }
         public virtual ICollection<UserRole> UserRole { get; set; }
     }
 }

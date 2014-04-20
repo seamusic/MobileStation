@@ -22,19 +22,6 @@
         <div class="sidebar-toggler hidden-phone"></div>
         <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
     </li>
-    <li>
-        <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
-        <form class="sidebar-search" action="#" method="POST">
-            <div class="form-container">
-                <div class="input-box">
-                    <a href="javascript:;" class="remove"></a>
-                    <input type="text" placeholder="Search..." />
-                    <input type="button" class="submit" value=" " />
-                </div>
-            </div>
-        </form>
-        <!-- END RESPONSIVE QUICK SEARCH FORM -->
-    </li>
     <li class="start">
         @if (isAdmin)
         {
@@ -63,8 +50,7 @@
             </a>
             <ul class="sub-menu">
                 <li>
-                    <a href="@Url.Action("Index", "Application")">
-                        <span class="badge badge-roundless badge-important">new</span>应用列表
+                    <a href="@Url.Action("Index", "Application")">应用列表
                     </a>
                 </li>
                 <li>
@@ -123,12 +109,17 @@
         <li class="last">
             <a href="javascript:;">
                 <i class="icon-user"></i>
-                <span class="title">用户管理</span>
+                <span class="title">用户及权限</span>
                 <span class="arrow "></span>
             </a>
             <ul class="sub-menu">
                 <li>
-                    <a href="@Url.Action("UserList", "System")">用户管理</a>
+                    <a href="@Url.Action("UserList", "System")">
+                        <span class="badge badge-roundless badge-important">new</span>用户管理</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("RoleList", "System")">
+                        <span class="badge badge-roundless badge-important">new</span>角色管理</a>
                 </li>
             </ul>
         </li>

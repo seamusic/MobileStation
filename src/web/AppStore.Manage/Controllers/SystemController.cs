@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
@@ -137,25 +138,50 @@ namespace AppStore.Manage.Controllers
         [Description("用户查看")]
         public ActionResult UserEdit(string id)
         {
-            var data = new User();
-            if (id!= null)
+            User data = null;
+            if (id != null)
             {
                 data = Singleton<SystemBusiness>.Instance.GetUserProfile(id);
             }
-            ViewBag.Roles = Roles.GetAllRoles();
+            if (data == null)
+            {
+                data = new User();
+                data.UserId = Guid.NewGuid().ToString();
+                data.Roles = Singleton<SystemBusiness>.Instance.GetRoles();
+                data.PcClients = Singleton<SystemBusiness>.Instance.GetPCClientList(1);
+            }
             return View(data);
         }
 
         [Description("用户编辑")]
         [HttpPost]
-        public ActionResult UserEdit(User profile)
+        public ActionResult UserEdit(FormCollection collection)
         {
-            var result = Singleton<SystemBusiness>.Instance.SaveUserProfile(profile);
+            var userId = collection["UserId"];
+            if (string.IsNullOrEmpty(userId))
+            {
+                return null;
+            }
+
+            var user = Singleton<SystemBusiness>.Instance.GetUserProfile(userId) ?? new User();
+            var password = collection["Password"];
+            if (!string.IsNullOrEmpty(password.Split(',')[1]))
+            {
+                user.Password = System.Web.Security.FormsAuthentication.HashPasswordForStoringInConfigFile(password.Split(',')[1], "MD5");
+            }
+            user.Mobile = collection["Mobile"];
+            user.Telephone = collection["Telephone"];
+            user.IsValid = bool.Parse(collection["IsValid"].Split(',')[0]);
+
+            var userInRoles = collection["UserInRoles"];
+            var pcClient = collection["PCClient"];
+
+            var result = Singleton<SystemBusiness>.Instance.SaveUserProfile(user, userInRoles, pcClient);
             if (result)
             {
-                return RedirectToAction("UserEdit");
+                return RedirectToAction("UserList");
             }
-            return View(profile);
+            return View(user);
         }
 
         [Description("用户列表")]
@@ -230,5 +256,41 @@ namespace AppStore.Manage.Controllers
             return View(ent);
         }
         #endregion
+
+        public ActionResult RoleList()
+        {
+            var list = Singleton<SystemBusiness>.Instance.GetRoles();
+            return View(list);
+        }
+
+        public ActionResult RoleEdit(string id)
+        {
+            var data = Singleton<SystemBusiness>.Instance.GetRole(id);
+            if (data == null)
+            {
+                data = new Role();
+                data.RoleID = Guid.NewGuid().ToString();
+            }
+            return View(data);
+        }
+        [HttpPost]
+        public ActionResult RoleEdit(FormCollection collection)
+        {
+            var role = new Role();
+            var roleId = collection["RoleID"];
+            if (!string.IsNullOrEmpty(roleId))
+            {
+                role = Singleton<SystemBusiness>.Instance.GetRole(roleId) ?? new Role { RoleID = roleId };
+            }
+            role.Name = collection["Name"];
+            role.Description = collection["Description"];
+            var rolePermissions = collection["RolePermissions"];
+            var result = Singleton<SystemBusiness>.Instance.SaveRole(role, rolePermissions);
+            if (result)
+            {
+                return RedirectToAction("RoleList");
+            }
+            return View();
+        }
     }
 }

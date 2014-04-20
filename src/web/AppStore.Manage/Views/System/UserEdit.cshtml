@@ -1,4 +1,5 @@
 ﻿@using AppStore.Manage.Models
+@using AppStore.Models
 @model AppStore.Models.User
 @{
     ViewBag.Title = "编辑用户信息";
@@ -14,38 +15,67 @@
                 </div>
                 <div class="portlet-body form">
                     <form action="#" id="form1" class="form-horizontal" method="POST">
-
+                        @Html.HiddenFor(m => m.ErrorCount)
+                        @Html.HiddenFor(m => m.LastLoginTime)
+                        @Html.HiddenFor(m => m.LoginId)
+                        @Html.HiddenFor(m => m.UpdateTime)
+                                                @Html.HiddenFor(m => m.UserId)
+                        @Html.HiddenFor(m => m.Password)
                         <div class="form-body">
                             <div class="form-group">
                                 <label class="control-label col-md-3">用户帐号<span class="required">*</span></label>
-                                <div class="col-md-4">
-                                    @Html.TextBox("userName",@Model.UserName,new { @class = "form-control" })
+                                <div class="col-md-9">
+                                    @Html.TextBox("userName", @Model.UserName, new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">角色<span class="required">*</span></label>
+                                <div class="col-md-9">
+                                    <div class="radio-list">
+                                        @Html.CheckBoxListFor(model => model.UserInRoles,
+                                            model => model.Roles,
+                                            role => role.RoleID,
+                                            role => role.Name,
+                                            model => model.UserInRoles,
+                                            Position.Horizontal)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">装机店<span class="required">*</span></label>
+                                <div class="col-md-9">
+                                    <div class="radio-list">
+                                        @Html.CheckBoxListFor(model => model.PCClient,
+                                            model => model.PcClients,
+                                            role => role.PCClientID,
+                                            role => role.ClientName,
+                                                     model => model.PCClient,
+                                            Position.Horizontal)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">手机<span class="required">*</span></label>
                                 <div class="col-md-4">
-                                    <select name="Role" id="Role" class="valid">
-                                        @foreach (var s in (string[]) @ViewBag.Roles)
-                                        {
-                                            @*if (int.Parse(s.Value) == Model.webpages_Roles.)
-                                            {
-                                                <option selected value="@s.Value">@s.Text</option>
-                                            }
-                                            else
-                                            {
-                                                <option value="@s.Value">@s.Text</option>
-                                            }*@
-                                            <option value="@s">@s</option>
-                                        }
-                                    </select>
-                                    @Html.TextBox("password", @Model.Password, new { @class = "form-control" })
+                                    @Html.TextBox("Mobile", @Model.Mobile, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">联系电话<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.TextBox("Telephone", @Model.Telephone, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">是否有效<span class="required">*</span></label>
+                                <div class="col-md-4">
+                                    @Html.CheckBox("IsValid",@Model.IsValid)
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-md-3">密码<span class="required">*</span></label>
                                 <div class="col-md-4">
-                                    @Html.TextBox("password", @Model.Password, new { @class = "form-control" })
+                                    @Html.TextBox("password", "", new { @class = "form-control" })
                                 </div>
                             </div>
                         </div>

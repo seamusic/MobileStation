@@ -44,7 +44,7 @@ namespace AppStore.Manage.Controllers
                     HttpContext.Session["CurrentUser"] = Singleton<AuthorizeBusiness>.Instance.GetUserByLoginId(model.UserName);
                 }
 
-                if (Singleton<AuthorizeBusiness>.Instance.IsAdmin(model.UserName))
+                if (!Singleton<AuthorizeBusiness>.Instance.IsAdmin(model.UserName))
                 {
                     return RedirectToAction("Stores", "Statistics");
                 }
