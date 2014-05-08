@@ -67,6 +67,26 @@ namespace AppStore.Manage.Controllers
             return View(category);
         }
 
+        public ActionResult Delete(string id)
+        {
+            var result = Singleton<ApplicationBusiness>.Instance.DeleteApplication(id);
+            if (result)
+            {
+                return RedirectToAction("Index");
+            }
+            return null;
+        }
+
+        public ActionResult DeleteCategory(string id)
+        {
+            var result = Singleton<ApplicationBusiness>.Instance.DeleteCategory(id);
+            if (result)
+            {
+                return RedirectToAction("CategoryList");
+            }
+            return null;
+        }
+
         [Description("查看应用")]
         public ActionResult ApplicationEdit(string id)
         {
@@ -165,7 +185,7 @@ namespace AppStore.Manage.Controllers
             return Json(fileInfoList);
         }
 
-        public ActionResult OrderList(int? AppTypeID=3)
+        public ActionResult OrderList(int? AppTypeID = 3)
         {
             if (AppTypeID != null && AppTypeID != 0)
             {

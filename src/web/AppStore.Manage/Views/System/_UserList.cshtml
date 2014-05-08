@@ -33,12 +33,12 @@
                     </td>
                     <td>@user.UserName</td>
                     <td>@user.LoginId</td>
-                    <td>@String.Join(",",user.PCClient.Select(c=>c.ClientName))</td>
+                    <td>@String.Join(",", user.PCClient.Select(c => c.ClientName))</td>
                     <td>@user.Telephone</td>
                     <td class="center">@UIDisplay.ShowTime(user.LastLoginTime, 1)</td>
                     <td class="center">@UIDisplay.ShowTime(user.UpdateTime, 1)</td>
                     <td class="center">@UIDisplay.IsValid(user.IsValid)</td>
-                    <td>@Html.ActionLink("编辑", "UserEdit", new RouteValueDictionary() { { "id", user.UserId } })</td>
+                    <td>@Html.ActionLink("编辑", "UserEdit", new RouteValueDictionary() { { "id", user.UserId } }) @Html.ActionLink("删除", "DeleteUser", new { id = user.UserId }, new { onclick = "return confirm('确认需要删除这个用户吗？');" })</td>
                 </tr>
             }
         }

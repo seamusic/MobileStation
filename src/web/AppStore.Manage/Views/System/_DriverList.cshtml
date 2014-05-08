@@ -27,7 +27,7 @@
                 <td><a href="@Url.Action("Driver","Download",new RouteValueDictionary() { { "id", driver.DriverID } })">下载</a> </td>
                 <td>@driver.Description</td>
                 <td class="center">@UIDisplay.ShowTime(driver.UpdateTime, 1)</td>
-                <td>@Html.ActionLink("编辑", "Driver", new RouteValueDictionary() { { "id", driver.DriverID } }) 删除</td>
+                <td>@Html.ActionLink("编辑", "Driver", new RouteValueDictionary() { { "id", driver.DriverID } }) @Html.ActionLink("删除", "DeleteDriver", new { id = driver.DriverID }, new { onclick = "return confirm('确认需要删除这个驱动吗？');" })</td>
             </tr>
             }
         }

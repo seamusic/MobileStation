@@ -27,7 +27,7 @@
                 <td>@entity.ClientName</td>
                 <td>@entity.ClientMac</td>
                 <td class="center">@UIDisplay.ShowTime(entity.UpdateTime, 1)</td>
-                <td>@Html.ActionLink("编辑", "PCClientEdit", new RouteValueDictionary() { { "id", entity.PCClientID } }) 删除</td>
+                <td>@Html.ActionLink("编辑", "PCClientEdit", new RouteValueDictionary() { { "id", entity.PCClientID } }) @Html.ActionLink("删除", "DeletePCClient", new { id = entity.PCClientID }, new { onclick = "return confirm('确认需要删除这个手机店吗？');" })</td>
             </tr>
             }
         }

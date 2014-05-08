@@ -27,7 +27,7 @@
                 <td>@brand.Url</td>
                 <td>@brand.Linkman</td>
                 <td class="center">@UIDisplay.ShowTime(brand.UpdateTime, 1)</td>
-                <td>@Html.ActionLink("编辑", "BrandEdit", new RouteValueDictionary() { { "id", brand.BrandID } }) 删除</td>
+                <td>@Html.ActionLink("编辑", "BrandEdit", new RouteValueDictionary() { { "id", brand.BrandID } }) @Html.ActionLink("删除", "DeleteBrand", new { id = brand.BrandID }, new { onclick = "return confirm('确认需要删除这个牌子吗？');" })</td>
             </tr>
             }
         }
@@ -35,7 +35,7 @@
         {
 
             <tr class="odd gradeX">
-                <td colspan="9">暂无数据</td>
+                <td colspan="6">暂无数据</td>
             </tr>
         }
     </tbody>

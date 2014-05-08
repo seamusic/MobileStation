@@ -139,14 +139,14 @@ namespace AppStore.Manage.Controllers
         public ActionResult UserEdit(string id)
         {
             User data = null;
-            if (id != null)
+            if (!string.IsNullOrEmpty(id))
             {
                 data = Singleton<SystemBusiness>.Instance.GetUserProfile(id);
             }
             if (data == null)
             {
                 data = new User();
-                data.UserId = Guid.NewGuid().ToString();
+                data.UserId = Guid.Empty.ToString();
                 data.Roles = Singleton<SystemBusiness>.Instance.GetRoles();
                 data.PcClients = Singleton<SystemBusiness>.Instance.GetPCClientList(1);
             }
@@ -163,7 +163,28 @@ namespace AppStore.Manage.Controllers
                 return null;
             }
 
-            var user = Singleton<SystemBusiness>.Instance.GetUserProfile(userId) ?? new User();
+            User user;
+
+            if (userId.Equals(Guid.Empty.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                if (Singleton<AuthorizeBusiness>.Instance.HasUser(userId))
+                {
+                    return UserEdit(string.Empty);
+                }
+                user = new User()
+                {
+                    UserId = Guid.NewGuid().ToString(),
+                    UserName = collection["userName"],
+                    LoginId = collection["loginId"],
+                    ErrorCount = 0,
+                    LastLoginTime = DateTime.Now,
+                };
+            }
+            else
+            {
+                user = Singleton<SystemBusiness>.Instance.GetUserProfile(userId);
+            }
+
             var password = collection["Password"];
             if (!string.IsNullOrEmpty(password.Split(',')[1]))
             {
@@ -291,6 +312,61 @@ namespace AppStore.Manage.Controllers
                 return RedirectToAction("RoleList");
             }
             return View();
+        }
+
+        public ActionResult DeleteDriver(string id)
+        {
+            var result = Singleton<SystemBusiness>.Instance.DeleteDriver(id);
+            if (result)
+            {
+                return RedirectToAction("DriverList");
+            }
+            return null;
+        }
+        public ActionResult DeleteMobileClient(string id)
+        {
+            var result = Singleton<SystemBusiness>.Instance.DeleteMobileClient(id);
+            if (result)
+            {
+                return RedirectToAction("MobileClientList");
+            }
+            return null;
+        }
+        public ActionResult DeleteMobile(string id)
+        {
+            var result = Singleton<SystemBusiness>.Instance.DeleteMobile(id);
+            if (result)
+            {
+                return RedirectToAction("MobileList");
+            }
+            return null;
+        }
+        public ActionResult DeleteBrand(string id)
+        {
+            var result = Singleton<SystemBusiness>.Instance.DeleteBrand(id);
+            if (result)
+            {
+                return RedirectToAction("BrandList");
+            }
+            return null;
+        }
+        public ActionResult DeletePCClient(string id)
+        {
+            var result = Singleton<SystemBusiness>.Instance.DeletePCClient(id);
+            if (result)
+            {
+                return RedirectToAction("PCClientList");
+            }
+            return null;
+        }
+        public ActionResult DeleteUser(string id)
+        {
+            var result = Singleton<SystemBusiness>.Instance.DeleteUser(id);
+            if (result)
+            {
+                return RedirectToAction("UserList");
+            }
+            return null;
         }
     }
 }

@@ -61,7 +61,7 @@
                                 <input type="checkbox" class="checkboxes" value="1" /></td>
                             <td>@UIDisplay.AppType(category.AppTypeID)</td>
                             <td>@category.CategoryName</td>
-                            <td>@Html.ActionLink("编辑", "CategoryEdit",new { category.CategoryID }) 删除</td>
+                            <td>@Html.ActionLink("编辑", "CategoryEdit",new { category.CategoryID }) @Html.ActionLink("删除", "DeleteCategory", new { id = category.CategoryID }, new { onclick = "return confirm('确认需要删除这个分类吗？');" })</td>
                         </tr>
                             }
                         }

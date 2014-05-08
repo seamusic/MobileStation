@@ -10,7 +10,7 @@ using Webdiyer.WebControls.Mvc;
 
 namespace AppStore.Business
 {
-    public class SystemBusiness : IBusiness
+    public class SystemBusiness : BaseBusiness, IBusiness
     {
         #region mobile
         /// <summary>
@@ -222,6 +222,14 @@ namespace AppStore.Business
             }
         }
 
+        public User GetUserByLoginId(string loginId)
+        {
+            using (var db = new appstoreEntities())
+            {
+                return db.User.FirstOrDefault(u => u.LoginId == loginId);
+            }
+        }
+
         public IList<Role> GetRoles()
         {
             using (var db = new appstoreEntities())
@@ -263,7 +271,7 @@ namespace AppStore.Business
 
                 foreach (var role in roles)
                 {
-                    if (ent.UserInRoles.All(o => o.RoleID != role.RoleID))
+                    if (ent.UserInRoles == null || ent.UserInRoles.All(o => o.RoleID != role.RoleID))
                     {
                         db.UserRole.Add(new UserRole() { RoleId = role.RoleID, UserId = ent.UserId, UserRoleId = Guid.NewGuid().ToString().ToUpper() });
                     }
@@ -761,6 +769,82 @@ namespace AppStore.Business
                 }
 
                 result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+
+        public bool DeleteBrand(string id)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                var ent = new Brand() { BrandID = id };
+                db.Brand.Attach(ent);
+                db.Brand.Remove(ent);
+                result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+        public bool DeleteDriver(string id)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                var ent = new Driver() { DriverID = id };
+                db.Driver.Attach(ent);
+                db.Driver.Remove(ent);
+                result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+
+        public bool DeleteMobileClient(string id)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                var ent = new MobileClient() { MobileClientID = id };
+                db.MobileClient.Attach(ent);
+                db.MobileClient.Remove(ent);
+                result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+
+        public bool DeleteMobile(string id)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                var ent = new Mobile() { MobileID = id };
+                db.Mobile.Attach(ent);
+                db.Mobile.Remove(ent);
+                result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+        public bool DeletePCClient(string id)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                var ent = new PCClient() { PCClientID = id };
+                db.PCClient.Attach(ent);
+                db.PCClient.Remove(ent);
+                result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+        public bool DeleteUser(string id)
+        {
+            bool result;
+            using (var context = GetContext)
+            {
+                return context.Sql(@"delete from UserRole where UserId=@UserId;
+update PCClient set UserID=null where UserID=@UserId;
+delete from [User] where UserId=@UserId;")
+                                                        .Parameter("UserId", id)
+                                                        .Execute() > 0;
             }
             return result;
         }

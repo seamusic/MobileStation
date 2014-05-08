@@ -29,7 +29,7 @@
                 <td>@mobile.PID</td>
                 <td>@mobile.VID</td>
                 <td class="center">@UIDisplay.ShowTime(mobile.UpdateTime, 1)</td>
-                <td>@Html.ActionLink("编辑", "Mobile", new RouteValueDictionary() { { "id", mobile.MobileID } }) 删除</td>
+                <td>@Html.ActionLink("编辑", "Mobile", new RouteValueDictionary() { { "id", mobile.MobileID } }) @Html.ActionLink("删除", "DeleteMobile", new { id = mobile.MobileID }, new { onclick = "return confirm('确认需要删除这个手机吗？');" })</td>
             </tr>
             }
         }

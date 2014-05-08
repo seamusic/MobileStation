@@ -6,7 +6,8 @@
     <thead>
         <tr>
             <th class="table-checkbox">
-                <input type="checkbox" class="group-checkable" /></th>
+                <input type="checkbox" class="group-checkable" />
+            </th>
             <th>类别</th>
             <th>应用名称</th>
             <th>版本</th>
@@ -20,16 +21,21 @@
         {
             foreach (Application application in Model)
             {
-            <tr class="odd gradeX">
-                <td>
-                    <input type="checkbox" class="checkboxes" value="@application.ApplicationID" />
+                <tr class="odd gradeX">
+                    <td>
+                        <input type="checkbox" class="checkboxes" value="@application.ApplicationID" />
+                    </td>
+                    <td>@UIDisplay.AppType(application.AppType)</td>
+                    <td>@application.ApplicationName</td>
+                    <td>@application.Version</td>
+                    <td>@application.Size</td>
+                    <td class="center">@UIDisplay.ShowTime(application.UpdateTime, 1)</td>
+                    <td>
+                        @Html.ActionLink("编辑", "ApplicationEdit", new RouteValueDictionary()
+                    {
+                        { "id", application.ApplicationID }
+                    }) @Html.ActionLink("删除", "Delete", new { id = application.ApplicationID }, new { onclick = "return confirm('确认需要删除这个应用吗？');" })
                 </td>
-                <td>@UIDisplay.AppType(application.AppType)</td>
-                <td>@application.ApplicationName</td>
-                <td>@application.Version</td>
-                <td>@application.Size</td>
-                <td class="center">@UIDisplay.ShowTime(application.UpdateTime, 1)</td>
-                <td>@Html.ActionLink("编辑", "ApplicationEdit", new RouteValueDictionary() { { "id", application.ApplicationID } }) 删除</td>
             </tr>
             }
         }

@@ -143,6 +143,31 @@ namespace AppStore.Business
             return result;
         }
 
+        public bool DeleteApplication(string id)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                var employer = new Application() { ApplicationID = id };
+                db.Application.Attach(employer);
+                db.Application.Remove(employer);
+                result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+        public bool DeleteCategory(string id)
+        {
+            bool result;
+            using (var db = new appstoreEntities())
+            {
+                var employer = new Category() { CategoryID = id };
+                db.Category.Attach(employer);
+                db.Category.Remove(employer);
+                result = db.SaveChanges() > 0;
+            }
+            return result;
+        }
+
         /// <summary>
         /// 保存应用数据
         /// </summary>
