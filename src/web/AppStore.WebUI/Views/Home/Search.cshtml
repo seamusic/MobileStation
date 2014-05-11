@@ -1,0 +1,109 @@
+﻿@using AppStore.Models
+@using Webdiyer.WebControls.Mvc
+@model Webdiyer.WebControls.Mvc.PagedList<AppStore.Models.Application>
+@{
+    var controller = ViewContext.RouteData.Values["controller"];
+    var categories = ViewBag.Categories as IList<Category>;
+    var category = ViewBag.Category as Category;
+    var topRanking = ViewBag.TopRanking as IList<Application>;
+    var list = Model as IList<Application>;
+    var searchList = Session["SearchHistory"] as List<string>;
+}
+@section style
+{
+    <style type="text/css">
+        body {
+            padding-top: 70px;
+        }
+    </style>
+
+}
+@section importscript
+{
+    @{Html.RegisterMvcPagerScriptResource();}
+}
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <div class="row-fluid">
+                <div class="span3 text-center">
+                    <div class="navbar-form">
+                        <div class="btn-group">
+                            <a href="javascript:history.go(-1);" class="btn btn-default"><span class="glyphicon icon-arrow-left"></span></a>
+                            <a href="@Url.Action("index", "Home")" class="btn btn-default"><span class="glyphicon icon-home"></span></a>
+                            <a href="javascript:history.go(1);" class="btn btn-default"><span class="glyphicon icon-arrow-right"></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6 text-center">
+                    <form class="navbar-form text-center" role="search" action="@Url.Action("Search", "Home")">
+                        <div class="input-group">
+                            <input type="text" name="keyword" class="span10" placeholder="请输入游戏或应用的名称">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-default">搜索</button>
+                            </span>
+                        </div>
+                    </form>
+                </div>
+                <div class="span3  text-right">
+                    <div class="navbar-form navbar-right">
+                        <div class="btn-group">
+                            <a href="javascript:history.go(-1);" class="btn btn-default">返回</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        最近查询
+                    </h3>
+                </div>
+                <div class="list-group">
+                    @if (searchList == null || searchList.Count == 0)
+                    {
+                        <a href="#" class="list-group-item">暂无查询</a>
+                    }
+                    else
+                    {
+                        for (int i = searchList.Count - 1; i > 0; i--)
+                        {
+                            string keyword = searchList[i];
+                            <a href="@Url.Action("search", controller.ToString(), new {keyword = keyword})" class="list-group-item">@keyword</a>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="span9">
+            <div class="list-group">
+                @{
+                    if (list == null || list.Count == 0)
+                    {
+                        <a href="#" class="list-group-item">
+                            <h4 class="list-group-item-heading">查询无结果</h4>
+                        </a>
+                    }
+                    else
+                    {
+                        foreach (Application ent in list)
+                        {
+                            <a href="@Url.Action("Detail", new { id = ent.ApplicationID })" class="list-group-item">
+                                <h4 class="list-group-item-heading">@ent.ApplicationName</h4>
+                                <p class="list-group-item-text">@ent.Description</p>
+                            </a>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>

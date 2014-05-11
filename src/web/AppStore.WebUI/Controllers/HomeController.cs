@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using AppStore.Business;
 using AppStore.Common;
+using AppStore.Models;
 using Lennon.Utility;
 using Lennon.Utils;
 
@@ -20,7 +21,7 @@ namespace AppStore.WebUI.Controllers
         public ActionResult Index(string category, int index = 1)
         {
             ViewBag.Title = "装机必备";
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, false, true, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, false, true, index, 12);
             RebuildList(list);
             var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, true, true, index, 2);
             RebuildList(installList);
@@ -73,6 +74,37 @@ namespace AppStore.WebUI.Controllers
             ViewBag.RecommendData = Utilities.DataToJsonToBase64(list);
             ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories((int)applicationType);
             return View("_Recommend", list);
+        }
+
+        public IList<string> SearchHistory
+        {
+            get
+            {
+                var list = Session["SearchHistory"] as List<string>;
+                if (list == null)
+                {
+                    list = new List<string>();
+                    Session["SearchHistory"] = list;
+                }
+                return list;
+            }
+            set { Session["SearchHistory"] = value; }
+        }
+        public ActionResult Search(string keyword, int index = 1)
+        {
+            if (index == 1 && !string.IsNullOrEmpty(keyword))
+            {
+                if (SearchHistory.Count > 9)
+                {
+                    SearchHistory.RemoveAt(0);
+                }
+                SearchHistory.Add(keyword);
+            }
+
+            ViewBag.Title = string.Format("\"{0}\"查询结果", keyword);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, null, keyword, null, false, index, 10);
+            RebuildList(list);
+            return View(list);
         }
     }
 }

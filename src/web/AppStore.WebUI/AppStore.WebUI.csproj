@@ -180,11 +180,6 @@
     <Content Include="Images\icon-color-close.png" />
     <Content Include="Images\icon-color.png" />
     <Content Include="Images\installall.png" />
-    <Content Include="Images\logo_blue.png" />
-    <Content Include="Images\logo_blue_small.png" />
-    <Content Include="Images\logo_green.png" />
-    <Content Include="Images\logo_orange.png" />
-    <Content Include="Images\logo_red.png" />
     <Content Include="Images\nopicture.jpg" />
     <Content Include="Images\onekey.png" />
     <Content Include="Images\onekeypush.png" />
@@ -192,12 +187,9 @@
     <Content Include="Images\pgdn_d.png" />
     <Content Include="Images\pgup.png" />
     <Content Include="Images\pgup_d.png" />
-    <Content Include="Images\pics\1747554rjjtn24cc3.png" />
-    <Content Include="Images\pics\img1-large.jpg" />
-    <Content Include="Images\pics\img1-medium.jpg" />
-    <Content Include="Images\pics\img2-large.jpg" />
-    <Content Include="Images\pics\img2-medium.jpg" />
-    <Content Include="Images\pics\nexusae0_android_make_it_google.png" />
+    <Content Include="Images\pics\pic1.jpg" />
+    <Content Include="Images\pics\pic2.jpg" />
+    <Content Include="Images\pics\pic3.jpg" />
     <Content Include="Images\syncfusion-icons-white.png" />
     <Content Include="Images\syncfusion-icons.png" />
     <Content Include="Images\tuijianbg.jpg" />
@@ -210,6 +202,7 @@
     <Content Include="Scripts\base64.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
+    <Content Include="Scripts\holder.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
@@ -250,12 +243,12 @@
     <Content Include="Views\Shared\_Detail.cshtml" />
     <Content Include="Views\Shared\_List.cshtml" />
     <Content Include="Views\Shared\_Recommend.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Views\Apps\" />
     <Folder Include="Views\Games\" />
-    <Folder Include="Views\Home\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

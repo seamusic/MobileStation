@@ -173,6 +173,6 @@
             handleMisc();
             handleFancybox();
 			handleFixedHeader();
-        },
+        }
     };
 }();

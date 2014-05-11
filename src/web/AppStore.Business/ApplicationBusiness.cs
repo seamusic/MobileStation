@@ -244,5 +244,19 @@ namespace AppStore.Business
             }
             return result;
         }
+
+        public PagedList<Application> SearchApplication(string keyword, int index, int count)
+        {
+            using (var db = new appstoreEntities())
+            {
+                var qry = db.Application.Where(m => m.IsValid == true).AsQueryable();
+                if (!string.IsNullOrWhiteSpace(keyword))
+                    qry = qry.Where(a => a.ApplicationName.Contains(keyword));
+
+                PagedList<Application> model = qry.ToPagedList(index, count);
+
+                return model;
+            }
+        }
     }
 }
