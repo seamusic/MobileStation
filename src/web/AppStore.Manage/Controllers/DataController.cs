@@ -24,7 +24,7 @@ namespace AppStore.Manage.Controllers
         // GET: /Data/
         public JsonResult Index(string type, string category, int index = 1)
         {
-            var applicationType = type == "game" ? ApplicationType.游戏 : ApplicationType.应用;
+            var applicationType = type == "game" ? ApplicationType.游戏娱乐 : ApplicationType.应用工具;
             var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, null, true, index);
             ViewBag.DataJson = Utilities.DataToJsonToBase64(list);
             return Json(list, JsonRequestBehavior.AllowGet);
@@ -40,7 +40,7 @@ namespace AppStore.Manage.Controllers
 
         public JsonResult Recommend(string type, string category, int index = 1)
         {
-            var applicationType = type == "game" ? ApplicationType.游戏 : ApplicationType.应用;
+            var applicationType = type == "game" ? ApplicationType.游戏娱乐 : ApplicationType.应用工具;
             var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, (bool?)true, true, index, 2);
             ViewBag.RecommendData = Utilities.DataToJsonToBase64(list);
             return Json(list, JsonRequestBehavior.AllowGet);

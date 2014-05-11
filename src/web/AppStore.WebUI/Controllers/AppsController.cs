@@ -17,12 +17,16 @@ namespace AppStore.WebUI.Controllers
 
         public ActionResult Index(string category, int index = 1)
         {
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用, category, null, false, true, index);
+            ViewBag.Title = "应用工具";
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用工具, category, null, false, true, index);
             RebuildList(list);
-            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用, category, null, true, true, index, 2);
+            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用工具, category, null, true, true, index, 2);
             RebuildList(installList);
             installList.AddRange(list);
             ViewBag.DataJson = Utilities.DataToJsonToBase64(installList);
+            ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories((int)ApplicationType.应用工具);
+            ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(category);
+            ViewBag.TopRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking(category);
             return View("_List", list);
         }
     }

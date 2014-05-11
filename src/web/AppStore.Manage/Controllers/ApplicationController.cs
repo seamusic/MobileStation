@@ -97,7 +97,7 @@ namespace AppStore.Manage.Controllers
             if (application == null)
             {
                 application = new Application();
-                application.AppType = (int)ApplicationType.应用;
+                application.AppType = (int)ApplicationType.应用工具;
                 application.ApplicationID = Guid.NewGuid().ToString();
             }
             else

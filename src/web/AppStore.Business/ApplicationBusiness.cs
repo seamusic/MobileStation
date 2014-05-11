@@ -117,6 +117,33 @@ namespace AppStore.Business
             }
         }
 
+        public IList<Application> GetTopRanking(string categoryId,int count=10)
+        {
+            if (string.IsNullOrEmpty(categoryId))
+            {
+                return null;
+            }
+
+            using (var db = new appstoreEntities())
+            {
+                return db.Application.Where(o => o.CategoryID == categoryId).OrderByDescending(o => o.Total).Take(count).ToList();
+            }
+        }
+
+        public IList<Category> GetCategories(int? appTyle)
+        {
+            if (appTyle == null || appTyle == 0)
+            {
+                return null;
+            }
+
+            using (var db = new appstoreEntities())
+            {
+                return db.Category.Where(o => o.AppTypeID == appTyle).ToList();
+            }
+
+        }
+
         /// <summary>
         /// 保存目录
         /// </summary>

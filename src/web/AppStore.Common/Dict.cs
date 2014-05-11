@@ -7,8 +7,8 @@ namespace AppStore.Common
 {
     public enum ApplicationType
     {
-        应用 = 1,
-        游戏 = 2,
+        应用工具 = 1,
+        游戏娱乐 = 2,
         装机必备 = 3,
     }
 

@@ -6,7 +6,12 @@
 @{
     ViewBag.Title = Model.ApplicationName;
     IList<Picture> pictures = ViewBag.Pictures == null ? new List<Picture>() : ViewBag.Pictures as IList<Picture>;
+    var categories = ViewBag.Categories as IList<Category>;
     var setting = ServerSettingProxy.Instance.LoadConfig();
+    var controller = ViewContext.RouteData.Values["controller"];
+    var category = ViewBag.Category as Category;
+    var appType = ViewBag.AppType ?? "应用分类";
+    var topRanking = ViewBag.TopRanking as IList<Application>;
     foreach (Picture picture in pictures)
     {
         var pic = string.IsNullOrEmpty(picture.Path) ? "/Images/nopicture.jpg" : Path.Combine(setting.DownloadPath, picture.Path).Replace('\\', '/');
@@ -17,7 +22,9 @@
 {
     <link href="~/Content/theme/css/prices.css" rel="stylesheet" />
     <style type="text/css">
-        body { padding-top: 10px; }
+        body {
+            padding-top: 70px;
+        }
     </style>
 }
 @section importscript
@@ -37,89 +44,177 @@
         });
     </script>
 }
-<div class="container">
-    <!-- BEGIN BREADCRUMBS -->
-    @Html.Partial("_Breadcrumbs", new BreadcrumbSet()
-{
-    PrevList = new List<BreadcrumbLink>() { },
-    Current = new BreadcrumbLink()
-        {
-            Text = Model.ApplicationName
-        }
-})
-    <!-- END BREADCRUMBS -->
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="navbar-form navbar-left">
+                    <div class="btn-group">
+                        <a href="javascript:history.go(-1);" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                        <a href="@Url.Action("index", "Home")" class="btn btn-default"><span class="glyphicon glyphicon-home"></span></a>
+                        <a href="javascript:history.go(1);" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-5">
+                <form class="navbar-form text-center" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="请输入游戏或应用的名称">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-default">搜索</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+            <div class="col-xs-4" style="padding-top: 0;padding-bottom: 0;">
+                <div class="navbar-form navbar-right">
+                    <div class="btn-group">
+                        <a href="javascript:history.go(-1);" class="btn btn-default">返回</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
 </div>
-
 <div class="container">
     <!-- BEGIN ABOUT INFO -->
     <div class="row">
         <!-- BEGIN CAROUSEL -->
-        <div class="col-sm-3 detail-left">
-            <div class="" style="margin: 5px auto;">
-                <a href="#" class="">
-                    <img src="@Model.Icon" class="col-sm-12 img-rounded img-responsive" />
-                </a>
-                <div class="clearfix"></div>
+        <div class="col-sm-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        分类目录
+                    </h3>
+                </div>
+                <div class="list-group">
+                    @if (categories == null || categories.Count == 0)
+                    {
+                        <a href="#" class="list-group-item">无分类</a>
+                    }
+                    else
+                    {
+                        foreach (Category ent in categories)
+                        {
+                            <a href="@Url.Action("Index", controller.ToString(), new { category = ent.CategoryID })" class="list-group-item">@ent.CategoryName</a>
+                        }
+                    }
+                </div>
             </div>
-            <div class="pricing-table">
-                <ul>
-                    <li><i class="glyphicon glyphicon-chevron-right"></i>版本：@Model.Version</li>
-                    <li><i class="glyphicon glyphicon-chevron-right"></i>大小：@Model.Size</li>
-                    <li><i class="glyphicon glyphicon-chevron-right"></i>时间：@UIDisplay.ShowTime(Model.UpdateTime, 2)</li>
-                    <li><i class="glyphicon glyphicon-chevron-right"></i>系统要求：适用 @Model.OSVersion 及以上固件版本</li>
-                </ul>
-                <div class="rate">
-                    <div class="price">
-                    </div>
-                    <a href="#" class="btn btn-primary btn-group-justified" id="install">安装</a>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        本类应用排行
+                    </h3>
+                </div>
+                <div class="list-group">
+                    @if (topRanking == null || topRanking.Count == 0)
+                    {
+                        <a href="#" class="list-group-item">暂无排行</a>
+                    }
+                    else
+                    {
+                        for (int k = 0; k < topRanking.Count; k++)
+                        {
+                            var ent = topRanking[k];
+                            <a href="@Url.Action("Detail", "Home", new {id = ent.ApplicationID})" class="list-group-item">@(k + 1) &nbsp; @ent.ApplicationName</a>
+                        }
+                    }
                 </div>
             </div>
         </div>
-        <!-- END CAROUSEL -->
-        <!-- BEGIN INFO BLOCK -->
-        <div class="col-sm-9  detail-right tab-style-1 mix-inner">
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="#screenshot" data-toggle="tab">截图</a></li>
-                <li><a href="#content" data-toggle="tab">内容简介</a></li>
-            </ul>
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <div class="tab-pane active" id="screenshot">
-                    <div class="front-carousel">
-                        <div id="myCarousel" class="carousel slide">
-                            <!-- Carousel items -->
-                            <div class="carousel-inner">
-                                @for (int i = 0; i < pictures.Count; i++)
-                                {
-                                    Picture picture = pictures[i];
-                                    var divClass = i == 0 ? "active " : "";
-                                    <div class="item @divClass text-center">
-                                        <img src="@picture.Path" />
-                                        <div class="carousel-caption">
-                                            <p>@Model.ApplicationName</p>
+
+        <div class="col-sm-9">
+            <div class="nav nav-left">
+                <ol class="breadcrumb">
+                    <li><a href="#">@appType</a></li>
+                    @if (category != null)
+                    {
+                        <li><a href="#">@category.CategoryName</a></li>
+                    }
+                    <li><a href="#">@ViewBag.Title</a></li>
+                </ol>
+            </div>
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        @ViewBag.Title
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-4 detail-left">
+                            <div class="" style="margin: 5px auto;">
+                                <a href="#" class="">
+                                    <img src="@Model.Icon" class="col-sm-12 img-rounded img-responsive" />
+                                </a>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="pricing-table">
+                                <ul>
+                                    <li><i class="glyphicon glyphicon-chevron-right"></i>版本：@Model.Version</li>
+                                    <li><i class="glyphicon glyphicon-chevron-right"></i>大小：@Model.Size</li>
+                                    <li><i class="glyphicon glyphicon-chevron-right"></i>时间：@UIDisplay.ShowTime(Model.UpdateTime, 2)</li>
+                                    <li><i class="glyphicon glyphicon-chevron-right"></i>系统要求：适用 @Model.OSVersion 及以上固件版本</li>
+                                </ul>
+                                <div class="rate">
+                                    <div class="price">
+                                    </div>
+                                    <a href="#" class="btn btn-primary btn-group-justified" id="install">安装</a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END CAROUSEL -->
+                        <!-- BEGIN INFO BLOCK -->
+                        <div class="col-sm-8  detail-right tab-style-1 mix-inner">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#content" data-toggle="tab">内容简介</a></li>
+                                <li><a href="#screenshot" data-toggle="tab">截图</a></li>
+                            </ul>
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div class="tab-pane" id="screenshot">
+                                    <div class="front-carousel">
+                                        <div id="myCarousel" class="carousel slide">
+                                            <!-- Carousel items -->
+                                            <div class="carousel-inner">
+                                                @for (int i = 0; i < pictures.Count; i++)
+                                                {
+                                                    Picture picture = pictures[i];
+                                                    var divClass = i == 0 ? "active " : "";
+                                                    <div class="item @divClass text-center">
+                                                        <img src="@picture.Path" />
+                                                        <div class="carousel-caption">
+                                                            <p>@Model.ApplicationName</p>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <!-- Carousel nav -->
+                                            <a class="carousel-control left" href="#myCarousel" data-slide="prev">
+                                                <i class="icon-angle-left"></i>
+                                            </a>
+                                            <a class="carousel-control right" href="#myCarousel" data-slide="next">
+                                                <i class="icon-angle-right"></i>
+                                            </a>
                                         </div>
                                     </div>
-                                }
+                                </div>
+                                <div class="tab-pane active" id="content">
+                                    @Html.Raw(Model.Description)
+                                </div>
+                                <div class="tab-pane" id="other">...</div>
                             </div>
-                            <!-- Carousel nav -->
-                            <a class="carousel-control left" href="#myCarousel" data-slide="prev">
-                                <i class="icon-angle-left"></i>
-                            </a>
-                            <a class="carousel-control right" href="#myCarousel" data-slide="next">
-                                <i class="icon-angle-right"></i>
-                            </a>
+                            <!-- END LISTS -->
+                            <div class="clearfix"></div>
                         </div>
+                        <!-- END INFO BLOCK -->
                     </div>
                 </div>
-                <div class="tab-pane" id="content">
-                    @Html.Raw(Model.Description)
-                </div>
-                <div class="tab-pane" id="other">...</div>
             </div>
-            <!-- END LISTS -->
-            <div class="clearfix"></div>
         </div>
-        <!-- END INFO BLOCK -->
     </div>
     <!-- END ABOUT INFO -->
 </div>
