@@ -23,7 +23,7 @@
     <link href="~/Content/theme/css/prices.css" rel="stylesheet" />
     <style type="text/css">
         body {
-            padding-top: 70px;
+            padding-top: 60px;
         }
     </style>
 
@@ -59,27 +59,26 @@
                     <div class="navbar-form">
                         <div class="btn-group">
                             <a href="javascript:history.go(-1);" class="btn btn-default"><span class="glyphicon icon-arrow-left"></span></a>
-                            <a href="@Url.Action("index", "Home")" class="btn btn-default"><span class="glyphicon icon-home"></span></a>
                             <a href="javascript:history.go(1);" class="btn btn-default"><span class="glyphicon icon-arrow-right"></span></a>
+                            <a href="javascript:window.location.reload();" class="btn btn-default"><span class="glyphicon icon-repeat"></span></a>
+                            <a href="@Url.Action("index", "Home")" class="btn btn-default"><span class="glyphicon icon-home"></span></a>
                         </div>
                     </div>
-                </div>
-                <div class="span6 text-center">
-                    <form class="navbar-form text-center" role="search" action="@Url.Action("Search", "Home")">
-                        <div class="input-group">
-                            <input type="text" name="keyword" class="span10" placeholder="请输入游戏或应用的名称">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-default">搜索</button>
-                            </span>
-                        </div>
-                    </form>
                 </div>
                 <div class="span3  text-right">
                     <div class="navbar-form navbar-right">
                         <div class="btn-group">
-                            <a href="javascript:history.go(-1);" class="btn btn-default">返回</a>
                         </div>
                     </div>
+                </div>
+                <div class="span5">
+                    <form class="navbar-form text-right" role="search" action="@Url.Action("Search", "Home")">
+                        <div class="input-prepend input-append">
+                            <span class="add-on"><span class="icon-search"></span></span>
+                            <input type="text" class="span10 search-query" placeholder="请输入游戏或应用的名称">
+                            <button type="submit" class="btn">搜索</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -90,7 +89,7 @@
     <!-- BEGIN ABOUT INFO -->
     <div class="row-fluid">
         <!-- BEGIN CAROUSEL -->
-        <div class="span3 nomarginleft">
+        <div class="span-menu nomarginleft">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -134,13 +133,13 @@
             </div>
         </div>
 
-        <div class="span9">
+        <div class="span-content">
             <div class="nav nav-left">
                 <ol class="breadcrumb">
-                    <li><a href="#">@appType</a><span class="divider">/</span></li>
+                    <li><a href="#">@appType</a><span class="divider">&gt;</span></li>
                     @if (category != null)
                     {
-                        <li><a href="#">@category.CategoryName</a><span class="divider">/</span></li>
+                        <li><a href="#">@category.CategoryName</a><span class="divider">&gt;</span></li>
                     }
                     <li><a href="#">@ViewBag.Title</a></li>
                 </ol>
@@ -170,47 +169,38 @@
                                 <div class="rate">
                                     <div class="price">
                                     </div>
-                                    <a href="#" class="btn btn-primary btn-group-justified" id="install">安装</a>
+                                    <a href="#" class="btn btn-primary btn-group-justified span12" id="install">安装</a>
                                 </div>
                             </div>
                         </div>
                         <!-- END CAROUSEL -->
                         <!-- BEGIN INFO BLOCK -->
-                        <div class="span8  detail-right tab-style-1 mix-inner nomarginleft">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#content" data-toggle="tab">内容简介</a></li>
-                                <li><a href="#screenshot" data-toggle="tab">截图</a></li>
-                            </ul>
-                            <!-- Tab panes -->
-                            <div class="tab-content">
-                                <div class="tab-pane" id="screenshot">
-                                    <div class="front-carousel">
-                                        <div id="myCarousel" class="carousel slide" style="min-height: 300px;">
-                                            <!-- Carousel items -->
-                                            <div class="carousel-inner">
-                                                @for (int i = 0; i < pictures.Count; i++)
-                                                {
-                                                    Picture picture = pictures[i];
-                                                    var divClass = i == 0 ? "active " : "";
-
-                                                    <div class="item @divClass text-center">
-                                                        <img src="@picture.Path" />
-                                                        <div class="carousel-caption">
-                                                            <p>@Model.ApplicationName</p>
-                                                        </div>
-                                                    </div>
-                                                }
+                        <div class="span8">
+                            <h4>内容简介</h4>
+                            <hr />
+                            <div>
+                                @Html.Raw(Model.Description)
+                            </div>
+                            <br/><br /><br /><br />
+                            <h4>截图</h4>
+                            <hr />
+                            <div class="front-carousel">
+                                <div id="myCarousel" class="carousel slide" style="min-height: 300px;">
+                                    <!-- Carousel items -->
+                                    <div class="carousel-inner text-center">
+                                        @for (int i = 0; i < pictures.Count; i++)
+                                        {
+                                            Picture picture = pictures[i];
+                                            var divClass = i == 0 ? "active " : "";
+                                            <div class="item @divClass text-center">
+                                                <img src="@picture.Path" style="margin: 0 auto;"/>
                                             </div>
-                                            <!-- Carousel nav -->
-                                            <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-                                            <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-                                        </div>
+                                        }
                                     </div>
+                                    <!-- Carousel nav -->
+                                    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+                                    <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
                                 </div>
-                                <div class="tab-pane active" id="content">
-                                    @Html.Raw(Model.Description)
-                                </div>
-                                <div class="tab-pane" id="other">...</div>
                             </div>
                             <!-- END LISTS -->
                             <div class="clearfix"></div>

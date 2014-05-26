@@ -12,7 +12,7 @@
 {
     <style type="text/css">
         body {
-            padding-top: 70px;
+            padding-top: 60px;
         }
     </style>
 }
@@ -71,28 +71,30 @@
                     <div class="navbar-form navbar-left">
                         <div class="btn-group">
                             <a href="javascript:history.go(-1);" class="btn btn-default"><span class="glyphicon icon-arrow-left"></span></a>
-                            <a href="@Url.Action("index", "Home")" class="btn btn-default"><span class="glyphicon icon-home"></span></a>
                             <a href="javascript:history.go(1);" class="btn btn-default"><span class="glyphicon icon-arrow-right"></span></a>
+                            <a href="javascript:window.location.reload();" class="btn btn-default"><span class="glyphicon icon-repeat"></span></a>
+                            <a href="@Url.Action("index", "Home")" class="btn btn-default"><span class="glyphicon icon-home"></span></a>
                         </div>
                     </div>
                 </div>
-                <div class="span6 text-center">
-                    <form class="navbar-form text-center" role="search" action="@Url.Action("Search", "Home")">
-                        <div class="input-group">
-                            <input type="text" name="keyword" class="span10" placeholder="请输入游戏或应用的名称">
-                            <span class="input-group-btn">
-                                <button type="submit" class="btn btn-default">搜索</button>
-                            </span>
+                <div class="span3 text-center">
+                    <div class="navbar-form navbar-left">
+                        <span class="btn btn-success" id="installAll">
+                            一键安装
+                        </span>
+                        <span class="btn btn-warning" id="uninstallAll">
+                            一键卸载
+                        </span>
+                    </div>
+                </div>
+                <div class="span5">
+                    <form class="navbar-form text-right" role="search" action="@Url.Action("Search", "Home")">
+                        <div class="input-prepend input-append">
+                            <span class="add-on"><span class="icon-search"></span></span>
+                            <input type="text" class="span10 search-query" placeholder="请输入游戏或应用的名称">
+                            <button type="submit" class="btn">搜索</button>
                         </div>
                     </form>
-                </div>
-                <div class="span3 text-right" style="padding-top: 3px; padding-bottom: 3px;">
-                    <span class="btn btn-success" id="installAll">
-                        一键安装
-                    </span>
-                    <span class="btn btn-warning" id="uninstallAll">
-                        一键卸载
-                    </span>
                 </div>
             </div>
             <!--/.nav-collapse -->
@@ -101,7 +103,7 @@
 </div>
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="span3 nomarginleft">
+        <div class="span-menu nomarginleft">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">
@@ -122,7 +124,7 @@
                     }
                 </div>
             </div>
-            <div class="panel panel-default">
+            <div class="panel panel-default ranking">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         本类应用排行
@@ -138,13 +140,25 @@
                         for (int k = 0; k < topRanking.Count; k++)
                         {
                             var ent = topRanking[k];
-                            <a href="@Url.Action("Detail", "Home", new {id = ent.ApplicationID})" class="list-group-item">@(k + 1) &nbsp; @ent.ApplicationName</a>
+                            <div class="list-group-item">
+                                <dl class="dl-horizontal">
+                                    <dt>
+                                        <img src="@ent.Icon" class="img-rounded" />
+                                    </dt>
+                                    <dd>
+                                        <a href="@Url.Action("Detail", "Home", new { id = ent.ApplicationID })"> @(k + 1) &nbsp; @ent.ApplicationName</a><br/>
+                                        <span>@ent.Total 次</span><br />
+                                        <a href="#" data-value="@ent.ApplicationID" data-name="@ent.ApplicationName"
+                                           class="install btn btn-default btn-info btn-mini" style="width: 80%;">安装</a>
+                                    </dd>
+                                </dl>
+                            </div>
                         }
                     }
                 </div>
             </div>
         </div>
-        <div class="span9">
+        <div class="span-content">
             <div class="row-fluid">
                 <div id="myCarousel" class="carousel" style="min-height: 150px">
                     <ol class="carousel-indicators">
@@ -154,9 +168,9 @@
                     </ol>
                     <!-- Carousel items -->
                     <div class="carousel-inner">
-                        <div class="active item"><img src="~/Images/pics/pic1.jpg" /></div>
-                        <div class="item"><img src="~/Images/pics/pic2.jpg" /></div>
-                        <div class="item"><img src="~/Images/pics/pic3.jpg" /></div>
+                        <div class="active item"><img src="~/Images/pics/pic1.jpg" style="width: 100%" /></div>
+                        <div class="item"><img src="~/Images/pics/pic2.jpg" style="width: 100%" /></div>
+                        <div class="item"><img src="~/Images/pics/pic3.jpg" style="width: 100%" /></div>
                     </div>
                     <!-- Carousel nav -->
                     <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
@@ -164,10 +178,10 @@
                 </div>
                 <div class="nav nav-left">
                     <ul class="breadcrumb">
-                        <li><a href="#">@ViewBag.Title</a><span class="divider">/</span></li>
+                        <li><a href="#">@ViewBag.Title</a><span class="divider">&gt;</span></li>
                         @if (category != null)
                         {
-                            <li><a href="#">@category.CategoryName</a><span class="divider">/</span></li>
+                            <li><a href="#">@category.CategoryName</a><span class="divider">&gt;</span></li>
                         }
                     </ul>
                 </div>
@@ -177,20 +191,20 @@
                             for (int i = 0; i < Model.Count; i++)
                             {
                                 Application application = Model[i];
-                                <li class="span3">
+                                <li class="span2">
                                     <div class="thumbnail">
                                         <a href="@Url.Action("Detail", "Home", new {id = application.ApplicationID})">
                                             <img src="@application.Icon" class="app-pic img-rounded" />
                                         </a>
                                         <a class="item-title" href="@Url.Action("Detail", "Home", new {id = application.ApplicationID})">
-                                            <h5 class="text-center">@application.ApplicationName</h5>
+                                            <h6 class="text-center">@application.ApplicationName</h6>
                                         </a>
                                         <a href="#" data-value="@application.ApplicationID" data-name="@application.ApplicationName"
-                                           class="install btn btn-default btn-xs btn-info" style="width: 85%;">安装</a>
+                                           class="install btn btn-default btn-xs btn-info" style="width: 70%;">安装</a>
                                     </div>
                                 </li>
                                 var current = i + 1;
-                                if (current % 4 == 0 && current != Model.Count)
+                                if (current % 6 == 0 && current != Model.Count)
                                 {
                                     @Html.Raw("</ul><ul class='thumbnails'>");
                                 }

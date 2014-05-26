@@ -50,7 +50,7 @@ BXSlider
 .detail-right li.active a{ }
 .dataList { padding-left: 5px; padding-right: 40px; }
 .item { padding-bottom: 10px; }
-.app-pic { height: 160px; }
+.app-pic { height: 60px; }
 .recommend-pic { width: 100px; height: 100px; }
 
 .icotj { display: block; height: 46px; position: absolute; right: -5px; top: -4px; z-index: 2; overflow: visible; }
@@ -528,3 +528,25 @@ a.list-group-item.active:focus .list-group-item-text {
 .nomarginleft {
     margin-left: 0 !important;
 }
+.row-fluid .span-menu {
+  width: 20%;
+  *width: 19.9468085106383%;
+}
+.row-fluid .span-content {
+  width: 78.5%;
+  *width: 78.4468085106383%;
+  margin-left: 1.5%;
+}
+.container-fluid{ padding-left: 10px;padding-right: 20px;}
+.thumbnail{ text-align: center;}
+.carousel{ margin-bottom: 10px;}
+.nav{ margin-bottom: 10px;}
+.breadcrumb{ margin-bottom: 10px;}
+.form-search .input-append{ width: 80%;}
+.row-fluid [class*='span']{ +min-height: 20px;+top: -1px;}
+.ranking{}
+.ranking .list-group-item{ padding: 8px 10px;}
+.ranking .dl-horizontal{ margin: auto 5px;}
+.ranking .dl-horizontal dt{ width: 60px;text-align: left;}
+.ranking .dl-horizontal dt img{ width: 50px;}
+.ranking .dl-horizontal dd{ margin-left: 60px;}

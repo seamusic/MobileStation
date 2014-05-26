@@ -13,7 +13,7 @@ namespace AppStore.WebUI.Controllers
     {
         protected readonly ServerSetting _setting = ServerSettingProxy.Instance.LoadConfig();
 
-        protected void RebuildList(List<Application> list)
+        protected void RebuildList(IList<Application> list)
         {
             foreach (var item in list)
             {

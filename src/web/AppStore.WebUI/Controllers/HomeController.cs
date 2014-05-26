@@ -29,7 +29,9 @@ namespace AppStore.WebUI.Controllers
             ViewBag.DataJson = Utilities.DataToJsonToBase64(installList);
             ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories((int)ApplicationType.装机必备);
             ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(category);
-            ViewBag.TopRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking(category);
+            var topRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking(category);
+            RebuildList(topRanking);
+            ViewBag.TopRanking = topRanking;
             return View("_List", list);
         }
 
