@@ -14,8 +14,12 @@ namespace AppStore.Models
     
     public partial class Application
     {
+        public Application()
+        {
+            this.Category = new HashSet<Category>();
+        }
+    
         public string ApplicationID { get; set; }
-        public string CategoryID { get; set; }
         public string BrandID { get; set; }
         public int AppType { get; set; }
         public string ApplicationName { get; set; }
@@ -41,5 +45,8 @@ namespace AppStore.Models
         public string Icon { get; set; }
         public Nullable<int> Seq { get; set; }
         public Nullable<System.DateTime> CreateTime { get; set; }
+        public bool AutoDownload { get; set; }
+    
+        public virtual ICollection<Category> Category { get; set; }
     }
 }

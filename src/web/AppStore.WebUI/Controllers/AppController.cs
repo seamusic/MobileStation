@@ -15,12 +15,12 @@ namespace AppStore.WebUI.Controllers
         // GET: /App/
         public ActionResult Index(string category, int index = 1)
         {
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, category, null, false, true, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, category, null, false, "Total", false, true, index);
             RebuildList(list);
-            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, category, null, true, true, index, 2);
+            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, category, null, true, "Total", false, true, index, 2);
             RebuildList(installList);
             installList.AddRange(list);
-            ViewBag.DataJson = Utilities.DataToJsonToBase64(installList);
+            ViewBag.DataJson = Utilities.DataToJsonToBase64(TranModels(installList));
             return View("_List", list);
         }
 

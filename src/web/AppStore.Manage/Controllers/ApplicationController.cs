@@ -29,7 +29,7 @@ namespace AppStore.Manage.Controllers
 
         private ActionResult SearchApplication(int? appTyle, string categoryId, string applicationName, int index = 1)
         {
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(appTyle, categoryId, applicationName, null, false, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(appTyle, categoryId, applicationName, null, "CreateTime", false, null, index);
             if (Request.IsAjaxRequest())
                 return PartialView("_ApplicationList", list);
             return View(list);
@@ -99,6 +99,8 @@ namespace AppStore.Manage.Controllers
                 application = new Application();
                 application.AppType = (int)ApplicationType.应用工具;
                 application.ApplicationID = Guid.NewGuid().ToString();
+                application.IsValid = true;
+                application.AutoDownload = true;
             }
             else
             {
@@ -157,7 +159,7 @@ namespace AppStore.Manage.Controllers
         {
             var fileInfoList = Singleton<UploadHelper>.Instance.Upload(Request, string.Empty, false);
             var uploadFileInfo = fileInfoList.FirstOrDefault();
-            if (uploadFileInfo != null)
+            if (uploadFileInfo != null && uploadFileInfo.FileSize != 1024 * 1024)
             {
 
                 try
@@ -189,7 +191,7 @@ namespace AppStore.Manage.Controllers
         {
             if (AppTypeID != null && AppTypeID != 0)
             {
-                var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(AppTypeID, null, null, null, true, 1, 1000);
+                var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(AppTypeID, null, null, null, "", true, null, 1, 1000);
                 return View(list);
             }
             return View();

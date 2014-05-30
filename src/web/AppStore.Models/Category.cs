@@ -14,11 +14,18 @@ namespace AppStore.Models
     
     public partial class Category
     {
+        public Category()
+        {
+            this.Application = new HashSet<Application>();
+        }
+    
         public string CategoryID { get; set; }
         public int AppTypeID { get; set; }
         public string CategoryName { get; set; }
         public string ParentID { get; set; }
         public Nullable<int> Seq { get; set; }
         public string ENName { get; set; }
+    
+        public virtual ICollection<Application> Application { get; set; }
     }
 }

@@ -65,6 +65,10 @@
     <Compile Include="SystemBusiness.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AppStore.Common\AppStore.Common.csproj">
+      <Project>{55BCBA53-A7FB-4688-AECC-4494867924E3}</Project>
+      <Name>AppStore.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utility\Utility.csproj">
       <Project>{11b11cd1-acc1-4084-ad58-2a1207961188}</Project>
       <Name>Utility</Name>

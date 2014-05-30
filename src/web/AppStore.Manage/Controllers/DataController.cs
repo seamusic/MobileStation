@@ -25,15 +25,17 @@ namespace AppStore.Manage.Controllers
         public JsonResult Index(string type, string category, int index = 1)
         {
             var applicationType = type == "game" ? ApplicationType.游戏娱乐 : ApplicationType.应用工具;
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, null, true, index);
-            ViewBag.DataJson = Utilities.DataToJsonToBase64(list);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, null,"", true, true, index);
+            var dataList = AutoMapper.Mapper.Map<List<Application>, List<AppModel>>(list);
+            ViewBag.DataJson = Utilities.DataToJsonToBase64(dataList);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult Detail(string id)
         {
             var detail = Singleton<ApplicationBusiness>.Instance.GetApplication(id);
-            ViewBag.DataJson = Utilities.DataToJsonToBase64(detail);
+            var app = AutoMapper.Mapper.Map<AppModel>(detail);
+            ViewBag.DataJson = Utilities.DataToJsonToBase64(app);
 
             return Json(detail, JsonRequestBehavior.AllowGet);
         }
@@ -41,8 +43,9 @@ namespace AppStore.Manage.Controllers
         public JsonResult Recommend(string type, string category, int index = 1)
         {
             var applicationType = type == "game" ? ApplicationType.游戏娱乐 : ApplicationType.应用工具;
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, (bool?)true, true, index, 2);
-            ViewBag.RecommendData = Utilities.DataToJsonToBase64(list);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, (bool?)true, "", true, true, index, 2);
+            var dataList = AutoMapper.Mapper.Map<List<Application>, List<AppModel>>(list);
+            ViewBag.RecommendData = Utilities.DataToJsonToBase64(dataList);
             return Json(list, JsonRequestBehavior.AllowGet);
         }
 
@@ -397,7 +400,7 @@ namespace AppStore.Manage.Controllers
 
         public JsonResult Apps()
         {
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, null, null, null, true, 1, 1000);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, null, null, null, "", true, true, 1, 1000);
             var newlist = list.Select(d => new Application()
             {
                 ApplicationID = d.ApplicationID,

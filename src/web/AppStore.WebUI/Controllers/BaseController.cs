@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using AppStore.Common;
 using AppStore.Models;
+using AppStore.WebUI.Models;
 
 namespace AppStore.WebUI.Controllers
 {
@@ -15,14 +16,21 @@ namespace AppStore.WebUI.Controllers
 
         protected void RebuildList(IList<Application> list)
         {
-            foreach (var item in list)
-            {
-                item.Icon = string.IsNullOrEmpty(item.Icon) ? "/Images/android.png" : Path.Combine(_setting.DownloadPath, item.Icon).Replace('\\','/');
-                item.PictureUrl = string.IsNullOrEmpty(item.PictureUrl) ? "/Images/nopicture.jpg" : Path.Combine(_setting.DownloadPath, item.PictureUrl).Replace('\\', '/');
-                item.RelativePath = string.IsNullOrEmpty(item.RelativePath) ? string.Empty : Path.Combine(_setting.DownloadPath, item.RelativePath).Replace('\\', '/');
-                item.DownloadUrl = string.IsNullOrEmpty(item.DownloadUrl) ? string.Empty : Path.Combine(_setting.DownloadPath, item.DownloadUrl).Replace('\\', '/');
-                item.Description = "";
-            }
+            if (list != null)
+                foreach (var item in list)
+                {
+                    item.Icon = string.IsNullOrEmpty(item.Icon) ? "/Images/android.png" : Path.Combine(_setting.DownloadPath, item.Icon).Replace('\\', '/');
+                    item.PictureUrl = string.IsNullOrEmpty(item.PictureUrl) ? "/Images/nopicture.jpg" : Path.Combine(_setting.DownloadPath, item.PictureUrl).Replace('\\', '/');
+                    item.RelativePath = string.IsNullOrEmpty(item.RelativePath) ? string.Empty : Path.Combine(_setting.DownloadPath, item.RelativePath).Replace('\\', '/');
+                    item.DownloadUrl = string.IsNullOrEmpty(item.DownloadUrl) ? string.Empty : Path.Combine(_setting.DownloadPath, item.DownloadUrl).Replace('\\', '/');
+                    item.Description = "";
+                }
+        }
+
+        public List<AppModel> TranModels(List<Application> list)
+        {
+            var blogSiteDto = AutoMapper.Mapper.Map<List<Application>, List<AppModel>>(list);
+            return blogSiteDto;
         }
     }
 }

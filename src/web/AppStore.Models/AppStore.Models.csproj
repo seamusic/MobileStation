@@ -68,6 +68,7 @@
     <Compile Include="ApplicationTag.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="AppModel.cs" />
     <Compile Include="AppType.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
@@ -184,6 +185,9 @@
       <Project>{11B11CD1-ACC1-4084-AD58-2A1207961188}</Project>
       <Name>Utility</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DB.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

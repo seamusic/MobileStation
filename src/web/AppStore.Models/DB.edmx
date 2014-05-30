@@ -4,448 +4,489 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="AppStore.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="ActionPermission">
-          <Key>
-            <PropertyRef Name="ActionPermissionId" />
-          </Key>
-          <Property Name="ActionPermissionId" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="ParentId" Type="varchar" MaxLength="36" />
-          <Property Name="Name" Type="varchar" MaxLength="100" />
-          <Property Name="IsController" Type="bit" Nullable="false" />
-          <Property Name="IsAllowedNoneRoles" Type="bit" Nullable="false" />
-          <Property Name="IsAllowedAllRoles" Type="bit" Nullable="false" />
-          <Property Name="ControlName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="ActionName" Type="varchar" MaxLength="50" />
-          <Property Name="Description" Type="varchar" MaxLength="100" />
-          <Property Name="Permission" Type="int" />
-          <Property Name="CreateTime" Type="datetime" Nullable="false" />
-          <Property Name="IsAllowed" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="ActionPermissionRole">
-          <Key>
-            <PropertyRef Name="ActionPermissionRoleId" />
-          </Key>
-          <Property Name="ActionPermissionRoleId" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="IsAllowed" Type="bit" Nullable="false" />
-          <Property Name="RoleId" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="ActionPermissionId" Type="varchar" MaxLength="36" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Application">
-          <Key>
-            <PropertyRef Name="ApplicationID" />
-          </Key>
-          <Property Name="ApplicationID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="CategoryID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="BrandID" Type="varchar" MaxLength="36" />
-          <Property Name="AppType" Type="int" Nullable="false" />
-          <Property Name="ApplicationName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="PictureUrl" Type="varchar" MaxLength="200" />
-          <Property Name="Version" Type="varchar" MaxLength="50" />
-          <Property Name="Size" Type="varchar" MaxLength="50" />
-          <Property Name="Description" Type="text" />
-          <Property Name="OfficialWebsite" Type="varchar" MaxLength="200" />
-          <Property Name="DownloadUrl" Type="varchar" MaxLength="200" />
-          <Property Name="IsValid" Type="bit" Nullable="false" />
-          <Property Name="UpdateTime" Type="datetime" Nullable="false" />
-          <Property Name="Total" Type="int" Nullable="false" />
-          <Property Name="IsRecommend" Type="bit" Nullable="false" />
-          <Property Name="IsNecessary" Type="bit" Nullable="false" />
-          <Property Name="Score" Type="decimal" Precision="5" Scale="2" Nullable="false" />
-          <Property Name="Checksum" Type="varchar" MaxLength="128" />
-          <Property Name="PackageName" Type="varchar" MaxLength="256" />
-          <Property Name="ApkInfo" Type="varchar" MaxLength="1000" />
-          <Property Name="ServerPath" Type="varchar" MaxLength="256" />
-          <Property Name="RelativePath" Type="varchar" MaxLength="256" />
-          <Property Name="OSVersion" Type="varchar" MaxLength="36" />
-          <Property Name="SDKVersion" Type="varchar" MaxLength="36" />
-          <Property Name="Icon" Type="varchar" MaxLength="256" />
-          <Property Name="Seq" Type="int" />
-          <Property Name="CreateTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="ApplicationEvaluate">
-          <Key>
-            <PropertyRef Name="ApplicationEvaluateID" />
-          </Key>
-          <Property Name="ApplicationEvaluateID" Type="char" MaxLength="10" Nullable="false" />
-          <Property Name="UserID" Type="varchar" MaxLength="36" />
-          <Property Name="ApplicationID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="Content" Type="char" MaxLength="10" />
-          <Property Name="Score" Type="decimal" Precision="5" Scale="2" />
-          <Property Name="UpdateTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="ApplicationTag">
-          <Key>
-            <PropertyRef Name="TagID" />
-            <PropertyRef Name="ApplicationID" />
-          </Key>
-          <Property Name="TagID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="ApplicationID" Type="varchar" MaxLength="36" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AppType">
-          <Key>
-            <PropertyRef Name="AppTypeID" />
-          </Key>
-          <Property Name="AppTypeID" Type="int" Nullable="false" />
-          <Property Name="AppTypeName" Type="varchar" MaxLength="50" />
-          <Property Name="Count" Type="int" />
-          <Property Name="Description" Type="varchar" MaxLength="2000" />
-        </EntityType>
-        <EntityType Name="AppUser">
-          <Key>
-            <PropertyRef Name="AppUserID" />
-          </Key>
-          <Property Name="AppUserID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="LoginID" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="RegTime" Type="datetime" />
-          <Property Name="LastLoginTime" Type="datetime" />
-          <Property Name="ErrorCount" Type="int" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="UpdateTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="Brand">
-          <Key>
-            <PropertyRef Name="BrandID" />
-          </Key>
-          <Property Name="BrandID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="BrandName" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="BrandType" Type="int" Nullable="false" />
-          <Property Name="Mobile" Type="varchar" MaxLength="50" />
-          <Property Name="Telephone" Type="varchar" MaxLength="50" />
-          <Property Name="Addr" Type="varchar" MaxLength="100" />
-          <Property Name="Url" Type="varchar" MaxLength="200" />
-          <Property Name="Linkman" Type="varchar" MaxLength="50" />
-          <Property Name="Description" Type="varchar" MaxLength="2000" />
-          <Property Name="UpdateTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="Category">
-          <Key>
-            <PropertyRef Name="CategoryID" />
-          </Key>
-          <Property Name="CategoryID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="AppTypeID" Type="int" Nullable="false" />
-          <Property Name="CategoryName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="ParentID" Type="varchar" MaxLength="36" />
-          <Property Name="Seq" Type="int" />
-          <Property Name="ENName" Type="varchar" MaxLength="256" />
-        </EntityType>
-        <EntityType Name="Driver">
-          <Key>
-            <PropertyRef Name="DriverID" />
-          </Key>
-          <Property Name="DriverID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="DriverName" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="DownloadUrl" Type="varchar" MaxLength="200" Nullable="false" />
-          <Property Name="Version" Type="varchar" MaxLength="50" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="Description" Type="varchar" MaxLength="2000" />
-        </EntityType>
-        <EntityType Name="Mobile">
-          <Key>
-            <PropertyRef Name="MobileID" />
-          </Key>
-          <Property Name="MobileID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="DriverID" Type="varchar" MaxLength="36" />
-          <Property Name="MobileName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="Brand" Type="varchar" MaxLength="100" />
-          <Property Name="Model" Type="varchar" MaxLength="50" />
-          <Property Name="System" Type="varchar" MaxLength="50" />
-          <Property Name="Version" Type="varchar" MaxLength="50" />
-          <Property Name="PictureUrl" Type="varchar" MaxLength="200" />
-          <Property Name="MemorySize" Type="varchar" MaxLength="50" />
-          <Property Name="CPU" Type="varchar" MaxLength="50" />
-          <Property Name="ScreenSize" Type="varchar" MaxLength="100" />
-          <Property Name="Resolution" Type="varchar" MaxLength="50" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="PID" Type="varchar" MaxLength="256" />
-          <Property Name="VID" Type="varchar" MaxLength="256" />
-        </EntityType>
-        <EntityType Name="MobileApp">
-          <Key>
-            <PropertyRef Name="MobileAppID" />
-          </Key>
-          <Property Name="MobileAppID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="ApplicationID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="MobileClientID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="Installer" Type="varchar" MaxLength="36" />
-          <Property Name="CreateTime" Type="datetime" />
-          <Property Name="FirstTime" Type="datetime" />
-          <Property Name="SecondTime" Type="datetime" />
-          <Property Name="Totaltime" Type="bigint" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="AddTime" Type="datetime" />
-          <Property Name="RemoveTime" Type="datetime" />
-          <Property Name="PackageName" Type="varchar" MaxLength="50" />
-          <Property Name="IsSync" Type="bit" />
-          <Property Name="IsSys" Type="bit" />
-          <Property Name="Frequency" Type="int" />
-        </EntityType>
-        <EntityType Name="MobileApplication">
-          <Key>
-            <PropertyRef Name="MobileApplicationID" />
-          </Key>
-          <Property Name="MobileApplicationID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="ApplicationID" Type="varchar" MaxLength="36" />
-          <Property Name="ClientType" Type="int" />
-          <Property Name="ClientID" Type="varchar" MaxLength="36" />
-          <Property Name="UpdateTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="MobileClient">
-          <Key>
-            <PropertyRef Name="MobileClientID" />
-          </Key>
-          <Property Name="MobileClientID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="PhoneModelID" Type="varchar" MaxLength="36" />
-          <Property Name="PCClientID" Type="varchar" MaxLength="36" />
-          <Property Name="ClientName" Type="varchar" MaxLength="50" />
-          <Property Name="ClientMac" Type="varchar" MaxLength="36" />
-          <Property Name="ClientKey" Type="varchar" MaxLength="128" />
-          <Property Name="Description" Type="varchar" MaxLength="2000" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="CreateTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="PCApp">
-          <Key>
-            <PropertyRef Name="PCAppID" />
-          </Key>
-          <Property Name="PCAppID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="ApplicationID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="PCClientID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="CreateTime" Type="datetime" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="InstallCount" Type="int" />
-        </EntityType>
-        <EntityType Name="PCClient">
-          <Key>
-            <PropertyRef Name="PCClientID" />
-          </Key>
-          <Property Name="PCClientID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="UserID" Type="varchar" MaxLength="36" />
-          <Property Name="ClientName" Type="varchar" MaxLength="50" />
-          <Property Name="ClientKey" Type="varchar" MaxLength="128" />
-          <Property Name="ClientMac" Type="varchar" MaxLength="36" />
-          <Property Name="Description" Type="varchar" MaxLength="2000" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="CreateTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="PCInstallLog">
-          <Key>
-            <PropertyRef Name="MobileClientID" />
-            <PropertyRef Name="PCAppID" />
-          </Key>
-          <Property Name="MobileClientID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="PCAppID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="Message" Type="varchar" MaxLength="1000" />
-        </EntityType>
-        <EntityType Name="PhoneModel">
-          <Key>
-            <PropertyRef Name="PhoneModelID" />
-          </Key>
-          <Property Name="PhoneModelID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="DriverID" Type="varchar" MaxLength="36" />
-          <Property Name="BrandID" Type="varchar" MaxLength="36" />
-          <Property Name="ModelName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="System" Type="varchar" MaxLength="50" />
-          <Property Name="Version" Type="varchar" MaxLength="50" />
-          <Property Name="PictureUrl" Type="varchar" MaxLength="200" />
-          <Property Name="MemorySize" Type="varchar" MaxLength="50" />
-          <Property Name="CPU" Type="varchar" MaxLength="50" />
-          <Property Name="ScreenSize" Type="varchar" MaxLength="100" />
-          <Property Name="Resolution" Type="varchar" MaxLength="50" />
-          <Property Name="UpdateTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="Picture">
-          <Key>
-            <PropertyRef Name="PictureID" />
-          </Key>
-          <Property Name="PictureID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="ApplicationID" Type="varchar" MaxLength="36" />
-          <Property Name="Path" Type="varchar" MaxLength="200" />
-          <Property Name="Size" Type="int" />
-          <Property Name="Width" Type="int" />
-          <Property Name="Height" Type="int" />
-        </EntityType>
-        <EntityType Name="Role">
-          <Key>
-            <PropertyRef Name="RoleID" />
-          </Key>
-          <Property Name="RoleID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" />
-          <Property Name="Description" Type="varchar" MaxLength="2000" />
-        </EntityType>
-        <EntityType Name="RunLog">
-          <Key>
-            <PropertyRef Name="RunLogID" />
-          </Key>
-          <Property Name="RunLogID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="MobileAppID" Type="varchar" MaxLength="36" />
-          <Property Name="Action" Type="int" Nullable="false" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="Message" Type="varchar" MaxLength="1000" />
-          <Property Name="PackageName" Type="varchar" MaxLength="200" />
-          <Property Name="StartTime" Type="datetime" />
-          <Property Name="EndTime" Type="datetime" />
-          <Property Name="TotalTime" Type="bigint" />
-        </EntityType>
-        <EntityType Name="Statistics">
-          <Key>
-            <PropertyRef Name="StatisticsID" />
-          </Key>
-          <Property Name="StatisticsID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="Action" Type="int" Nullable="false" />
-          <Property Name="UpdateTime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="Tag">
-          <Key>
-            <PropertyRef Name="TagID" />
-          </Key>
-          <Property Name="TagID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="TagName" Type="varchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
-          <Property Name="LoginId" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Password" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="RegTime" Type="datetime" />
-          <Property Name="LastLoginTime" Type="datetime" />
-          <Property Name="ErrorCount" Type="int" />
-          <Property Name="IsValid" Type="bit" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="Mobile" Type="varchar" MaxLength="50" />
-          <Property Name="Telephone" Type="varchar" MaxLength="50" />
-        </EntityType>
-        <EntityType Name="UserMobile">
-          <Key>
-            <PropertyRef Name="PhoneModelID" />
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="PhoneModelID" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="UserID" Type="varchar" MaxLength="36" Nullable="false" />
-        </EntityType>
-        <EntityType Name="UserRole">
-          <Key>
-            <PropertyRef Name="UserRoleId" />
-          </Key>
-          <Property Name="UserRoleId" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="UserId" Type="varchar" MaxLength="36" Nullable="false" />
-          <Property Name="RoleId" Type="varchar" MaxLength="36" Nullable="false" />
-        </EntityType>
-        <Association Name="FK_ControllerActionRole_ControllerAction">
-          <End Role="ActionPermission" Type="Self.ActionPermission" Multiplicity="1" />
-          <End Role="ActionPermissionRole" Type="Self.ActionPermissionRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ActionPermission">
-              <PropertyRef Name="ActionPermissionId" />
-            </Principal>
-            <Dependent Role="ActionPermissionRole">
-              <PropertyRef Name="ActionPermissionId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_ControllerActionRole_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="ActionPermissionRole" Type="Self.ActionPermissionRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="ActionPermissionRole">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PCClient_User">
-          <End Role="User" Type="Self.User" Multiplicity="0..1" />
-          <End Role="PCClient" Type="Self.PCClient" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="PCClient">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserRole_Role">
-          <End Role="Role" Type="Self.Role" Multiplicity="1" />
-          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Role">
-              <PropertyRef Name="RoleID" />
-            </Principal>
-            <Dependent Role="UserRole">
-              <PropertyRef Name="RoleId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserRole_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="UserRole" Type="Self.UserRole" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="UserId" />
-            </Principal>
-            <Dependent Role="UserRole">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="AppStoreModelsStoreContainer">
-          <EntitySet Name="ActionPermission" EntityType="Self.ActionPermission" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ActionPermissionRole" EntityType="Self.ActionPermissionRole" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ApplicationEvaluate" EntityType="Self.ApplicationEvaluate" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="ApplicationTag" EntityType="Self.ApplicationTag" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AppType" EntityType="Self.AppType" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AppUser" EntityType="Self.AppUser" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Category" EntityType="Self.Category" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Driver" EntityType="Self.Driver" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Mobile" EntityType="Self.Mobile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MobileApp" EntityType="Self.MobileApp" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MobileApplication" EntityType="Self.MobileApplication" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="MobileClient" EntityType="Self.MobileClient" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PCApp" EntityType="Self.PCApp" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PCClient" EntityType="Self.PCClient" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PCInstallLog" EntityType="Self.PCInstallLog" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PhoneModel" EntityType="Self.PhoneModel" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Picture" EntityType="Self.Picture" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RunLog" EntityType="Self.RunLog" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Statistics" EntityType="Self.Statistics" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Tag" EntityType="Self.Tag" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserMobile" EntityType="Self.UserMobile" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_ControllerActionRole_ControllerAction" Association="Self.FK_ControllerActionRole_ControllerAction">
-            <End Role="ActionPermission" EntitySet="ActionPermission" />
-            <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK_ControllerActionRole_Role" Association="Self.FK_ControllerActionRole_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PCClient_User" Association="Self.FK_PCClient_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="PCClient" EntitySet="PCClient" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserRole_Role" Association="Self.FK_UserRole_Role">
-            <End Role="Role" EntitySet="Role" />
-            <End Role="UserRole" EntitySet="UserRole" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserRole_User" Association="Self.FK_UserRole_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="UserRole" EntitySet="UserRole" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="AppStore.Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="AppStoreModelsStoreContainer">
+    <EntitySet Name="ActionPermission" EntityType="AppStore.Models.Store.ActionPermission" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ActionPermissionRole" EntityType="AppStore.Models.Store.ActionPermissionRole" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Application" EntityType="AppStore.Models.Store.Application" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ApplicationEvaluate" EntityType="AppStore.Models.Store.ApplicationEvaluate" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ApplicationTag" EntityType="AppStore.Models.Store.ApplicationTag" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AppType" EntityType="AppStore.Models.Store.AppType" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AppUser" EntityType="AppStore.Models.Store.AppUser" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Brand" EntityType="AppStore.Models.Store.Brand" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Category" EntityType="AppStore.Models.Store.Category" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Driver" EntityType="AppStore.Models.Store.Driver" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Mobile" EntityType="AppStore.Models.Store.Mobile" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MobileApp" EntityType="AppStore.Models.Store.MobileApp" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MobileApplication" EntityType="AppStore.Models.Store.MobileApplication" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="MobileClient" EntityType="AppStore.Models.Store.MobileClient" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PCApp" EntityType="AppStore.Models.Store.PCApp" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PCClient" EntityType="AppStore.Models.Store.PCClient" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PCInstallLog" EntityType="AppStore.Models.Store.PCInstallLog" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PhoneModel" EntityType="AppStore.Models.Store.PhoneModel" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Picture" EntityType="AppStore.Models.Store.Picture" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Role" EntityType="AppStore.Models.Store.Role" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="RunLog" EntityType="AppStore.Models.Store.RunLog" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Statistics" EntityType="AppStore.Models.Store.Statistics" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Tag" EntityType="AppStore.Models.Store.Tag" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="User" EntityType="AppStore.Models.Store.User" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserMobile" EntityType="AppStore.Models.Store.UserMobile" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserRole" EntityType="AppStore.Models.Store.UserRole" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ApplicationCategory" EntityType="AppStore.Models.Store.ApplicationCategory" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_ControllerActionRole_ControllerAction" Association="AppStore.Models.Store.FK_ControllerActionRole_ControllerAction">
+      <End Role="ActionPermission" EntitySet="ActionPermission" />
+      <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ControllerActionRole_Role" Association="AppStore.Models.Store.FK_ControllerActionRole_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="ActionPermissionRole" EntitySet="ActionPermissionRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PCClient_User" Association="AppStore.Models.Store.FK_PCClient_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="PCClient" EntitySet="PCClient" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_Role" Association="AppStore.Models.Store.FK_UserRole_Role">
+      <End Role="Role" EntitySet="Role" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserRole_User" Association="AppStore.Models.Store.FK_UserRole_User">
+      <End Role="User" EntitySet="User" />
+      <End Role="UserRole" EntitySet="UserRole" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ApplicationCategory_Application" Association="AppStore.Models.Store.FK_ApplicationCategory_Application">
+      <End Role="Application" EntitySet="Application" />
+      <End Role="ApplicationCategory" EntitySet="ApplicationCategory" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ApplicationCategory_Category" Association="AppStore.Models.Store.FK_ApplicationCategory_Category">
+      <End Role="Category" EntitySet="Category" />
+      <End Role="ApplicationCategory" EntitySet="ApplicationCategory" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="ActionPermission">
+    <Key>
+      <PropertyRef Name="ActionPermissionId" />
+    </Key>
+    <Property Name="ActionPermissionId" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="ParentId" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="Name" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="IsController" Type="bit" Nullable="false" />
+    <Property Name="IsAllowedNoneRoles" Type="bit" Nullable="false" />
+    <Property Name="IsAllowedAllRoles" Type="bit" Nullable="false" />
+    <Property Name="ControlName" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="ActionName" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Description" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="Permission" Type="int" Nullable="true" />
+    <Property Name="CreateTime" Type="datetime" Nullable="false" />
+    <Property Name="IsAllowed" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ActionPermissionRole">
+    <Key>
+      <PropertyRef Name="ActionPermissionRoleId" />
+    </Key>
+    <Property Name="ActionPermissionRoleId" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="IsAllowed" Type="bit" Nullable="false" />
+    <Property Name="RoleId" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="ActionPermissionId" Type="varchar" Nullable="false" MaxLength="36" />
+  </EntityType>
+  <EntityType Name="Application">
+    <Key>
+      <PropertyRef Name="ApplicationID" />
+    </Key>
+    <Property Name="ApplicationID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="BrandID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="AppType" Type="int" Nullable="false" />
+    <Property Name="ApplicationName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="PictureUrl" Type="varchar" Nullable="true" MaxLength="200" />
+    <Property Name="Version" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Size" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Description" Type="varchar(max)" Nullable="true" />
+    <Property Name="OfficialWebsite" Type="varchar" Nullable="true" MaxLength="200" />
+    <Property Name="DownloadUrl" Type="varchar" Nullable="true" MaxLength="200" />
+    <Property Name="IsValid" Type="bit" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="false" />
+    <Property Name="Total" Type="int" Nullable="false" />
+    <Property Name="IsRecommend" Type="bit" Nullable="false" />
+    <Property Name="IsNecessary" Type="bit" Nullable="false" />
+    <Property Name="Score" Type="decimal" Nullable="false" Precision="5" Scale="2" />
+    <Property Name="Checksum" Type="varchar" Nullable="true" MaxLength="128" />
+    <Property Name="PackageName" Type="varchar" Nullable="true" MaxLength="256" />
+    <Property Name="ApkInfo" Type="varchar" Nullable="true" MaxLength="1000" />
+    <Property Name="ServerPath" Type="varchar" Nullable="true" MaxLength="256" />
+    <Property Name="RelativePath" Type="varchar" Nullable="true" MaxLength="256" />
+    <Property Name="OSVersion" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="SDKVersion" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="Icon" Type="varchar" Nullable="true" MaxLength="256" />
+    <Property Name="Seq" Type="int" Nullable="true" />
+    <Property Name="CreateTime" Type="datetime" Nullable="true" />
+    <Property Name="AutoDownload" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ApplicationEvaluate">
+    <Key>
+      <PropertyRef Name="ApplicationEvaluateID" />
+    </Key>
+    <Property Name="ApplicationEvaluateID" Type="char" Nullable="false" MaxLength="10" />
+    <Property Name="UserID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="ApplicationID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="Content" Type="char" Nullable="true" MaxLength="10" />
+    <Property Name="Score" Type="decimal" Nullable="true" Precision="5" Scale="2" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="ApplicationTag">
+    <Key>
+      <PropertyRef Name="TagID" />
+      <PropertyRef Name="ApplicationID" />
+    </Key>
+    <Property Name="TagID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="ApplicationID" Type="varchar" Nullable="false" MaxLength="36" />
+  </EntityType>
+  <EntityType Name="AppType">
+    <Key>
+      <PropertyRef Name="AppTypeID" />
+    </Key>
+    <Property Name="AppTypeID" Type="int" Nullable="false" />
+    <Property Name="AppTypeName" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Count" Type="int" Nullable="true" />
+    <Property Name="Description" Type="varchar" Nullable="true" MaxLength="2000" />
+  </EntityType>
+  <EntityType Name="AppUser">
+    <Key>
+      <PropertyRef Name="AppUserID" />
+    </Key>
+    <Property Name="AppUserID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="LoginID" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="RegTime" Type="datetime" Nullable="true" />
+    <Property Name="LastLoginTime" Type="datetime" Nullable="true" />
+    <Property Name="ErrorCount" Type="int" Nullable="true" />
+    <Property Name="IsValid" Type="bit" Nullable="true" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Brand">
+    <Key>
+      <PropertyRef Name="BrandID" />
+    </Key>
+    <Property Name="BrandID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="BrandName" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="BrandType" Type="int" Nullable="false" />
+    <Property Name="Mobile" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Telephone" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Addr" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="Url" Type="varchar" Nullable="true" MaxLength="200" />
+    <Property Name="Linkman" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Description" Type="varchar" Nullable="true" MaxLength="2000" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="CategoryID" />
+    </Key>
+    <Property Name="CategoryID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="AppTypeID" Type="int" Nullable="false" />
+    <Property Name="CategoryName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="ParentID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="Seq" Type="int" Nullable="true" />
+    <Property Name="ENName" Type="varchar" Nullable="true" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="Driver">
+    <Key>
+      <PropertyRef Name="DriverID" />
+    </Key>
+    <Property Name="DriverID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="DriverName" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="DownloadUrl" Type="varchar" Nullable="false" MaxLength="200" />
+    <Property Name="Version" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+    <Property Name="Description" Type="varchar" Nullable="true" MaxLength="2000" />
+  </EntityType>
+  <EntityType Name="Mobile">
+    <Key>
+      <PropertyRef Name="MobileID" />
+    </Key>
+    <Property Name="MobileID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="DriverID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="MobileName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="Brand" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="Model" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="System" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Version" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="PictureUrl" Type="varchar" Nullable="true" MaxLength="200" />
+    <Property Name="MemorySize" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="CPU" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="ScreenSize" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="Resolution" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+    <Property Name="PID" Type="varchar" Nullable="true" MaxLength="256" />
+    <Property Name="VID" Type="varchar" Nullable="true" MaxLength="256" />
+  </EntityType>
+  <EntityType Name="MobileApp">
+    <Key>
+      <PropertyRef Name="MobileAppID" />
+    </Key>
+    <Property Name="MobileAppID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="ApplicationID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="MobileClientID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="Installer" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="CreateTime" Type="datetime" Nullable="true" />
+    <Property Name="FirstTime" Type="datetime" Nullable="true" />
+    <Property Name="SecondTime" Type="datetime" Nullable="true" />
+    <Property Name="Totaltime" Type="bigint" Nullable="true" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+    <Property Name="AddTime" Type="datetime" Nullable="true" />
+    <Property Name="RemoveTime" Type="datetime" Nullable="true" />
+    <Property Name="PackageName" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="IsSync" Type="bit" Nullable="true" />
+    <Property Name="IsSys" Type="bit" Nullable="true" />
+    <Property Name="Frequency" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="MobileApplication">
+    <Key>
+      <PropertyRef Name="MobileApplicationID" />
+    </Key>
+    <Property Name="MobileApplicationID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="ApplicationID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="ClientType" Type="int" Nullable="true" />
+    <Property Name="ClientID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="MobileClient">
+    <Key>
+      <PropertyRef Name="MobileClientID" />
+    </Key>
+    <Property Name="MobileClientID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="PhoneModelID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="PCClientID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="ClientName" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="ClientMac" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="ClientKey" Type="varchar" Nullable="true" MaxLength="128" />
+    <Property Name="Description" Type="varchar" Nullable="true" MaxLength="2000" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+    <Property Name="CreateTime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PCApp">
+    <Key>
+      <PropertyRef Name="PCAppID" />
+    </Key>
+    <Property Name="PCAppID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="ApplicationID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="PCClientID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="CreateTime" Type="datetime" Nullable="true" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+    <Property Name="InstallCount" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PCClient">
+    <Key>
+      <PropertyRef Name="PCClientID" />
+    </Key>
+    <Property Name="PCClientID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="UserID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="ClientName" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="ClientKey" Type="varchar" Nullable="true" MaxLength="128" />
+    <Property Name="ClientMac" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="Description" Type="varchar" Nullable="true" MaxLength="2000" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+    <Property Name="CreateTime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PCInstallLog">
+    <Key>
+      <PropertyRef Name="MobileClientID" />
+      <PropertyRef Name="PCAppID" />
+    </Key>
+    <Property Name="MobileClientID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="PCAppID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+    <Property Name="Message" Type="varchar" Nullable="true" MaxLength="1000" />
+  </EntityType>
+  <EntityType Name="PhoneModel">
+    <Key>
+      <PropertyRef Name="PhoneModelID" />
+    </Key>
+    <Property Name="PhoneModelID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="DriverID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="BrandID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="ModelName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="System" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Version" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="PictureUrl" Type="varchar" Nullable="true" MaxLength="200" />
+    <Property Name="MemorySize" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="CPU" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="ScreenSize" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="Resolution" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Picture">
+    <Key>
+      <PropertyRef Name="PictureID" />
+    </Key>
+    <Property Name="PictureID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="ApplicationID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="Path" Type="varchar" Nullable="true" MaxLength="200" />
+    <Property Name="Size" Type="int" Nullable="true" />
+    <Property Name="Width" Type="int" Nullable="true" />
+    <Property Name="Height" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Role">
+    <Key>
+      <PropertyRef Name="RoleID" />
+    </Key>
+    <Property Name="RoleID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="Name" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Description" Type="varchar" Nullable="true" MaxLength="2000" />
+  </EntityType>
+  <EntityType Name="RunLog">
+    <Key>
+      <PropertyRef Name="RunLogID" />
+    </Key>
+    <Property Name="RunLogID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="MobileAppID" Type="varchar" Nullable="true" MaxLength="36" />
+    <Property Name="Action" Type="int" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+    <Property Name="Message" Type="varchar" Nullable="true" MaxLength="1000" />
+    <Property Name="PackageName" Type="varchar" Nullable="true" MaxLength="200" />
+    <Property Name="StartTime" Type="datetime" Nullable="true" />
+    <Property Name="EndTime" Type="datetime" Nullable="true" />
+    <Property Name="TotalTime" Type="bigint" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Statistics">
+    <Key>
+      <PropertyRef Name="StatisticsID" />
+    </Key>
+    <Property Name="StatisticsID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="Action" Type="int" Nullable="false" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Tag">
+    <Key>
+      <PropertyRef Name="TagID" />
+    </Key>
+    <Property Name="TagID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="TagName" Type="varchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="UserName" Type="varchar" Nullable="false" MaxLength="100" />
+    <Property Name="LoginId" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Password" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="RegTime" Type="datetime" Nullable="true" />
+    <Property Name="LastLoginTime" Type="datetime" Nullable="true" />
+    <Property Name="ErrorCount" Type="int" Nullable="true" />
+    <Property Name="IsValid" Type="bit" Nullable="true" />
+    <Property Name="UpdateTime" Type="datetime" Nullable="true" />
+    <Property Name="Mobile" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Telephone" Type="varchar" Nullable="true" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="UserMobile">
+    <Key>
+      <PropertyRef Name="PhoneModelID" />
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="PhoneModelID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="UserID" Type="varchar" Nullable="false" MaxLength="36" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="UserRoleId" />
+    </Key>
+    <Property Name="UserRoleId" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="UserId" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="RoleId" Type="varchar" Nullable="false" MaxLength="36" />
+  </EntityType>
+  <EntityType Name="ApplicationCategory">
+    <Key>
+      <PropertyRef Name="Application_ApplicationID" />
+      <PropertyRef Name="Category_CategoryID" />
+    </Key>
+    <Property Name="Application_ApplicationID" Type="varchar" Nullable="false" MaxLength="36" />
+    <Property Name="Category_CategoryID" Type="varchar" Nullable="false" MaxLength="36" />
+  </EntityType>
+  <Association Name="FK_ControllerActionRole_ControllerAction">
+    <End Role="ActionPermission" Type="AppStore.Models.Store.ActionPermission" Multiplicity="1" />
+    <End Role="ActionPermissionRole" Type="AppStore.Models.Store.ActionPermissionRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ActionPermission">
+        <PropertyRef Name="ActionPermissionId" />
+      </Principal>
+      <Dependent Role="ActionPermissionRole">
+        <PropertyRef Name="ActionPermissionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ControllerActionRole_Role">
+    <End Role="Role" Type="AppStore.Models.Store.Role" Multiplicity="1" />
+    <End Role="ActionPermissionRole" Type="AppStore.Models.Store.ActionPermissionRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="ActionPermissionRole">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PCClient_User">
+    <End Role="User" Type="AppStore.Models.Store.User" Multiplicity="0..1" />
+    <End Role="PCClient" Type="AppStore.Models.Store.PCClient" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="PCClient">
+        <PropertyRef Name="UserID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_Role">
+    <End Role="Role" Type="AppStore.Models.Store.Role" Multiplicity="1" />
+    <End Role="UserRole" Type="AppStore.Models.Store.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Role">
+        <PropertyRef Name="RoleID" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserRole_User">
+    <End Role="User" Type="AppStore.Models.Store.User" Multiplicity="1" />
+    <End Role="UserRole" Type="AppStore.Models.Store.UserRole" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="UserId" />
+      </Principal>
+      <Dependent Role="UserRole">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ApplicationCategory_Application">
+    <End Role="Application" Type="AppStore.Models.Store.Application" Multiplicity="1" />
+    <End Role="ApplicationCategory" Type="AppStore.Models.Store.ApplicationCategory" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Application">
+        <PropertyRef Name="ApplicationID" />
+      </Principal>
+      <Dependent Role="ApplicationCategory">
+        <PropertyRef Name="Application_ApplicationID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ApplicationCategory_Category">
+    <End Role="ApplicationCategory" Type="AppStore.Models.Store.ApplicationCategory" Multiplicity="*" />
+    <End Role="Category" Type="AppStore.Models.Store.Category" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="CategoryID" />
+      </Principal>
+      <Dependent Role="ApplicationCategory">
+        <PropertyRef Name="Category_CategoryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="AppStore.Models" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
@@ -496,6 +537,10 @@
             <End Role="User" EntitySet="User" />
             <End Role="UserRole" EntitySet="UserRole" />
           </AssociationSet>
+          <AssociationSet Name="ApplicationCategory" Association="AppStore.Models.ApplicationCategory">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="Category" EntitySet="Category" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="ActionPermission">
           <Key>
@@ -531,7 +576,6 @@
             <PropertyRef Name="ApplicationID" />
           </Key>
           <Property Name="ApplicationID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
-          <Property Name="CategoryID" Type="String" Nullable="false" MaxLength="36" FixedLength="false" Unicode="false" />
           <Property Name="BrandID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
           <Property Name="AppType" Type="Int32" Nullable="false" />
           <Property Name="ApplicationName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
@@ -557,6 +601,8 @@
           <Property Name="Icon" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
           <Property Name="Seq" Type="Int32" />
           <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="AutoDownload" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Category" Relationship="AppStore.Models.ApplicationCategory" FromRole="Application" ToRole="Category" />
         </EntityType>
         <EntityType Name="ApplicationEvaluate">
           <Key>
@@ -625,6 +671,7 @@
           <Property Name="ParentID" Type="String" MaxLength="36" FixedLength="false" Unicode="false" />
           <Property Name="Seq" Type="Int32" />
           <Property Name="ENName" Type="String" MaxLength="256" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Application" Relationship="AppStore.Models.ApplicationCategory" FromRole="Category" ToRole="Application" />
         </EntityType>
         <EntityType Name="Driver">
           <Key>
@@ -899,370 +946,381 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="ApplicationCategory">
+          <End Type="AppStore.Models.Application" Role="Application" Multiplicity="*" />
+          <End Type="AppStore.Models.Category" Role="Category" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="AppStoreModelsStoreContainer" CdmEntityContainer="appstoreEntities">
-          <EntitySetMapping Name="ActionPermission">
-            <EntityTypeMapping TypeName="AppStore.Models.ActionPermission">
-              <MappingFragment StoreEntitySet="ActionPermission">
-                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="Permission" ColumnName="Permission" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-                <ScalarProperty Name="ControlName" ColumnName="ControlName" />
-                <ScalarProperty Name="IsAllowedAllRoles" ColumnName="IsAllowedAllRoles" />
-                <ScalarProperty Name="IsAllowedNoneRoles" ColumnName="IsAllowedNoneRoles" />
-                <ScalarProperty Name="IsController" ColumnName="IsController" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
-                <ScalarProperty Name="ActionPermissionId" ColumnName="ActionPermissionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ActionPermissionRole">
-            <EntityTypeMapping TypeName="AppStore.Models.ActionPermissionRole">
-              <MappingFragment StoreEntitySet="ActionPermissionRole">
-                <ScalarProperty Name="ActionPermissionId" ColumnName="ActionPermissionId" />
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
-                <ScalarProperty Name="ActionPermissionRoleId" ColumnName="ActionPermissionRoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Application">
-            <EntityTypeMapping TypeName="AppStore.Models.Application">
-              <MappingFragment StoreEntitySet="Application">
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="Seq" ColumnName="Seq" />
-                <ScalarProperty Name="Icon" ColumnName="Icon" />
-                <ScalarProperty Name="SDKVersion" ColumnName="SDKVersion" />
-                <ScalarProperty Name="OSVersion" ColumnName="OSVersion" />
-                <ScalarProperty Name="RelativePath" ColumnName="RelativePath" />
-                <ScalarProperty Name="ServerPath" ColumnName="ServerPath" />
-                <ScalarProperty Name="ApkInfo" ColumnName="ApkInfo" />
-                <ScalarProperty Name="PackageName" ColumnName="PackageName" />
-                <ScalarProperty Name="Checksum" ColumnName="Checksum" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-                <ScalarProperty Name="IsNecessary" ColumnName="IsNecessary" />
-                <ScalarProperty Name="IsRecommend" ColumnName="IsRecommend" />
-                <ScalarProperty Name="Total" ColumnName="Total" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
-                <ScalarProperty Name="DownloadUrl" ColumnName="DownloadUrl" />
-                <ScalarProperty Name="OfficialWebsite" ColumnName="OfficialWebsite" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
-                <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
-                <ScalarProperty Name="AppType" ColumnName="AppType" />
-                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ApplicationEvaluate">
-            <EntityTypeMapping TypeName="AppStore.Models.ApplicationEvaluate">
-              <MappingFragment StoreEntitySet="ApplicationEvaluate">
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="ApplicationEvaluateID" ColumnName="ApplicationEvaluateID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ApplicationTag">
-            <EntityTypeMapping TypeName="AppStore.Models.ApplicationTag">
-              <MappingFragment StoreEntitySet="ApplicationTag">
-                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
-                <ScalarProperty Name="TagID" ColumnName="TagID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AppType">
-            <EntityTypeMapping TypeName="AppStore.Models.AppType">
-              <MappingFragment StoreEntitySet="AppType">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Count" ColumnName="Count" />
-                <ScalarProperty Name="AppTypeName" ColumnName="AppTypeName" />
-                <ScalarProperty Name="AppTypeID" ColumnName="AppTypeID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AppUser">
-            <EntityTypeMapping TypeName="AppStore.Models.AppUser">
-              <MappingFragment StoreEntitySet="AppUser">
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
-                <ScalarProperty Name="ErrorCount" ColumnName="ErrorCount" />
-                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AppUserID" ColumnName="AppUserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Brand">
-            <EntityTypeMapping TypeName="AppStore.Models.Brand">
-              <MappingFragment StoreEntitySet="Brand">
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Linkman" ColumnName="Linkman" />
-                <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="Addr" ColumnName="Addr" />
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="BrandType" ColumnName="BrandType" />
-                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
-                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Category">
-            <EntityTypeMapping TypeName="AppStore.Models.Category">
-              <MappingFragment StoreEntitySet="Category">
-                <ScalarProperty Name="ENName" ColumnName="ENName" />
-                <ScalarProperty Name="Seq" ColumnName="Seq" />
-                <ScalarProperty Name="ParentID" ColumnName="ParentID" />
-                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
-                <ScalarProperty Name="AppTypeID" ColumnName="AppTypeID" />
-                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Driver">
-            <EntityTypeMapping TypeName="AppStore.Models.Driver">
-              <MappingFragment StoreEntitySet="Driver">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="DownloadUrl" ColumnName="DownloadUrl" />
-                <ScalarProperty Name="DriverName" ColumnName="DriverName" />
-                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Mobile">
-            <EntityTypeMapping TypeName="AppStore.Models.Mobile">
-              <MappingFragment StoreEntitySet="Mobile">
-                <ScalarProperty Name="VID" ColumnName="VID" />
-                <ScalarProperty Name="PID" ColumnName="PID" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Resolution" ColumnName="Resolution" />
-                <ScalarProperty Name="ScreenSize" ColumnName="ScreenSize" />
-                <ScalarProperty Name="CPU" ColumnName="CPU" />
-                <ScalarProperty Name="MemorySize" ColumnName="MemorySize" />
-                <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="Brand" ColumnName="Brand" />
-                <ScalarProperty Name="MobileName" ColumnName="MobileName" />
-                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
-                <ScalarProperty Name="MobileID" ColumnName="MobileID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MobileApp">
-            <EntityTypeMapping TypeName="AppStore.Models.MobileApp">
-              <MappingFragment StoreEntitySet="MobileApp">
-                <ScalarProperty Name="Frequency" ColumnName="Frequency" />
-                <ScalarProperty Name="IsSys" ColumnName="IsSys" />
-                <ScalarProperty Name="IsSync" ColumnName="IsSync" />
-                <ScalarProperty Name="PackageName" ColumnName="PackageName" />
-                <ScalarProperty Name="RemoveTime" ColumnName="RemoveTime" />
-                <ScalarProperty Name="AddTime" ColumnName="AddTime" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Totaltime" ColumnName="Totaltime" />
-                <ScalarProperty Name="SecondTime" ColumnName="SecondTime" />
-                <ScalarProperty Name="FirstTime" ColumnName="FirstTime" />
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="Installer" ColumnName="Installer" />
-                <ScalarProperty Name="MobileClientID" ColumnName="MobileClientID" />
-                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
-                <ScalarProperty Name="MobileAppID" ColumnName="MobileAppID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MobileApplication">
-            <EntityTypeMapping TypeName="AppStore.Models.MobileApplication">
-              <MappingFragment StoreEntitySet="MobileApplication">
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="ClientID" ColumnName="ClientID" />
-                <ScalarProperty Name="ClientType" ColumnName="ClientType" />
-                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
-                <ScalarProperty Name="MobileApplicationID" ColumnName="MobileApplicationID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MobileClient">
-            <EntityTypeMapping TypeName="AppStore.Models.MobileClient">
-              <MappingFragment StoreEntitySet="MobileClient">
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ClientKey" ColumnName="ClientKey" />
-                <ScalarProperty Name="ClientMac" ColumnName="ClientMac" />
-                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
-                <ScalarProperty Name="PCClientID" ColumnName="PCClientID" />
-                <ScalarProperty Name="PhoneModelID" ColumnName="PhoneModelID" />
-                <ScalarProperty Name="MobileClientID" ColumnName="MobileClientID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PCApp">
-            <EntityTypeMapping TypeName="AppStore.Models.PCApp">
-              <MappingFragment StoreEntitySet="PCApp">
-                <ScalarProperty Name="InstallCount" ColumnName="InstallCount" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="PCClientID" ColumnName="PCClientID" />
-                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
-                <ScalarProperty Name="PCAppID" ColumnName="PCAppID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PCClient">
-            <EntityTypeMapping TypeName="AppStore.Models.PCClient">
-              <MappingFragment StoreEntitySet="PCClient">
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ClientMac" ColumnName="ClientMac" />
-                <ScalarProperty Name="ClientKey" ColumnName="ClientKey" />
-                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="PCClientID" ColumnName="PCClientID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PCInstallLog">
-            <EntityTypeMapping TypeName="AppStore.Models.PCInstallLog">
-              <MappingFragment StoreEntitySet="PCInstallLog">
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="PCAppID" ColumnName="PCAppID" />
-                <ScalarProperty Name="MobileClientID" ColumnName="MobileClientID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PhoneModel">
-            <EntityTypeMapping TypeName="AppStore.Models.PhoneModel">
-              <MappingFragment StoreEntitySet="PhoneModel">
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Resolution" ColumnName="Resolution" />
-                <ScalarProperty Name="ScreenSize" ColumnName="ScreenSize" />
-                <ScalarProperty Name="CPU" ColumnName="CPU" />
-                <ScalarProperty Name="MemorySize" ColumnName="MemorySize" />
-                <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="System" ColumnName="System" />
-                <ScalarProperty Name="ModelName" ColumnName="ModelName" />
-                <ScalarProperty Name="BrandID" ColumnName="BrandID" />
-                <ScalarProperty Name="DriverID" ColumnName="DriverID" />
-                <ScalarProperty Name="PhoneModelID" ColumnName="PhoneModelID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Picture">
-            <EntityTypeMapping TypeName="AppStore.Models.Picture">
-              <MappingFragment StoreEntitySet="Picture">
-                <ScalarProperty Name="Height" ColumnName="Height" />
-                <ScalarProperty Name="Width" ColumnName="Width" />
-                <ScalarProperty Name="Size" ColumnName="Size" />
-                <ScalarProperty Name="Path" ColumnName="Path" />
-                <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
-                <ScalarProperty Name="PictureID" ColumnName="PictureID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Role">
-            <EntityTypeMapping TypeName="AppStore.Models.Role">
-              <MappingFragment StoreEntitySet="Role">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="RoleID" ColumnName="RoleID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RunLog">
-            <EntityTypeMapping TypeName="AppStore.Models.RunLog">
-              <MappingFragment StoreEntitySet="RunLog">
-                <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
-                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
-                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
-                <ScalarProperty Name="PackageName" ColumnName="PackageName" />
-                <ScalarProperty Name="Message" ColumnName="Message" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="MobileAppID" ColumnName="MobileAppID" />
-                <ScalarProperty Name="RunLogID" ColumnName="RunLogID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Statistics">
-            <EntityTypeMapping TypeName="AppStore.Models.Statistics">
-              <MappingFragment StoreEntitySet="Statistics">
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Action" ColumnName="Action" />
-                <ScalarProperty Name="StatisticsID" ColumnName="StatisticsID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Tag">
-            <EntityTypeMapping TypeName="AppStore.Models.Tag">
-              <MappingFragment StoreEntitySet="Tag">
-                <ScalarProperty Name="TagName" ColumnName="TagName" />
-                <ScalarProperty Name="TagID" ColumnName="TagID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="User">
-            <EntityTypeMapping TypeName="AppStore.Models.User">
-              <MappingFragment StoreEntitySet="User">
-                <ScalarProperty Name="Telephone" ColumnName="Telephone" />
-                <ScalarProperty Name="Mobile" ColumnName="Mobile" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
-                <ScalarProperty Name="ErrorCount" ColumnName="ErrorCount" />
-                <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
-                <ScalarProperty Name="RegTime" ColumnName="RegTime" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="LoginId" ColumnName="LoginId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserMobile">
-            <EntityTypeMapping TypeName="AppStore.Models.UserMobile">
-              <MappingFragment StoreEntitySet="UserMobile">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="PhoneModelID" ColumnName="PhoneModelID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="UserRole">
-            <EntityTypeMapping TypeName="AppStore.Models.UserRole">
-              <MappingFragment StoreEntitySet="UserRole">
-                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AppStoreModelsStoreContainer" CdmEntityContainer="appstoreEntities">
+    <EntitySetMapping Name="ActionPermission">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.ActionPermission)">
+        <MappingFragment StoreEntitySet="ActionPermission">
+          <ScalarProperty Name="ActionPermissionId" ColumnName="ActionPermissionId" />
+          <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IsController" ColumnName="IsController" />
+          <ScalarProperty Name="IsAllowedNoneRoles" ColumnName="IsAllowedNoneRoles" />
+          <ScalarProperty Name="IsAllowedAllRoles" ColumnName="IsAllowedAllRoles" />
+          <ScalarProperty Name="ControlName" ColumnName="ControlName" />
+          <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Permission" ColumnName="Permission" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ActionPermissionRole">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.ActionPermissionRole)">
+        <MappingFragment StoreEntitySet="ActionPermissionRole">
+          <ScalarProperty Name="ActionPermissionRoleId" ColumnName="ActionPermissionRoleId" />
+          <ScalarProperty Name="IsAllowed" ColumnName="IsAllowed" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+          <ScalarProperty Name="ActionPermissionId" ColumnName="ActionPermissionId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Application">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.Application)">
+        <MappingFragment StoreEntitySet="Application">
+          <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+          <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+          <ScalarProperty Name="AppType" ColumnName="AppType" />
+          <ScalarProperty Name="ApplicationName" ColumnName="ApplicationName" />
+          <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="OfficialWebsite" ColumnName="OfficialWebsite" />
+          <ScalarProperty Name="DownloadUrl" ColumnName="DownloadUrl" />
+          <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="Total" ColumnName="Total" />
+          <ScalarProperty Name="IsRecommend" ColumnName="IsRecommend" />
+          <ScalarProperty Name="IsNecessary" ColumnName="IsNecessary" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="Checksum" ColumnName="Checksum" />
+          <ScalarProperty Name="PackageName" ColumnName="PackageName" />
+          <ScalarProperty Name="ApkInfo" ColumnName="ApkInfo" />
+          <ScalarProperty Name="ServerPath" ColumnName="ServerPath" />
+          <ScalarProperty Name="RelativePath" ColumnName="RelativePath" />
+          <ScalarProperty Name="OSVersion" ColumnName="OSVersion" />
+          <ScalarProperty Name="SDKVersion" ColumnName="SDKVersion" />
+          <ScalarProperty Name="Icon" ColumnName="Icon" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="AutoDownload" ColumnName="AutoDownload" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ApplicationEvaluate">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.ApplicationEvaluate)">
+        <MappingFragment StoreEntitySet="ApplicationEvaluate">
+          <ScalarProperty Name="ApplicationEvaluateID" ColumnName="ApplicationEvaluateID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ApplicationTag">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.ApplicationTag)">
+        <MappingFragment StoreEntitySet="ApplicationTag">
+          <ScalarProperty Name="TagID" ColumnName="TagID" />
+          <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AppType">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.AppType)">
+        <MappingFragment StoreEntitySet="AppType">
+          <ScalarProperty Name="AppTypeID" ColumnName="AppTypeID" />
+          <ScalarProperty Name="AppTypeName" ColumnName="AppTypeName" />
+          <ScalarProperty Name="Count" ColumnName="Count" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AppUser">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.AppUser)">
+        <MappingFragment StoreEntitySet="AppUser">
+          <ScalarProperty Name="AppUserID" ColumnName="AppUserID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+          <ScalarProperty Name="ErrorCount" ColumnName="ErrorCount" />
+          <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Brand">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.Brand)">
+        <MappingFragment StoreEntitySet="Brand">
+          <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+          <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+          <ScalarProperty Name="BrandType" ColumnName="BrandType" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+          <ScalarProperty Name="Addr" ColumnName="Addr" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="Linkman" ColumnName="Linkman" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Category">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.Category)">
+        <MappingFragment StoreEntitySet="Category">
+          <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+          <ScalarProperty Name="AppTypeID" ColumnName="AppTypeID" />
+          <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+          <ScalarProperty Name="ParentID" ColumnName="ParentID" />
+          <ScalarProperty Name="Seq" ColumnName="Seq" />
+          <ScalarProperty Name="ENName" ColumnName="ENName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Driver">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.Driver)">
+        <MappingFragment StoreEntitySet="Driver">
+          <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+          <ScalarProperty Name="DriverName" ColumnName="DriverName" />
+          <ScalarProperty Name="DownloadUrl" ColumnName="DownloadUrl" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mobile">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.Mobile)">
+        <MappingFragment StoreEntitySet="Mobile">
+          <ScalarProperty Name="MobileID" ColumnName="MobileID" />
+          <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+          <ScalarProperty Name="MobileName" ColumnName="MobileName" />
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="System" ColumnName="System" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
+          <ScalarProperty Name="MemorySize" ColumnName="MemorySize" />
+          <ScalarProperty Name="CPU" ColumnName="CPU" />
+          <ScalarProperty Name="ScreenSize" ColumnName="ScreenSize" />
+          <ScalarProperty Name="Resolution" ColumnName="Resolution" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="PID" ColumnName="PID" />
+          <ScalarProperty Name="VID" ColumnName="VID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MobileApp">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.MobileApp)">
+        <MappingFragment StoreEntitySet="MobileApp">
+          <ScalarProperty Name="MobileAppID" ColumnName="MobileAppID" />
+          <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+          <ScalarProperty Name="MobileClientID" ColumnName="MobileClientID" />
+          <ScalarProperty Name="Installer" ColumnName="Installer" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="FirstTime" ColumnName="FirstTime" />
+          <ScalarProperty Name="SecondTime" ColumnName="SecondTime" />
+          <ScalarProperty Name="Totaltime" ColumnName="Totaltime" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="AddTime" ColumnName="AddTime" />
+          <ScalarProperty Name="RemoveTime" ColumnName="RemoveTime" />
+          <ScalarProperty Name="PackageName" ColumnName="PackageName" />
+          <ScalarProperty Name="IsSync" ColumnName="IsSync" />
+          <ScalarProperty Name="IsSys" ColumnName="IsSys" />
+          <ScalarProperty Name="Frequency" ColumnName="Frequency" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MobileApplication">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.MobileApplication)">
+        <MappingFragment StoreEntitySet="MobileApplication">
+          <ScalarProperty Name="MobileApplicationID" ColumnName="MobileApplicationID" />
+          <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+          <ScalarProperty Name="ClientType" ColumnName="ClientType" />
+          <ScalarProperty Name="ClientID" ColumnName="ClientID" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="MobileClient">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.MobileClient)">
+        <MappingFragment StoreEntitySet="MobileClient">
+          <ScalarProperty Name="MobileClientID" ColumnName="MobileClientID" />
+          <ScalarProperty Name="PhoneModelID" ColumnName="PhoneModelID" />
+          <ScalarProperty Name="PCClientID" ColumnName="PCClientID" />
+          <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+          <ScalarProperty Name="ClientMac" ColumnName="ClientMac" />
+          <ScalarProperty Name="ClientKey" ColumnName="ClientKey" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PCApp">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.PCApp)">
+        <MappingFragment StoreEntitySet="PCApp">
+          <ScalarProperty Name="PCAppID" ColumnName="PCAppID" />
+          <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+          <ScalarProperty Name="PCClientID" ColumnName="PCClientID" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="InstallCount" ColumnName="InstallCount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PCClient">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.PCClient)">
+        <MappingFragment StoreEntitySet="PCClient">
+          <ScalarProperty Name="PCClientID" ColumnName="PCClientID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="ClientName" ColumnName="ClientName" />
+          <ScalarProperty Name="ClientKey" ColumnName="ClientKey" />
+          <ScalarProperty Name="ClientMac" ColumnName="ClientMac" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PCInstallLog">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.PCInstallLog)">
+        <MappingFragment StoreEntitySet="PCInstallLog">
+          <ScalarProperty Name="MobileClientID" ColumnName="MobileClientID" />
+          <ScalarProperty Name="PCAppID" ColumnName="PCAppID" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PhoneModel">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.PhoneModel)">
+        <MappingFragment StoreEntitySet="PhoneModel">
+          <ScalarProperty Name="PhoneModelID" ColumnName="PhoneModelID" />
+          <ScalarProperty Name="DriverID" ColumnName="DriverID" />
+          <ScalarProperty Name="BrandID" ColumnName="BrandID" />
+          <ScalarProperty Name="ModelName" ColumnName="ModelName" />
+          <ScalarProperty Name="System" ColumnName="System" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="PictureUrl" ColumnName="PictureUrl" />
+          <ScalarProperty Name="MemorySize" ColumnName="MemorySize" />
+          <ScalarProperty Name="CPU" ColumnName="CPU" />
+          <ScalarProperty Name="ScreenSize" ColumnName="ScreenSize" />
+          <ScalarProperty Name="Resolution" ColumnName="Resolution" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Picture">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.Picture)">
+        <MappingFragment StoreEntitySet="Picture">
+          <ScalarProperty Name="PictureID" ColumnName="PictureID" />
+          <ScalarProperty Name="ApplicationID" ColumnName="ApplicationID" />
+          <ScalarProperty Name="Path" ColumnName="Path" />
+          <ScalarProperty Name="Size" ColumnName="Size" />
+          <ScalarProperty Name="Width" ColumnName="Width" />
+          <ScalarProperty Name="Height" ColumnName="Height" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Role">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.Role)">
+        <MappingFragment StoreEntitySet="Role">
+          <ScalarProperty Name="RoleID" ColumnName="RoleID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="RunLog">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.RunLog)">
+        <MappingFragment StoreEntitySet="RunLog">
+          <ScalarProperty Name="RunLogID" ColumnName="RunLogID" />
+          <ScalarProperty Name="MobileAppID" ColumnName="MobileAppID" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="Message" ColumnName="Message" />
+          <ScalarProperty Name="PackageName" ColumnName="PackageName" />
+          <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+          <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+          <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Statistics">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.Statistics)">
+        <MappingFragment StoreEntitySet="Statistics">
+          <ScalarProperty Name="StatisticsID" ColumnName="StatisticsID" />
+          <ScalarProperty Name="Action" ColumnName="Action" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Tag">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.Tag)">
+        <MappingFragment StoreEntitySet="Tag">
+          <ScalarProperty Name="TagID" ColumnName="TagID" />
+          <ScalarProperty Name="TagName" ColumnName="TagName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="User">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.User)">
+        <MappingFragment StoreEntitySet="User">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="LoginId" ColumnName="LoginId" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="RegTime" ColumnName="RegTime" />
+          <ScalarProperty Name="LastLoginTime" ColumnName="LastLoginTime" />
+          <ScalarProperty Name="ErrorCount" ColumnName="ErrorCount" />
+          <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+          <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+          <ScalarProperty Name="Mobile" ColumnName="Mobile" />
+          <ScalarProperty Name="Telephone" ColumnName="Telephone" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserMobile">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.UserMobile)">
+        <MappingFragment StoreEntitySet="UserMobile">
+          <ScalarProperty Name="PhoneModelID" ColumnName="PhoneModelID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserRole">
+      <EntityTypeMapping TypeName="IsTypeOf(AppStore.Models.UserRole)">
+        <MappingFragment StoreEntitySet="UserRole">
+          <ScalarProperty Name="UserRoleId" ColumnName="UserRoleId" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="ApplicationCategory" TypeName="AppStore.Models.ApplicationCategory" StoreEntitySet="ApplicationCategory">
+      <EndProperty Name="Application">
+        <ScalarProperty Name="ApplicationID" ColumnName="Application_ApplicationID" />
+      </EndProperty>
+      <EndProperty Name="Category">
+        <ScalarProperty Name="CategoryID" ColumnName="Category_CategoryID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer>

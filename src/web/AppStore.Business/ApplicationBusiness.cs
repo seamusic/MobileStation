@@ -1,6 +1,8 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using System.Linq.Expressions;
 using System.Runtime.Serialization;
+using AppStore.Common;
 using AppStore.Models;
 using System;
 using System.Collections.Generic;
@@ -26,7 +28,19 @@ namespace AppStore.Business
         {
             using (var db = new appstoreEntities())
             {
-                return db.Application.FirstOrDefault(m => m.ApplicationID == id);
+                var ent = db.Application.FirstOrDefault(m => m.ApplicationID == id);
+                try
+                {
+                    if (ent != null)
+                    {
+                        ent.Total += 1;
+                        db.SaveChanges();
+                    }
+                }
+                catch (Exception ex)
+                {
+                }
+                return ent;
             }
         }
 
@@ -48,23 +62,32 @@ namespace AppStore.Business
         /// <param name="index"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public PagedList<Application> GetApplicationList(int? appTyle, string categoryId, string applicationName, bool? isrecommend, bool asc, int index = 1, int count = 9)
+        public PagedList<Application> GetApplicationList(int? appTyle, string categoryId, string applicationName, bool? isrecommend, 
+            string order, bool asc, bool? isvalid, int index = 1, int count = 9)
         {
             using (var db = new appstoreEntities())
             {
-                var qry = db.Application.Where(m => m.IsValid == true).AsQueryable();
+                var qry = db.Application.Include("Category").AsQueryable();
+                if (isvalid!=null)
+                {
+                    qry = qry.Where(m => m.IsValid == isvalid);
+                }
                 if (appTyle != null && appTyle != 0)
                     qry = qry.Where(a => a.AppType == appTyle);
                 if (!string.IsNullOrWhiteSpace(categoryId))
-                    qry = qry.Where(a => a.CategoryID == categoryId);
+                    qry = qry.Where(a => a.Category.Any(o=>o.CategoryID==categoryId));
                 if (!string.IsNullOrWhiteSpace(applicationName))
                     qry = qry.Where(a => a.ApplicationName.Contains(applicationName));
                 if (isrecommend != null)
                 {
                     qry = qry.Where(m => m.IsRecommend == isrecommend);
                 }
+                if (!string.IsNullOrEmpty(order))
+                {
+                    qry = asc ? qry.OrderBy(order) : qry.OrderByDescending(order);
+                }
 
-                PagedList<Application> model = asc ? qry.OrderBy(a => a.Seq).ToPagedList(index, count) : qry.OrderByDescending(a => a.Seq).ToPagedList(index, count);
+                PagedList<Application> model = qry.ToPagedList(index, count);
 
                 return model;
             }
@@ -126,7 +149,7 @@ namespace AppStore.Business
 
             using (var db = new appstoreEntities())
             {
-                return db.Application.Where(o => o.CategoryID == categoryId).OrderByDescending(o => o.Total).Take(count).ToList();
+                return db.Application.Where(o => o.Category.Any(c=>c.CategoryID==categoryId)).OrderByDescending(o => o.Total).Take(count).ToList();
             }
         }
 
@@ -206,7 +229,7 @@ namespace AppStore.Business
             bool result;
             using (var db = new appstoreEntities())
             {
-                if (application.CreateTime == DateTime.MinValue)
+                if (application.CreateTime == DateTime.MinValue || application.CreateTime == null)
                 {
                     application.CreateTime = DateTime.Now;
                     application.UpdateTime = DateTime.Now;

@@ -21,12 +21,12 @@ namespace AppStore.WebUI.Controllers
         public ActionResult Index(string category, int index = 1)
         {
             ViewBag.Title = "装机必备";
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, false, true, index, 12);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, false, "Total", false, true, index, 18);
             RebuildList(list);
-            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, true, true, index, 2);
+            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.装机必备, category, null, true, "Total", false, true, index, 2);
             RebuildList(installList);
             installList.AddRange(list);
-            ViewBag.DataJson = Utilities.DataToJsonToBase64(installList);
+            ViewBag.DataJson = Utilities.DataToJsonToBase64(TranModels(installList));
             ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories((int)ApplicationType.装机必备);
             ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(category);
             var topRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking(category);
@@ -43,12 +43,14 @@ namespace AppStore.WebUI.Controllers
             detail.RelativePath = string.IsNullOrEmpty(detail.RelativePath) ? string.Empty : Path.Combine(_setting.DownloadPath, detail.RelativePath);
             detail.DownloadUrl = string.IsNullOrEmpty(detail.DownloadUrl) ? string.Empty : Path.Combine(_setting.DownloadPath, detail.DownloadUrl);
             ViewBag.Pictures = Singleton<ApplicationBusiness>.Instance.GetApplicationPictures(id);
-            ViewBag.DataJson = Utilities.DataToJsonToBase64(detail);
+            var app = AutoMapper.Mapper.Map<AppModel>(detail);
+            ViewBag.DataJson = Utilities.DataToJsonToBase64(app);
             ViewBag.AppType = (ApplicationType)detail.AppType;
             ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories(detail.AppType);
-            ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(detail.CategoryID);
+            //todo:
+            //ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(detail.CategoryID);
             ViewBag.Title = detail.ApplicationName;
-            ViewBag.TopRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking(detail.CategoryID);
+            //ViewBag.TopRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking(detail.CategoryID);
             return View("_Detail", detail);
         }
 
@@ -71,9 +73,9 @@ namespace AppStore.WebUI.Controllers
                     applicationType = ApplicationType.装机必备;
                     break;
             }
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, true, true, index, 2);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)applicationType, category, null, true, "Seq", false, true, index, 2);
             RebuildList(list);
-            ViewBag.RecommendData = Utilities.DataToJsonToBase64(list);
+            ViewBag.RecommendData = Utilities.DataToJsonToBase64(TranModels(list));
             ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories((int)applicationType);
             return View("_Recommend", list);
         }
@@ -104,7 +106,7 @@ namespace AppStore.WebUI.Controllers
             }
 
             ViewBag.Title = string.Format("\"{0}\"查询结果", keyword);
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, null, keyword, null, false, index, 10);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(null, null, keyword, null, "Total", false, true, index, 10);
             RebuildList(list);
             return View(list);
         }

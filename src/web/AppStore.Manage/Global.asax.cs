@@ -8,6 +8,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using AppStore.Business;
+using AppStore.Models;
 using Lennon.Utility;
 using WebMatrix.WebData;
 
@@ -34,6 +35,7 @@ namespace AppStore.Manage
             //WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             //初始化权限
             Singleton<AuthorizeBusiness>.Instance.InitPermission();
+            AutoMapper.Mapper.CreateMap<Application, AppModel>();
         }
 
         protected void Application_PostAuthenticateRequest(object sender, System.EventArgs e)
