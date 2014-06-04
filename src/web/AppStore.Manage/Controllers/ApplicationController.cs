@@ -30,7 +30,7 @@ namespace AppStore.Manage.Controllers
 
         private ActionResult SearchApplication(int? appTyle, string categoryId, string applicationName, int index = 1)
         {
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(appTyle, categoryId, applicationName, null, "CreateTime", false, null, index);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(appTyle, categoryId, applicationName, null, "Seq", false, null, index);
             if (Request.IsAjaxRequest())
                 return PartialView("_ApplicationList", list);
             return View(list);
@@ -46,11 +46,13 @@ namespace AppStore.Manage.Controllers
         public JsonResult GetCategoryList(int type)
         {
             var list = Singleton<ApplicationBusiness>.Instance.GetCategoryList(type);
-            foreach (Category category in list)
+            var data = list.Select(category => new Category()
             {
-                category.Application = new Collection<Application>();
-            }
-            return Json(list, JsonRequestBehavior.AllowGet);
+                AppTypeID = category.AppTypeID, 
+                CategoryID = category.CategoryID, 
+                CategoryName = category.CategoryName
+            }).ToList();
+            return Json(data, JsonRequestBehavior.AllowGet);
         }
 
         [Description("查看应用分类")]
@@ -197,7 +199,7 @@ namespace AppStore.Manage.Controllers
         {
             if (AppTypeID != null && AppTypeID != 0)
             {
-                var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(AppTypeID, null, null, null, "", true, null, 1, 1000);
+                var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList(AppTypeID, null, null, null, "", false, null, 1, 1000);
                 return View(list);
             }
             return View();

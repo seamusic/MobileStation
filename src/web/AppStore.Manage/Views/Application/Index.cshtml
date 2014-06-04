@@ -12,15 +12,22 @@
         $(document).ready(function() {
             $("input[name='AppTypeID']").click(function () {
                 var $this = $(this);
-                $.getJSON("@Url.Action("GetCategoryList")", { type: $this.val() }, function (data) {
-                    var items = [];
-                    $.each(data, function (key, val) {
-                        items.push("<option value='" + val.CategoryID + "'>" + val.CategoryName + "</option>");
-                    });
-                    $("#CategoryID").html(items.join(""));
-                });
+                initSelect($this.val());
             });
+            initSelect(0);
         });
+
+        function initSelect(type) {
+            $.getJSON("@Url.Action("GetCategoryList")", { type: type }, function (data) {
+            var items = [];
+            items.push("<option value=''>全部</option>");
+            $.each(data, function (key, val) {
+                items.push("<option value='" + val.CategoryID + "'>" + val.CategoryName + "</option>");
+            });
+            $("#CategoryID").html(items.join(""));
+        });
+            
+        }
     </script>
 }
 @section importscript{

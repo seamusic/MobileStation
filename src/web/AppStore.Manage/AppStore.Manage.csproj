@@ -1325,7 +1325,6 @@
     <Content Include="App_Code\UIDisplay.cshtml" />
     <Content Include="Content\Plugins\uploadify\index.php" />
     <Content Include="Content\Plugins\gritter\README.markdown" />
-    <Content Include="Content\Plugins\bootstrap-multiselect\.gitignore" />
     <Content Include="Content\Plugins\bootstrap-multiselect\bower.json" />
     <Content Include="Content\Plugins\bootstrap-multiselect\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\Plugins\bootstrap-multiselect\fonts\glyphicons-halflings-regular.ttf" />

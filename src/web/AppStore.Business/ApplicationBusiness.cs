@@ -82,10 +82,11 @@ namespace AppStore.Business
                 {
                     qry = qry.Where(m => m.IsRecommend == isrecommend);
                 }
-                if (!string.IsNullOrEmpty(order))
+                if (string.IsNullOrEmpty(order))
                 {
-                    qry = asc ? qry.OrderBy(order) : qry.OrderByDescending(order);
+                    order = "Seq";
                 }
+                qry = asc ? qry.OrderBy(order) : qry.OrderByDescending(order);
 
                 PagedList<Application> model = qry.ToPagedList(index, count);
 
