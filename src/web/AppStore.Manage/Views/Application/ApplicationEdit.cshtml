@@ -25,17 +25,43 @@
     <script src="~/Content/Plugins/plupload/jquery.plupload.queue/jquery.plupload.queue.js"></script>
     <script src="~/Content/Plugins/jquery-validation/localization/messages_zh.js"></script>
     <!--kindleditor-->
-    <script src="~/Content/Plugins/kindeditor/kindeditor.js"></script>
     <link rel="stylesheet" href="~/Content/Plugins/kindeditor/themes/default/default.css" />
-    <link rel="stylesheet" href="~/Content/Plugins/kindeditor/plugins/code/prettify.css" />
-    <script charset="utf-8" src="~/Content/Plugins/kindeditor/kindeditor.js"></script>
+    <script charset="utf-8" src="~/Content/Plugins/kindeditor/kindeditor-min.js"></script>
     <script charset="utf-8" src="~/Content/Plugins/kindeditor/lang/zh_CN.js"></script>
-    <script charset="utf-8" src="~/Content/Plugins/kindeditor/plugins/code/prettify.js"></script>
     <script src="~/Content/Plugins/bootstrap-multiselect/js/bootstrap-multiselect.js"></script>
     <script src="~/Content/Plugins/bootstrap-multiselect/js/prettify.js"></script>
 }
 @section featured {
     <script type="text/javascript">
+        var editor;
+        KindEditor.ready(function (K) {
+            editor = K.create('#Description', {
+                cssPath: '/Content/Plugins/kindeditor/plugins/code/prettify.css',
+                uploadJson: '/Content/Plugins/kindeditor/asp.net/upload_json.ashx',
+                fileManagerJson: '/Content/Plugins/kindeditor/asp.net/file_manager_json.ashx',
+                allowFileManager: false,
+                resizeType : 1,
+                allowPreviewEmoticons : false,
+                allowImageUpload: false,
+                autoHeightMode: true,
+                items : [
+                    'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+                    'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+                    'insertunorderedlist', '|', 'link'],
+                afterCreate: function () {
+                    var self = this;
+                    this.loadPlugin('autoheight');
+                    K.ctrl(document, 13, function () {
+                        self.sync();
+                        K('form[name=form1]')[0].submit();
+                    });
+                    K.ctrl(self.edit.doc, 13, function () {
+                        self.sync();
+                        K('form[name=form1]')[0].submit();
+                    });
+                }
+            });
+        });
         var FormValidation = function () {
             var handleValidation1 = function () {
                 var form1 = $('#form1');
@@ -98,6 +124,7 @@
                     submitHandler: function (form) {
                         success1.show();
                         error1.hide();
+                        editor.sync();
                         //$("#images").val(imagesArray.join(","));
                         //var catetory = $("#appCategory").multiselect('select', value);
                         form.submit();
@@ -111,27 +138,6 @@
                 }
             };
         }();
-
-        KindEditor.ready(function (K) {
-            var editor1 = K.create('#Description', {
-                cssPath: '/Content/Plugins/kindeditor/plugins/code/prettify.css',
-                uploadJson: '/Content/Plugins/kindeditor/asp.net/upload_json.ashx',
-                fileManagerJson: '/Content/Plugins/kindeditor/asp.net/file_manager_json.ashx',
-                allowFileManager: true,
-                afterCreate: function () {
-                    var self = this;
-                    K.ctrl(document, 13, function () {
-                        self.sync();
-                        K('form[name=example]')[0].submit();
-                    });
-                    K.ctrl(self.edit.doc, 13, function () {
-                        self.sync();
-                        K('form[name=example]')[0].submit();
-                    });
-                }
-            });
-            prettyPrint();
-        });
 
         var initUpload = function () {
             var uploadApk = null;
@@ -392,7 +398,7 @@
                 </div>
                 <div class="portlet-body form">
                     <!-- BEGIN FORM-->
-                    <form id="form1" class="form-horizontal" method="POST">
+                    <form id="form1" class="form-horizontal" method="POST" name="form1">
                         @Html.HiddenFor(m => m.ApplicationID)
                         @Html.HiddenFor(m => m.UpdateTime)
                         @Html.HiddenFor(m => m.Checksum)

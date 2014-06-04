@@ -264,7 +264,7 @@ namespace AppStore.Business
                 {
                     application.CreateTime = DateTime.Now;
                     application.UpdateTime = DateTime.Now;
-                    db.Category.AddRange(categories);
+                    application.Category = categories;
                     db.Application.Add(application);
                 }
                 else
