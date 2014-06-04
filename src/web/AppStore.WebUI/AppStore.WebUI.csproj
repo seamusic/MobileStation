@@ -177,6 +177,7 @@
     <Content Include="Content\theme\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="App_Code\UIDisplay.cshtml" />
     <None Include="Properties\PublishProfiles\publish.pubxml" />
+    <None Include="Properties\PublishProfiles\webui.pubxml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Images\013_small.gif" />
     <Content Include="Images\android.png" />
