@@ -72,10 +72,16 @@ namespace AppStore.Business
                 {
                     qry = qry.Where(m => m.IsValid == isvalid);
                 }
-                if (appTyle != null && appTyle != 0)
-                    qry = qry.Where(a => a.AppType == appTyle);
+
                 if (!string.IsNullOrWhiteSpace(categoryId))
+                {
                     qry = qry.Where(a => a.Category.Any(o => o.CategoryID == categoryId));
+                }
+                else if (appTyle != null && appTyle != 0)
+                {
+                    qry = qry.Where(a => a.Category.Any(o => o.AppTypeID == appTyle));
+                }
+
                 if (!string.IsNullOrWhiteSpace(applicationName))
                     qry = qry.Where(a => a.ApplicationName.Contains(applicationName));
                 if (isrecommend != null)
@@ -117,7 +123,7 @@ namespace AppStore.Business
         {
             using (var db = new appstoreEntities())
             {
-                if (apptype==0)
+                if (apptype == 0)
                 {
                     return db.Category.ToList<Category>();
                 }
@@ -161,16 +167,25 @@ namespace AppStore.Business
             }
         }
 
-        public IList<Application> GetTopRanking(string categoryId, int count = 10)
+        public IList<Application> GetTopRanking(int type, string categoryId, int count = 10)
         {
             if (string.IsNullOrEmpty(categoryId))
             {
-                return null;
+                using (var db = new appstoreEntities())
+                {
+                    return db.Application
+                        .Where(o => o.Category.Any(c => c.AppTypeID == type))
+                        .OrderBy(o => o.IsRecommend)
+                        .ThenByDescending(o => o.Total).Take(count).ToList();
+                }
             }
 
             using (var db = new appstoreEntities())
             {
-                return db.Application.Where(o => o.Category.Any(c => c.CategoryID == categoryId)).OrderByDescending(o => o.Total).Take(count).ToList();
+                return db.Application
+                    .Where(o => o.Category.Any(c => c.CategoryID == categoryId))
+                    .OrderBy(o => o.IsRecommend)
+                    .ThenByDescending(o => o.Total).Take(count).ToList();
             }
         }
 

@@ -528,14 +528,19 @@ a.list-group-item.active:focus .list-group-item-text {
 .nomarginleft {
     margin-left: 0 !important;
 }
+.row-fluid {
+}
 .row-fluid .span-menu {
-  width: 20%;
-  *width: 19.9468085106383%;
+  width: 20%!important;
+  *width: 19.9468085106383%!important;
 }
 .row-fluid .span-content {
-  width: 78.5%;
-  *width: 78.4468085106383%;
+  width: 78.5%!important;
+  *width: 78.4468085106383%!important;
   margin-left: 1.5%;
+}
+.item-title {
+    overflow: hidden;white-space: nowrap;text-overflow: ellipsis;
 }
 .container-fluid{ padding-left: 10px;padding-right: 20px;}
 .thumbnail{ text-align: center;}
@@ -543,7 +548,7 @@ a.list-group-item.active:focus .list-group-item-text {
 .nav{ margin-bottom: 10px;}
 .breadcrumb{ margin-bottom: 10px;}
 .form-search .input-append{ width: 80%;}
-.row-fluid [class*='span']{ +min-height: 20px;+top: -1px;}
+.row-fluid [class*='span']{ min-height: 20px\9;}
 .ranking{}
 .ranking .list-group-item{ padding: 8px 10px;}
 .ranking .dl-horizontal{ margin: auto 5px;}

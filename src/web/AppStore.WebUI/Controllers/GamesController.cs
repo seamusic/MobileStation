@@ -18,15 +18,15 @@ namespace AppStore.WebUI.Controllers
         public ActionResult Index(string category, int index = 1)
         {
             ViewBag.Title = "游戏娱乐";
-            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.游戏娱乐, category, null, false, "Total", false, true, index, 18);
+            var list = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.游戏娱乐, category, null, null, "Total", false, true, index, 18);
             RebuildList(list);
-            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.游戏娱乐, category, null, true, "Total", false, true, index, 2);
+            var installList = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.游戏娱乐, category, null, null, "Total", false, true, index, 2);
             RebuildList(installList);
             installList.AddRange(list);
             ViewBag.DataJson = Utilities.DataToJsonToBase64(TranModels(installList));
             ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories((int)ApplicationType.游戏娱乐);
             ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(category);
-            var topRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking(category);
+            var topRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking((int)ApplicationType.游戏娱乐,category);
             RebuildList(topRanking);
             ViewBag.TopRanking = topRanking;
             return View("_List", list);
