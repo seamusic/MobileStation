@@ -154,6 +154,17 @@
     <Content Include="Content\plugins\bxslider\jquery.bxslider.css" />
     <Content Include="Content\plugins\bxslider\jquery.bxslider.js" />
     <Content Include="Content\plugins\bxslider\jquery.bxslider.min.js" />
+    <Content Include="Content\plugins\messenger\css\messenger-spinner.css" />
+    <Content Include="Content\plugins\messenger\css\messenger-theme-air.css" />
+    <Content Include="Content\plugins\messenger\css\messenger-theme-block.css" />
+    <Content Include="Content\plugins\messenger\css\messenger-theme-flat.css" />
+    <Content Include="Content\plugins\messenger\css\messenger-theme-future.css" />
+    <Content Include="Content\plugins\messenger\css\messenger-theme-ice.css" />
+    <Content Include="Content\plugins\messenger\css\messenger.css" />
+    <Content Include="Content\plugins\messenger\js\messenger-theme-flat.js" />
+    <Content Include="Content\plugins\messenger\js\messenger-theme-future.js" />
+    <Content Include="Content\plugins\messenger\js\messenger.js" />
+    <Content Include="Content\plugins\messenger\js\messenger.min.js" />
     <Content Include="Content\theme\css\bootstrap-theme.css" />
     <Content Include="Content\theme\css\bootstrap-theme.min.css" />
     <Content Include="Content\theme\css\bootstrap.css" />

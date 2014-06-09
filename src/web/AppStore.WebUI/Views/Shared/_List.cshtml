@@ -7,6 +7,11 @@
     var categories = ViewBag.Categories as IList<Category>;
     var category = ViewBag.Category as Category;
     var topRanking = ViewBag.TopRanking as IList<Application>;
+
+    if (category == null)
+    {
+        category = new Category();
+    }
 }
 @section style
 {
@@ -42,16 +47,22 @@
                 });
                 var str = JSON.stringify(json);
                 window.external.CB_InstallAPK(str);
+                var msg = "已添加安装" + name + "的任务";
+                Messenger().post(msg);
             });
 
             $("#installAll").click(function (event) {
                 event.preventDefault();
                 var str = JSON.stringify(dataJson);
                 window.external.CB_InstallAPK(str);
+                var msg = "已经添加批量应用";
+                Messenger().post(msg);
             });
             $("#uninstallAll").click(function (event) {
                 event.preventDefault();
                 window.external.CB_UninstallAllAPK();
+                var msg = "准备删除所有应用";
+                Messenger().post(msg);
             });
         });
 
@@ -141,7 +152,7 @@
                                         <img src="@ent.Icon" class="img-rounded" />
                                     </dt>
                                     <dd>
-                                        <a href="@Url.Action("Detail", "Home", new { id = ent.ApplicationID })"> @(k + 1) &nbsp; @ent.ApplicationName</a><br/>
+                                        <a href="@Url.Action("Detail", "Home", new { id = ent.ApplicationID, categoryId = category.CategoryID })"> @(k + 1) &nbsp; @ent.ApplicationName</a><br />
                                         <span>@ent.Total 次</span><br />
                                         <a href="#" data-value="@ent.ApplicationID" data-name="@ent.ApplicationName"
                                            class="install btn btn-default btn-info btn-mini" style="width: 80%;">安装</a>
@@ -176,7 +187,7 @@
                         <li><a href="#">@ViewBag.Title</a><span class="divider">&gt;</span></li>
                         @if (category != null)
                         {
-                            <li><a href="#">@category.CategoryName</a><span class="divider">&gt;</span></li>
+                            <li><a href="#">@category.CategoryName</a></li>
                         }
                     </ul>
                 </div>
@@ -188,10 +199,10 @@
                                 Application application = Model[i];
                                 <li class="span2">
                                     <div class="thumbnail">
-                                        <a href="@Url.Action("Detail", "Home", new {id = application.ApplicationID})">
+                                        <a href="@Url.Action("Detail", "Home", new { id = application.ApplicationID, categoryId = category.CategoryID })">
                                             <img src="@application.Icon" class="app-pic img-rounded" />
                                         </a>
-                                        <a class="item-title" href="@Url.Action("Detail", "Home", new {id = application.ApplicationID})">
+                                        <a class="item-title" href="@Url.Action("Detail", "Home", new { id = application.ApplicationID, categoryId = category.CategoryID })">
                                             <h6 class="text-center">@application.ApplicationName</h6>
                                         </a>
                                         <a href="#" data-value="@application.ApplicationID" data-name="@application.ApplicationName"

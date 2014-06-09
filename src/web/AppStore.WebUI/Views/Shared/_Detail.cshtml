@@ -17,6 +17,10 @@
         var pic = string.IsNullOrEmpty(picture.Path) ? "/Images/nopicture.jpg" : Path.Combine(setting.DownloadPath, picture.Path).Replace('\\', '/');
         picture.Path = pic;
     }
+    if (category == null)
+    {
+        category = new Category();
+    }
 }
 @section style
 {
@@ -47,6 +51,8 @@
                 event.preventDefault();
                 var json = [dataJson];
                 window.external.CB_InstallAPK(JSON.stringify(json));
+                var msg = "已添加安装" + json[0].ApplicationName + "的任务";
+                Messenger().post(msg);
             });
         });
     </script>
@@ -126,7 +132,7 @@
                         for (int k = 0; k < topRanking.Count; k++)
                         {
                             var ent = topRanking[k];
-                            <a href="@Url.Action("Detail", "Home", new {id = ent.ApplicationID})" class="list-group-item">@(k + 1) &nbsp; @ent.ApplicationName</a>
+                            <a href="@Url.Action("Detail", "Home", new { id = ent.ApplicationID, categoryId = category.CategoryID })" class="list-group-item">@(k + 1) &nbsp; @ent.ApplicationName</a>
                         }
                     }
                 </div>

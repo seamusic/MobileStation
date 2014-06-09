@@ -35,7 +35,7 @@ namespace AppStore.WebUI.Controllers
             return View("_List", list);
         }
 
-        public ActionResult Detail(string id)
+        public ActionResult Detail(string id, string categoryId)
         {
             var detail = Singleton<ApplicationBusiness>.Instance.GetApplication(id);
             detail.Icon = string.IsNullOrEmpty(detail.Icon) ? "/Images/android.png" : Path.Combine(_setting.DownloadPath, detail.Icon);
@@ -44,13 +44,18 @@ namespace AppStore.WebUI.Controllers
             detail.DownloadUrl = string.IsNullOrEmpty(detail.DownloadUrl) ? string.Empty : Path.Combine(_setting.DownloadPath, detail.DownloadUrl);
             ViewBag.Pictures = Singleton<ApplicationBusiness>.Instance.GetApplicationPictures(id);
             var app = AutoMapper.Mapper.Map<AppModel>(detail);
+            var category = string.IsNullOrEmpty(categoryId)
+                ? detail.Category.FirstOrDefault()
+                : Singleton<ApplicationBusiness>.Instance.GetCategory(categoryId);
+            ViewBag.Category = category;
+            if (category != null)
+            {
+                ViewBag.AppType = (ApplicationType)category.AppTypeID;
+                ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories(category.AppTypeID);
+                ViewBag.TopRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking(0, string.IsNullOrEmpty(categoryId) ? category.CategoryID : categoryId);
+            }
             ViewBag.DataJson = Utilities.DataToJsonToBase64(app);
-            ViewBag.AppType = (ApplicationType)detail.AppType;
-            ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories(detail.AppType);
-            //todo:
-            //ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(detail.CategoryID);
             ViewBag.Title = detail.ApplicationName;
-            //ViewBag.TopRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking(detail.CategoryID);
             return View("_Detail", detail);
         }
 
@@ -77,6 +82,7 @@ namespace AppStore.WebUI.Controllers
             RebuildList(list);
             ViewBag.RecommendData = Utilities.DataToJsonToBase64(TranModels(list));
             ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories((int)applicationType);
+            ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(category);
             return View("_Recommend", list);
         }
 

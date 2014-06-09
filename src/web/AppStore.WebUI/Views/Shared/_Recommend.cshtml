@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "";
     Layout = null;
+    var category = ViewBag.Category as Category;
 }
 <script type="text/javascript">
     jQuery(document).ready(function () {
@@ -27,7 +28,7 @@
     {
         Application application = Model[i];
     <div class="item text-center">
-        <a href="@Url.Action("Detail", "Home", new { id = application.ApplicationID })" class="">
+        <a href="@Url.Action("Detail", "Home", new { id = application.ApplicationID, categoryId = category.CategoryID })" class="">
             <img src="@application.PictureUrl" class="img-rounded recommend-pic" />
         </a>
         <br/>
