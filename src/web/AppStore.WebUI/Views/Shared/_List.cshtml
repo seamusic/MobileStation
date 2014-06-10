@@ -47,22 +47,16 @@
                 });
                 var str = JSON.stringify(json);
                 window.external.CB_InstallAPK(str);
-                var msg = "已添加安装" + name + "的任务";
-                Messenger().post(msg);
             });
 
             $("#installAll").click(function (event) {
                 event.preventDefault();
                 var str = JSON.stringify(dataJson);
                 window.external.CB_InstallAPK(str);
-                var msg = "已经添加批量应用";
-                Messenger().post(msg);
             });
             $("#uninstallAll").click(function (event) {
                 event.preventDefault();
                 window.external.CB_UninstallAllAPK();
-                var msg = "准备删除所有应用";
-                Messenger().post(msg);
             });
         });
 

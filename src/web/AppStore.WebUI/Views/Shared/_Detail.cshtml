@@ -51,8 +51,6 @@
                 event.preventDefault();
                 var json = [dataJson];
                 window.external.CB_InstallAPK(JSON.stringify(json));
-                var msg = "已添加安装" + json[0].ApplicationName + "的任务";
-                Messenger().post(msg);
             });
         });
     </script>

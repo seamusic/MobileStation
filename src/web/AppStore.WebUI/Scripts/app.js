@@ -164,6 +164,10 @@
         }
 
     };
+
+    var showMsg = function(msg) {
+        Messenger().post(msg);
+    };
 	
     return {
         init: function () {
@@ -173,6 +177,9 @@
             handleMisc();
             handleFancybox();
 			handleFixedHeader();
+        },
+        showMsg:function(msg) {
+            showMsg(msg);
         }
     };
 }();
