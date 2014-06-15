@@ -180,17 +180,25 @@
                     </div>
                 </div>
                 <div class="span2">
-                    @{
-                        foreach (var application in topRanking)
-                        {
-  
+                    <ul class="unstyled">
+                        @{
+                            if (recommond == null || recommond.Count == 0)
+                            {
+                                <li>暂无推荐</li>
+
+                            }
+                            else
+                            {
+                                foreach (var application in recommond)
+                                {
+                                    <li>
+                                        <a class="item-title" href="@Url.Action("Detail", "Home", new { id = application.ApplicationID, categoryId = category.CategoryID })">
+                                            @application.ApplicationName
+                                        </a>
+                                    </li>
+                                }
+                            }
                         }
-                    }
-                    <ul>
-                        <li>...</li>
-                        <li>...</li>
-                        <li>...</li>
-                        <li>...</li>
                     </ul>
                 </div>
                 <div class="clearfix"></div>
@@ -210,7 +218,7 @@
                             {
                                 Application application = Model[i];
                                 <li class="span2">
-                                    <div class="thumbnail">
+                                    <div class="text-center">
                                         <a href="@Url.Action("Detail", "Home", new { id = application.ApplicationID, categoryId = category.CategoryID })">
                                             <img src="@application.Icon" class="app-pic img-rounded" />
                                         </a>

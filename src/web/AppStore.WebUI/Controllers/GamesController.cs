@@ -26,9 +26,13 @@ namespace AppStore.WebUI.Controllers
             ViewBag.DataJson = Utilities.DataToJsonToBase64(TranModels(installList));
             ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories((int)ApplicationType.游戏娱乐);
             ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(category);
-            var topRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking((int)ApplicationType.游戏娱乐,category);
+            var topRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking((int)ApplicationType.游戏娱乐, category);
+            var recommen = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.游戏娱乐,
+                  category, null, true, "Seq", false, true, 1, 6);
             RebuildList(topRanking);
             ViewBag.TopRanking = topRanking;
+            RebuildList(recommen);
+            ViewBag.Recommen = recommen;
             return View("_List", list);
         }
     }

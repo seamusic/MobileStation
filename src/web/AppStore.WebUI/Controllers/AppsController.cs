@@ -27,8 +27,12 @@ namespace AppStore.WebUI.Controllers
             ViewBag.Categories = Singleton<ApplicationBusiness>.Instance.GetCategories((int)ApplicationType.应用工具);
             ViewBag.Category = Singleton<ApplicationBusiness>.Instance.GetCategory(category);
             var topRanking = Singleton<ApplicationBusiness>.Instance.GetTopRanking((int)ApplicationType.应用工具, category);
+            var recommen = Singleton<ApplicationBusiness>.Instance.GetApplicationList((int)ApplicationType.应用工具,
+                  category, null, true, "Seq", false, true, 1, 6);
             RebuildList(topRanking);
             ViewBag.TopRanking = topRanking;
+            RebuildList(recommen);
+            ViewBag.Recommen = recommen;
             return View("_List", list);
         }
     }
