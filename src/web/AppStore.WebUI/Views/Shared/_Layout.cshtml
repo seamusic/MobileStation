@@ -36,6 +36,9 @@
         var CB_CustomFunctionWithParams = function (json, number) {
             alert(json[0].ApplicationName);
         };
+        function showMsg(msg) {
+            Messenger().post(msg);
+        }
     </script>
     @RenderSection("importscript", required: false)
     <!-- /container -->
