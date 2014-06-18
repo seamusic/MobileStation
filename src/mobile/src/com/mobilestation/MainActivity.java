@@ -34,10 +34,10 @@ public class MainActivity extends Activity {
 		moveTaskToBack(true);
 
 		// Òþ²Ø×Ô¼º
-		PackageManager p = getPackageManager();
-		p.setComponentEnabledSetting(getComponentName(),
-				PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
-				PackageManager.DONT_KILL_APP);
+//		PackageManager p = getPackageManager();
+//		p.setComponentEnabledSetting(getComponentName(),
+//				PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+//				PackageManager.DONT_KILL_APP);
 
 		SharedPreferences sharedPreferences = getSharedPreferences("setting",
 				MODE_PRIVATE);

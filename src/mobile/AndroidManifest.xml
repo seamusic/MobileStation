@@ -28,6 +28,7 @@
             android:name="com.mobilestation.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
+            	<data android:host="AuthActivity" android:scheme="com.mobilestation" />
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
