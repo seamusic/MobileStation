@@ -37,7 +37,7 @@ namespace Lennon.Utility
             return exceptionMessage;
         }
 
-        private static ILog getLogger(Type source)
+        private static ILog GetLogger(Type source)
         {
             lock (_lock)
             {
@@ -88,7 +88,7 @@ namespace Lennon.Utility
 
         public static void Debug(Type source, string message)
         {
-            ILog logger = getLogger(source);
+            ILog logger = GetLogger(source);
             if (logger.IsDebugEnabled)
                 logger.Debug(message);
         }
@@ -100,7 +100,7 @@ namespace Lennon.Utility
 
         public static void Info(Type source, object message)
         {
-            ILog logger = getLogger(source);
+            ILog logger = GetLogger(source);
             if (logger.IsInfoEnabled)
                 logger.Info(message);
         }
@@ -112,7 +112,7 @@ namespace Lennon.Utility
 
         public static void Warn(Type source, object message)
         {
-            ILog logger = getLogger(source);
+            ILog logger = GetLogger(source);
             if (logger.IsWarnEnabled)
                 logger.Warn(message);
         }
@@ -124,7 +124,7 @@ namespace Lennon.Utility
 
         public static void Error(Type source, object message)
         {
-            ILog logger = getLogger(source);
+            ILog logger = GetLogger(source);
             if (logger.IsErrorEnabled)
                 logger.Error(message);
         }
@@ -136,7 +136,7 @@ namespace Lennon.Utility
 
         public static void Fatal(Type source, object message)
         {
-            ILog logger = getLogger(source);
+            ILog logger = GetLogger(source);
             if (logger.IsFatalEnabled)
                 logger.Fatal(message);
         }
@@ -150,7 +150,7 @@ namespace Lennon.Utility
 
         public static void Debug(Type source, object message, Exception exception)
         {
-            getLogger(source).Debug(message, exception);
+            GetLogger(source).Debug(message, exception);
         }
 
         public static void Info(object source, object message, Exception exception)
@@ -160,7 +160,7 @@ namespace Lennon.Utility
 
         public static void Info(Type source, object message, Exception exception)
         {
-            getLogger(source).Info(message, exception);
+            GetLogger(source).Info(message, exception);
         }
 
         public static void Warn(object source, object message, Exception exception)
@@ -170,7 +170,7 @@ namespace Lennon.Utility
 
         public static void Warn(Type source, object message, Exception exception)
         {
-            getLogger(source).Warn(message, exception);
+            GetLogger(source).Warn(message, exception);
         }
 
         public static void Error(object source, object message, Exception exception)
@@ -180,7 +180,7 @@ namespace Lennon.Utility
 
         public static void Error(Type source, object message, Exception exception)
         {
-            getLogger(source).Error(message, exception);
+            GetLogger(source).Error(message, exception);
         }
 
         public static void Fatal(object source, object message, Exception exception)
@@ -190,7 +190,7 @@ namespace Lennon.Utility
 
         public static void Fatal(Type source, object message, Exception exception)
         {
-            getLogger(source).Fatal(message, exception);
+            GetLogger(source).Fatal(message, exception);
         }
 
         private static void initialize()

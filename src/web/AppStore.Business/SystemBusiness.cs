@@ -447,6 +447,8 @@ namespace AppStore.Business
                 else
                 {
                     mobileClient.UpdateTime = DateTime.Now;
+
+                    return db.SaveChanges() > 0;
                 }
 
             }

@@ -192,6 +192,7 @@ public class ReportService extends Service {
 
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
+			PostData postData = new PostData(context);
 			switch (msg.what) {
 			case APP_START:
 				// 新运行的程序，更新数据库
@@ -205,36 +206,47 @@ public class ReportService extends Service {
 				DBService.getInstance(context).stopApp(packageName, totalTime);
 				break;
 			case SYNC_APP:
-				new Thread() {
-					public void run() {
-						PostData postData = new PostData(context);
-						postData.SyncMobileApp();
-					}
-				}.start();
+//				new Thread() {
+//					public void run() {
+//						PostData postData = new PostData(context);
+//						postData.SyncMobileApp();
+//					}
+//				}.start();
+				postData.SyncMobileApp();
 				break;
 			case PUSH_APP:
 				break;
 			case APP_SUMTIME:
-				new Thread() {
-					public void run() {
-						DBService.getInstance(context).calcAppRunningTime(
-								appTimeMap);
-						resetTimeMap();
-						PostData postData = new PostData(context);
-						postData.PushMobileApp();
-					}
-				}.start();
+//				new Thread() {
+//					public void run() {
+//						DBService.getInstance(context).calcAppRunningTime(
+//								appTimeMap);
+//						resetTimeMap();
+//						PostData postData = new PostData(context);
+//						postData.PushMobileApp();
+//					}
+//				}.start();
+
+				DBService.getInstance(context).calcAppRunningTime(
+						appTimeMap);
+				resetTimeMap();
+//				PostData postData = new PostData(context);
+				postData.PushMobileApp();
 				break;
 			case SYNC_LOG:
-				new Thread(){
-					public void run(){
-						PostData postData = new PostData(context);
-						postData.SyncRunLog();
-						//删除30天前日志
-						DBService.getInstance(context)
-								.delHasSyncLog();
-					}
-				}.start();
+//				new Thread(){
+//					public void run(){
+//						PostData postData = new PostData(context);
+//						postData.SyncRunLog();
+//						//删除30天前日志
+//						DBService.getInstance(context)
+//								.delHasSyncLog();
+//					}
+//				}.start();
+				postData.SyncRunLog();
+				//删除30天前日志
+				DBService.getInstance(context)
+						.delHasSyncLog();
 				break;
 			}
 		};

@@ -269,7 +269,7 @@ public class DBService {
 				log.IsSync = false;
 				// 过了一天的，要重新开始记录
 				if (isLastDate) {
-					log.EndTime = (Date) today.getTime();
+					log.EndTime = new Date(today.getTimeInMillis());
 					log.TotalTime = (log.StartTime.getTime() - log.EndTime
 							.getTime()) / 1000;
 					db.update(log);

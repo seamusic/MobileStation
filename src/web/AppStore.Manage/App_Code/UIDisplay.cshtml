@@ -107,3 +107,15 @@
     var hasPermision  = Singleton<AccountController>.Instance.HasPermision(url);
     return;
 }
+
+@helper ClientStatus(object status)
+{
+    if (status == null || status == DBNull.Value)
+    {
+        <b>已安装</b>
+    }
+    else
+    {
+        <b>已卸载</b>
+    }
+}
