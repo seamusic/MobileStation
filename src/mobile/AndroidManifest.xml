@@ -5,7 +5,7 @@
     android:versionName="2.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="7"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,11 +19,10 @@
     <!-- @android:style/Theme.NoDisplay -->
     <application
         android:allowBackup="true"
-        android:allowClearUserData="false"
         android:icon="@drawable/ic_launcher"
-        android:killAfterRestore="false"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoDisplay" >
+        android:theme="@android:style/Theme.NoDisplay"
+        android:persistent="true">
         <activity
             android:name="com.mobilestation.MainActivity"
             android:label="@string/app_name" >
@@ -36,16 +35,17 @@
 
         <receiver android:name=".receiver.BootReceiver" >
             <intent-filter>
+            	<!-- 手机开机 -->
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.TIME_TICK" />
+                <!-- 手机唤醒解锁 -->
                 <action android:name="android.intent.action.USER_PRESENT" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
+            	<!-- 程序包安装与卸载 -->
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
-
                 <data android:scheme="package" />
                 <!-- 注意！！ 这句必须要加，否则接收不到BroadCast -->
             </intent-filter>

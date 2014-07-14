@@ -1,8 +1,8 @@
 /**
- * BxSlider v4.0 - Fully loaded, responsive content slider
+ * BxSlider v4.1.2 - Fully loaded, responsive content slider
  * http://bxslider.com
  *
- * Written by: Steven Wanderski, 2012
+ * Written by: Steven Wanderski, 2014
  * http://stevenwanderski.com
  * (while drinking Belgian ales and listening to jazz)
  *
@@ -13,28 +13,36 @@
 
 /** RESET AND LAYOUT
 ===================================*/
+
 .bx-wrapper {
 	position: relative;
+	margin: 0 auto 60px;
 	padding: 0;
 	*zoom: 1;
 }
 
 .bx-wrapper img {
-	width: 100%;
+	max-width: 100%;
 	display: block;
 }
 
 /** THEME
 ===================================*/
-.bxslider {
-	left:1px;
-	margin-left:-1px;
-	position:relative;
-}
 
 .bx-wrapper .bx-viewport {
-	padding: 0;
-	background: none;
+	-moz-box-shadow: 0 0 5px #ccc;
+	-webkit-box-shadow: 0 0 5px #ccc;
+	box-shadow: 0 0 5px #ccc;
+	border:  5px solid #fff;
+	left: -5px;
+	background: #fff;
+	
+	/*fix other elements on the page moving (on Chrome)*/
+	-webkit-transform: translatez(0);
+	-moz-transform: translatez(0);
+    	-ms-transform: translatez(0);
+    	-o-transform: translatez(0);
+    	transform: translatez(0);
 }
 
 .bx-wrapper .bx-pager,
@@ -42,7 +50,6 @@
 	position: absolute;
 	bottom: -30px;
 	width: 100%;
-	display:none;
 }
 
 /* LOADER */
@@ -97,41 +104,15 @@
 /* DIRECTION CONTROLS (NEXT / PREV) */
 
 .bx-wrapper .bx-prev {
-	left: -74px;
-	background: url(images/left.png) no-repeat;
-}
-.bx-wrapper .bx-next {
-	left: -50px;
-	background: url(images/right.png) no-repeat;
-}
-
-.bx-wrapper .bx-prev:hover {
-	background: url(images/left-hover.png) no-repeat;
-}
-
-.bx-wrapper .bx-next:hover {
-	background: url(images/right-hover.png) no-repeat;
-}
-
-.bx-wrapper .bx-controls-direction a {
-	position: absolute;
-	top: 4px;
-	outline: 0;
-	width: 24px;
-	height: 24px;
-	z-index: 9;
-	text-indent: -9999px;
-	border-radius: 50px;
-}
-/*
-.bx-wrapper .bx-prev {
 	left: 10px;
 	background: url(images/controls.png) no-repeat 0 -32px;
 }
+
 .bx-wrapper .bx-next {
 	right: 10px;
 	background: url(images/controls.png) no-repeat -43px -32px;
 }
+
 .bx-wrapper .bx-prev:hover {
 	background-position: 0 0;
 }
@@ -150,7 +131,6 @@
 	text-indent: -9999px;
 	z-index: 9999;
 }
-*/
 
 .bx-wrapper .bx-controls-direction a.disabled {
 	display: none;
@@ -221,85 +201,4 @@
 	display: block;
 	font-size: .85em;
 	padding: 10px;
-}
-
-/*Recent Works*/
-.recent-work ul.bxslider li b {
-	color: #656565;
-	font-size: 13px;
-	font-weight: 200;
-	font-style: normal;
-}
-
-.recent-work ul.bxslider li em {
-	display: block;
-	overflow: hidden;
-	position: relative;
-}
-
-.recent-work ul.bxslider li strong {
-	color: #000;
-	display: block;
-	font-size: 16px;
-	font-weight: 300;
-}
-
-.recent-work ul.bxslider li:hover b,
-.recent-work ul.bxslider li:hover strong {
-	color: #fff;
-}
-
-.recent-work ul.bxslider li a.bxslider-block {
-	padding: 10px;
-	display: block;
-	background: #fcfcfc;
-}
-
-.recent-work ul.bxslider li:hover a.bxslider-block {
-	background: #0da3e2;
-    transition: all 0.9s ease;
-    -o-transition: all 0.9s ease;
-    -moz-transition: all 0.9s ease;
-    -webkit-transition: all 0.9s ease;		
-}
-
-/*Hover Effects*/
-.recent-work ul.bxslider li i.icon-hover-1,
-.recent-work ul.bxslider li i.icon-hover-2 {
-	top: 50%;	
-	color: #fff;
-	padding: 16px 30px 16px 18px;
-	font-size: 16px;
-	position: absolute;
-	margin-top: -1.5em;
-	border-radius: 50%;
-	background: url(../../img/black-opacity.png) repeat !important;
-}
-
-.recent-work ul.bxslider li i.icon-hover-1:hover,
-.recent-work ul.bxslider li i.icon-hover-2:hover {
-	color: #0da3e2;
-}
-
-.recent-work ul.bxslider li i.icon-hover-1 {
-	left: -100px;
-}
-.recent-work ul.bxslider li i.icon-hover-2 {
-	right: -100px;
-}
-
-.recent-work ul.bxslider li:hover i.icon-hover-1 {
-	left: 30%;
-}
-
-.recent-work ul.bxslider li:hover i.icon-hover-2 {
-	right: 30%;
-}
-
-.recent-work ul.bxslider li:hover i.icon-hover-1,
-.recent-work ul.bxslider li:hover i.icon-hover-2 {
-    transition: all 0.6s ease;
-    -o-transition: all 0.6s ease;
-    -moz-transition: all 0.6s ease;
-    -webkit-transition: all 0.6s ease;	
 }

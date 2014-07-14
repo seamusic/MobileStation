@@ -17,6 +17,7 @@ public class Alarmreceiver extends BroadcastReceiver {
 		if (intent.getAction().equals("mobilestation.alarm.action")) {
 			Intent i = new Intent();
 			i.setClass(context, com.mobilestation.service.ReportService.class);
+			i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			// 启动service
 			// 多次调用startService并不会启动多个service 而是会多次调用onStart
 			context.startService(i);

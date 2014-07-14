@@ -28,6 +28,7 @@
     <script type="text/javascript">
         var dataJson = null;
         jQuery(document).ready(function () {
+            App.init();
             $("ul.topmenu li a").each(function () {
                 var $this = $(this);
                 if ($this.attr("href") == location.pathname) {

@@ -53,7 +53,7 @@ public class MainActivity extends Activity {
 		editor.putString("UPDATE_SERVER",
 				"http://113.105.178.212:8090/downloads/Androids/com.mobilestation/");
 		editor.putString("UPDATE_VERJSON", "ver.json");
-		editor.putInt("POST_INTERVAL", 300 * 1000);
+		editor.putInt("POST_INTERVAL", 60 * 1000);
 		editor.putInt("CHECKAPP_INTERVAL", 1 * 1000);
 		editor.commit();// Ìá½»ÐÞ¸Ä
 

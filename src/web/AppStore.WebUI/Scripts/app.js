@@ -59,8 +59,9 @@
 
     function handleBootstrap() {
         jQuery('.carousel').carousel({
-            interval: 15000,
-            pause: 'hover'
+            interval: 3000,
+            pause: 'hover',
+            auto: true
         });
         jQuery('.tooltips').tooltip();
         jQuery('.popovers').popover();
